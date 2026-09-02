@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -19,6 +19,15 @@
      FEJLÉC
      ============================================================ -->
 <header class="header" id="header">
+
+  <div class="utilbar">
+    <div class="container utilbar__inner">
+      <span class="utilbar__item"><i class="dot-sq" aria-hidden="true"></i>[MŰKÖDÉSI TERÜLET HELYE]</span>
+      <span class="utilbar__item">[NYITVATARTÁS HELYE]</span>
+      <span class="utilbar__item utilbar__item--push">[ENGEDÉLY VAGY NYILVÁNTARTÁSI ADAT HELYE]</span>
+    </div>
+  </div>
+
   <div class="container header__inner">
 
     <a class="logo" href="#hero" aria-label="[LOGÓ HELYE]">
@@ -64,7 +73,7 @@
 
     <div class="hero__content">
       <p class="eyebrow reveal" style="--d:0ms">
-        <span class="eyebrow__dot" aria-hidden="true"></span>
+        <span class="eyebrow__idx">SZ—01</span>
         [KATEGÓRIA VAGY POZICIONÁLÁS]
       </p>
 
@@ -72,6 +81,14 @@
         [FŐCÍM HELYKITÖLTŐ<br>
         <span class="hl">SZÖVEG</span> HELYE]
       </h1>
+
+      <div class="dimline reveal" style="--d:150ms" aria-hidden="true">
+        <span class="dimline__tick"></span>
+        <span class="dimline__rule"></span>
+        <span class="dimline__val">[MÉRET VAGY MUTATÓ HELYE]</span>
+        <span class="dimline__rule"></span>
+        <span class="dimline__tick"></span>
+      </div>
 
       <p class="hero__lead lead reveal" style="--d:180ms">
         [RÖVID BEVEZETŐ SZÖVEG HELYE — ide kerül majd a 2–3 soros
@@ -102,12 +119,25 @@
         <div class="visual__shape" aria-hidden="true"></div>
 
         <div class="visual__frame">
-          <div class="visual__bar" aria-hidden="true">
-            <span></span><span></span><span></span>
+          <div class="visual__bar">
+            <span class="visual__sheet">[RAJZ MEGNEVEZÉSE]</span>
+            <span class="visual__no">01 / 04</span>
           </div>
-          <div class="visual__stage">
+
+          <div class="visual__stage hatch hatch--concrete">
+            <span class="cropmark cropmark--tl" aria-hidden="true"></span>
+            <span class="cropmark cropmark--tr" aria-hidden="true"></span>
+            <span class="cropmark cropmark--bl" aria-hidden="true"></span>
+            <span class="cropmark cropmark--br" aria-hidden="true"></span>
             <span class="visual__label">[KIEMELT KÉP VAGY VIDEÓ HELYE]</span>
             <span class="visual__hint">[16:9 ARÁNYÚ VIZUÁLIS ELEM]</span>
+          </div>
+
+          <div class="titleblock">
+            <div class="tb__cell"><span class="tb__k">[LÉPTÉK]</span><span class="tb__v">[ÉRTÉK]</span></div>
+            <div class="tb__cell"><span class="tb__k">[DÁTUM]</span><span class="tb__v">[ÉRTÉK]</span></div>
+            <div class="tb__cell"><span class="tb__k">[VERZIÓ]</span><span class="tb__v">[ÉRTÉK]</span></div>
+            <div class="tb__cell"><span class="tb__k">[STÁTUSZ]</span><span class="tb__v">[ÉRTÉK]</span></div>
           </div>
         </div>
 
@@ -150,7 +180,7 @@
   <div class="container quote__inner">
 
     <div class="quote__intro reveal">
-      <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>[SZEKCIÓ CÍMKE]</p>
+      <p class="eyebrow"><span class="eyebrow__idx">SZ—02</span>[SZEKCIÓ CÍMKE]</p>
       <h2 class="h2">[ŰRLAP SZEKCIÓ <span class="hl">CÍME</span>]</h2>
       <p class="lead">[ŰRLAP BEVEZETŐ SZÖVEGE — ide kerül a rövid, bizalomépítő
         magyarázat arról, mi történik az ajánlatkérés után.]</p>
@@ -257,7 +287,7 @@
   <div class="container">
 
     <div class="section__head reveal">
-      <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>[SZEKCIÓ CÍMKE]</p>
+      <p class="eyebrow"><span class="eyebrow__idx">SZ—03</span>[SZEKCIÓ CÍMKE]</p>
       <h2 class="h2">[SZEKCIÓCÍM <span class="hl">HELYE</span>]</h2>
       <p class="lead">[RÖVID PROBLÉMAFELVETÉS HELYE — ide kerül majd az a
         2–3 mondat, amely felvezeti a három fájdalompontot.]</p>
@@ -320,7 +350,7 @@
 
     <div class="section__head section__head--split reveal">
       <div>
-        <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>[SZEKCIÓ CÍMKE]</p>
+        <p class="eyebrow"><span class="eyebrow__idx">SZ—04</span>[SZEKCIÓ CÍMKE]</p>
         <h2 class="h2">[SZEKCIÓCÍM <span class="hl">HELYE</span>]</h2>
       </div>
       <p class="lead">[RÖVID SZOLGÁLTATÁSI BEVEZETŐ HELYE — ide kerül majd
@@ -330,7 +360,7 @@
     <div class="service-grid">
 
       <article class="service service--wide reveal" style="--d:0ms">
-        <div class="service__media">
+        <div class="service__media hatch hatch--concrete">
           <span class="service__media-label">[IKON VAGY KÉP HELYE]</span>
         </div>
         <div class="service__body">
@@ -343,7 +373,7 @@
       </article>
 
       <article class="service service--tall reveal" style="--d:110ms">
-        <div class="service__media">
+        <div class="service__media hatch hatch--brick">
           <span class="service__media-label">[IKON VAGY KÉP HELYE]</span>
         </div>
         <div class="service__body">
@@ -356,7 +386,7 @@
       </article>
 
       <article class="service reveal" style="--d:220ms">
-        <div class="service__media service__media--sm">
+        <div class="service__media service__media--sm hatch hatch--timber">
           <span class="service__media-label">[IKON VAGY KÉP HELYE]</span>
         </div>
         <div class="service__body">
@@ -368,7 +398,7 @@
       </article>
 
       <article class="service reveal" style="--d:330ms">
-        <div class="service__media service__media--sm">
+        <div class="service__media service__media--sm hatch hatch--steel">
           <span class="service__media-label">[IKON VAGY KÉP HELYE]</span>
         </div>
         <div class="service__body">
@@ -401,7 +431,7 @@
 
     <div class="section__head section__head--split reveal">
       <div>
-        <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>[SZEKCIÓ CÍMKE]</p>
+        <p class="eyebrow"><span class="eyebrow__idx">SZ—05</span>[SZEKCIÓ CÍMKE]</p>
         <h2 class="h2">[REFERENCIA SZEKCIÓ <span class="hl">CÍME</span>]</h2>
         <p class="lead">[RÖVID BEVEZETŐ SZÖVEG — ide kerül majd a referenciákat
           felvezető néhány mondat.]</p>
@@ -420,7 +450,7 @@
   <div class="refs__track-wrap">
     <ul class="refs__track" data-carousel-track>
       <li class="ref reveal" style="--d:0ms">
-        <button class="ref__media" data-lightbox="1" aria-label="[REFERENCIA KÉP 01 NAGYÍTÁSA]">
+        <button class="ref__media hatch hatch--brick" data-lightbox="1" aria-label="[REFERENCIA KÉP 01 NAGYÍTÁSA]">
           <span class="ref__media-label">[REFERENCIA KÉP 01]</span>
           <span class="ref__zoom" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5 20 20M11 8.5v5M8.5 11h5"/></svg>
@@ -436,7 +466,7 @@
       </li>
 
       <li class="ref reveal" style="--d:90ms">
-        <button class="ref__media" data-lightbox="2" aria-label="[REFERENCIA KÉP 02 NAGYÍTÁSA]">
+        <button class="ref__media hatch hatch--timber" data-lightbox="2" aria-label="[REFERENCIA KÉP 02 NAGYÍTÁSA]">
           <span class="ref__media-label">[REFERENCIA KÉP 02]</span>
           <span class="ref__zoom" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5 20 20M11 8.5v5M8.5 11h5"/></svg>
@@ -452,7 +482,7 @@
       </li>
 
       <li class="ref reveal" style="--d:180ms">
-        <button class="ref__media" data-lightbox="3" aria-label="[REFERENCIA KÉP 03 NAGYÍTÁSA]">
+        <button class="ref__media hatch hatch--insulation" data-lightbox="3" aria-label="[REFERENCIA KÉP 03 NAGYÍTÁSA]">
           <span class="ref__media-label">[REFERENCIA KÉP 03]</span>
           <span class="ref__zoom" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5 20 20M11 8.5v5M8.5 11h5"/></svg>
@@ -468,7 +498,7 @@
       </li>
 
       <li class="ref reveal" style="--d:270ms">
-        <button class="ref__media" data-lightbox="4" aria-label="[REFERENCIA KÉP 04 NAGYÍTÁSA]">
+        <button class="ref__media hatch hatch--concrete" data-lightbox="4" aria-label="[REFERENCIA KÉP 04 NAGYÍTÁSA]">
           <span class="ref__media-label">[REFERENCIA KÉP 04]</span>
           <span class="ref__zoom" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="6"/><path d="M15.5 15.5 20 20M11 8.5v5M8.5 11h5"/></svg>
@@ -498,14 +528,14 @@
   <div class="container">
 
     <div class="section__head reveal">
-      <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>[SZEKCIÓ CÍMKE]</p>
+      <p class="eyebrow"><span class="eyebrow__idx">SZ—06</span>[SZEKCIÓ CÍMKE]</p>
       <h2 class="h2">[FOLYAMAT SZEKCIÓ <span class="hl">CÍME</span>]</h2>
       <p class="lead">[RÖVID BEVEZETŐ SZÖVEG — ide kerül majd a folyamat
         néhány mondatos felvezetése.]</p>
     </div>
 
     <div class="timeline-wrap" data-timeline>
-      <span class="timeline__rail" aria-hidden="true">
+      <span class="timeline__rail timeline__rail--tape" aria-hidden="true">
         <span class="timeline__fill" data-timeline-fill></span>
       </span>
 
@@ -579,6 +609,8 @@
      7. ZÁRÓ AJÁNLAT ÉS CTA
      ============================================================ -->
 <section class="section final" id="kapcsolat">
+  <div class="chevron-rail" aria-hidden="true"></div>
+
   <div class="final__bg" aria-hidden="true">
     <span class="final__glow"></span>
     <span class="final__grid"></span>
@@ -588,7 +620,7 @@
   <div class="container final__inner">
 
     <div class="final__content reveal">
-      <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>[SZEKCIÓ CÍMKE]</p>
+      <p class="eyebrow"><span class="eyebrow__idx">SZ—07</span>[SZEKCIÓ CÍMKE]</p>
       <h2 class="h2 h2--lg">[ZÁRÓ <span class="hl">CÍMSOR</span> HELYE]</h2>
       <p class="lead">[ZÁRÓ BEVEZETŐ SZÖVEG — ide kerül a lezáró, döntést
         segítő néhány mondat.]</p>
@@ -717,6 +749,13 @@
 
   </div>
 
+  <div class="container footer__spec">
+    <span class="footer__spec-item">[CÉGADAT 01 HELYE]</span>
+    <span class="footer__spec-item">[CÉGADAT 02 HELYE]</span>
+    <span class="footer__spec-item">[CÉGADAT 03 HELYE]</span>
+    <span class="footer__spec-item">[CÉGADAT 04 HELYE]</span>
+  </div>
+
   <div class="container footer__bottom">
     <p class="footer__copy">[COPYRIGHT SZÖVEG HELYE]</p>
     <ul class="footer__legal">
@@ -743,7 +782,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 5 8 12l6.5 7"/></svg>
     </button>
     <figure class="lightbox__figure">
-      <div class="lightbox__media"><span data-lightbox-label>[REFERENCIA KÉP 01]</span></div>
+      <div class="lightbox__media hatch hatch--concrete"><span data-lightbox-label>[REFERENCIA KÉP 01]</span></div>
       <figcaption class="lightbox__caption">
         <span class="ref__cat" data-lightbox-cat>[PROJEKT KATEGÓRIÁJA]</span>
         <h3 class="h4" data-lightbox-title>[PROJEKT NEVE]</h3>

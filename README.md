@@ -1,7 +1,7 @@
 # [PROJEKT NEVE] — prémium landingoldal-váz
 
 Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** fehér alapon,
-barna árnyalatokkal (espresso, meleg homok, krém).
+barna árnyalatokkal, építőipari–műszaki rajz vizuális nyelven.
 
 > **Fontos:** az oldal jelenleg **nem tartalmaz valódi tartalmat**. Minden címsor,
 > bekezdés, CTA, adat, referencia és szolgáltatás **szögletes zárójeles helykitöltő**
@@ -62,6 +62,11 @@ Az oldal szándékosan egyetlen, világos témára készült (`color-scheme: lig
 | `--text-muted` | `#7A6959` | másodlagos szövegszín |
 | `--on-brown` | `#FDF9F4` | szöveg barna felületen |
 | `--border` | `#E0D3C2` | keretek és elválasztók |
+| `--graphite` | `#2B2926` | acél / szerkezeti elem, műszaki felirat |
+| `--concrete` | `#F1F0EC` | beton — hideg világos sáv |
+| `--concrete-2` | `#E4E2DB` | beton él, vonalzó osztás |
+| `--kraft` | `#EFE3D0` | fa / kraft felület |
+| `--kraft-2` | `#DCC7A8` | fa él |
 
 A meleg homok tónus szándékosan csak a váltakozó szekciósávokon, a kép-helykitöltőkön
 és a lezáró CTA blokkon jelenik meg — a tartalmi felületek fehérek maradnak.
@@ -69,10 +74,31 @@ Minden szövegszín/háttér páros eléri a WCAG AA szintet (legkisebb mért é
 
 ## Tipográfia
 
-- Főcímek: **Bebas Neue** (`--font-display`)
+- Főcímek: **Anton** (`--font-display`) — nehéz, táblaszerű kondenzált sans
 - Törzsszöveg és kezelőfelület: **Inter** (`--font-body`)
+- Műszaki annotáció: **IBM Plex Mono** (`--font-mono`) — méretek, rajzszámok,
+  tételkódok, fejbélyeg-cellák
 
-Mindkettő Google Fontsról töltődik be az `index.html` `<head>` részében.
+Mindhárom a Google Fontsról töltődik be az `index.html` `<head>` részében.
+Az Anton `latin-ext` készlete lefedi a magyar ékezeteket (Ő, Ű is).
+
+## Vizuális nyelv
+
+A szekció az építőipar saját szakmai vernakulárisából épül, nem ikonokból:
+
+| Eszköz | Hol | Mit kódol |
+|---|---|---|
+| Rajzlap-hivatkozás (`SZ—01` … `SZ—07`) | szekciócímkék | a szekció valódi sorszáma |
+| Méretvonal (`.dimline`) | hero | mutatószám kiemelése |
+| Fejbélyeg / title block (`.titleblock`) | hero vizuál | lépték, dátum, verzió, státusz |
+| Illesztőjelek (`.cropmark`) | rajzlap sarkai | rajzlap-keretezés |
+| Anyagsraffozások (`.hatch--*`) | kép-helykitöltők | beton, falazat, fa, acél, hőszigetelés |
+| Léptékvonalzó (`.section::before`) | szekcióhatárok | vizuális váltás |
+| Szintezőléc (`.timeline-wrap::before`) | folyamat | a lépések sorrendje és haladása |
+| Figyelmeztető sáv (`.chevron-rail`) | záró CTA | a lezáró blokk kiemelése |
+| Műszaki adatsáv (`.utilbar`, `.footer__spec`) | fejléc, footer | cégadatok helye |
+
+A sarkok lekerekítése szándékosan 2–3 px (`--radius`), a geometria szögletes.
 
 ## Tartalom beillesztése
 
