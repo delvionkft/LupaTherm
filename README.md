@@ -1,7 +1,7 @@
 # [PROJEKT NEVE] — prémium landingoldal-váz
 
-Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** mély bordó, borvörös,
-fekete és sötét grafitszürke stílusban.
+Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** fehér alapon,
+barna árnyalatokkal (espresso, meleg homok, krém).
 
 > **Fontos:** az oldal jelenleg **nem tartalmaz valódi tartalmat**. Minden címsor,
 > bekezdés, CTA, adat, referencia és szolgáltatás **szögletes zárójeles helykitöltő**
@@ -31,33 +31,41 @@ assets/js/main.js     – fejléc állapot, mobil menü, reveal, parallax,
 
 | # | Szekció | Azonosító |
 |---|---------|-----------|
-| – | Fejléc (ragadós, görgetésre blur + bordó alsó keret) | `#header` |
+| – | Fejléc (ragadós, görgetésre blur + barna alsó keret) | `#header` |
 | 1 | Hero + social proof sáv | `#hero` |
 | 2 | Első ajánlatkérő blokk (kétoszlopos, sötét űrlapkártya) | `#ajanlatkeres` |
 | 3 | Probléma / fő előnyök (3 kártya) | `#problemak` |
 | 4 | Megoldás és szolgáltatások (moduláris grid, 4 kártya) | `#szolgaltatasok` |
 | 5 | Referenciák (lapozható galéria + lightbox) | `#referenciak` |
-| 6 | Folyamat (idővonal, görgetésre töltődő borvörös vonal) | `#folyamat` |
+| 6 | Folyamat (idővonal, görgetésre töltődő barna vonal) | `#folyamat` |
 | 7 | Záró ajánlat + űrlap | `#kapcsolat` |
-| 8 | Footer (háttérben halvány cégnév-vízjel) | `.footer` |
+| 8 | Footer (háttérben halvány barna cégnév-vízjel) | `.footer` |
 
 ## Színpaletta
 
 A színek CSS-változóként érhetők el a `:root` blokkban (`assets/css/styles.css`).
+Az oldal szándékosan egyetlen, világos témára készült (`color-scheme: light`).
 
 | Változó | Érték | Szerep |
 |---|---|---|
-| `--bg-1` | `#080607` | elsődleges háttér |
-| `--bg-2` | `#11090B` | másodlagos háttér |
-| `--card` | `#1A0D11` | kártyák háttere |
-| `--card-2` | `#211015` | emelt kártyák háttere |
-| `--wine-deep` | `#4A0D18` | mély borvörös |
-| `--wine` | `#741827` | elsődleges bordó |
-| `--wine-light` | `#9B2638` | világosabb vöröses kiemelés |
-| `--wine-hover` | `#B23A4B` | hover kiemelés |
-| `--text` | `#F4EFF0` | elsődleges szövegszín |
-| `--text-muted` | `#B8A6AA` | másodlagos szövegszín |
-| `--border` | `#382128` | keretek és elválasztók |
+| `--bg-1` | `#FFFFFF` | elsődleges háttér — tiszta fehér |
+| `--bg-2` | `#F7F2EB` | másodlagos háttér — meleg homok |
+| `--card` | `#FFFFFF` | kártyák háttere |
+| `--card-2` | `#FBF7F1` | emelt kártyák háttere |
+| `--brown-deep` | `#33210F` | mély barna (espresso) |
+| `--brown` | `#6B4423` | elsődleges barna |
+| `--brown-light` | `#8A5A31` | világosabb barna kiemelés |
+| `--brown-hover` | `#4A2E17` | hover — világos alapon sötétebb |
+| `--tint` | `#F2E9DC` | halvány barna felület |
+| `--tint-2` | `#E8DAC7` | erősebb halvány barna felület |
+| `--text` | `#2A1C11` | elsődleges szövegszín |
+| `--text-muted` | `#7A6959` | másodlagos szövegszín |
+| `--on-brown` | `#FDF9F4` | szöveg barna felületen |
+| `--border` | `#E0D3C2` | keretek és elválasztók |
+
+A meleg homok tónus szándékosan csak a váltakozó szekciósávokon, a kép-helykitöltőkön
+és a lezáró CTA blokkon jelenik meg — a tartalmi felületek fehérek maradnak.
+Minden szövegszín/háttér páros eléri a WCAG AA szintet (legkisebb mért érték: 4,7:1).
 
 ## Tipográfia
 
@@ -69,9 +77,9 @@ Mindkettő Google Fontsról töltődik be az `index.html` `<head>` részében.
 ## Tartalom beillesztése
 
 1. Keresd a `[` … `]` mintát az `index.html`-ben — minden találat egy kitöltendő hely.
-2. A kiemelést a `<span class="hl">` osztály adja (mély bordó → világosabb borvörös gradiens).
+2. A kiemelést a `<span class="hl">` osztály adja (világosabb barna → espresso gradiens).
 3. A kép-helykitöltők (`.visual__stage`, `.service__media`, `.ref__media`,
-   `.lightbox__media`) sötét blokkok — ezek cserélhetők valódi `<img>` vagy `<video>` elemre.
+   `.lightbox__media`) meleg homokszínű blokkok — ezek cserélhetők valódi `<img>` vagy `<video>` elemre.
 4. Az űrlapok jelenleg **nem küldenek adatot**: a `main.js` `10.` blokkja csak
    egy helykitöltő visszajelzést jelenít meg. Valós bekötéskor ezt kell cserélni
    (`form action` vagy `fetch`).
@@ -84,6 +92,6 @@ Mindkettő Google Fontsról töltődik be az `index.html` `<head>` részében.
 - Mobilon egyoszlopos elrendezés, teljes szélességű CTA-gombok, min. 48–52 px magas
   űrlapmezők, 16 px betűméret a mezőkben (nincs iOS-zoom), függőleges idővonal,
   ragadós alsó CTA sáv.
-- A bordó háttérfények mobilon csökkentett erősséggel jelennek meg az olvashatóság miatt.
+- A meleg háttérfények mobilon csökkentett erősséggel jelennek meg az olvashatóság miatt.
 - Nincs vízszintes görgetés egyik nézetben sem.
 - `prefers-reduced-motion` esetén az animációk kikapcsolnak.
