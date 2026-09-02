@@ -1,7 +1,7 @@
 # [PROJEKT NEVE] — prémium landingoldal-váz
 
 Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** fehér alapon,
-barna árnyalatokkal, építőipari–műszaki rajz vizuális nyelven.
+barack–terrakotta színvilágban, építőipari–műszaki rajz vizuális nyelven.
 
 > **Fontos:** az oldal jelenleg **nem tartalmaz valódi tartalmat**. Minden címsor,
 > bekezdés, CTA, adat, referencia és szolgáltatás **szögletes zárójeles helykitöltő**
@@ -43,34 +43,45 @@ assets/js/main.js     – fejléc állapot, mobil menü, reveal, parallax,
 
 ## Színpaletta
 
-A színek CSS-változóként érhetők el a `:root` blokkban (`assets/css/styles.css`).
+A rendszer két megadott alapszínre épül; minden más ezekből származik.
 Az oldal szándékosan egyetlen, világos témára készült (`color-scheme: light`).
+
+### A két alapszín
+
+| Változó | Érték | Szerep |
+|---|---|---|
+| `--peach` | `#F0BE99` | **megadott** — felületek, sraffozás-alap, jelzősáv, háttérfények |
+| `--terra` | `#CA643E` | **megadott** — vonalak, méretjelek, ikonok, keretek, nagy kiemelés |
+
+### Származtatott terrakotta árnyalatok
+
+`#CA643E` fehéren 3,89:1 — ez grafikára és nagy szövegre elég, kis szövegre nem.
+Ezért a szöveget hordozó felületekhez két sötétebb testvér készült:
+
+| Változó | Érték | Kontraszt fehérrel | Szerep |
+|---|---|---|---|
+| `--terra-mid` | `#B85433` | 4,82:1 | CTA-gomb felső sávja, kis akcentszöveg |
+| `--terra-deep` | `#7E3419` | 8,78:1 | CTA-gomb alsó sávja, hoverállapot |
+
+### Felületek és tinta
 
 | Változó | Érték | Szerep |
 |---|---|---|
 | `--bg-1` | `#FFFFFF` | elsődleges háttér — tiszta fehér |
-| `--bg-2` | `#F7F2EB` | másodlagos háttér — meleg homok |
-| `--card` | `#FFFFFF` | kártyák háttere |
-| `--card-2` | `#FBF7F1` | emelt kártyák háttere |
-| `--brown-deep` | `#33210F` | mély barna (espresso) |
-| `--brown` | `#6B4423` | elsődleges barna |
-| `--brown-light` | `#8A5A31` | világosabb barna kiemelés |
-| `--brown-hover` | `#4A2E17` | hover — világos alapon sötétebb |
-| `--tint` | `#F2E9DC` | halvány barna felület |
-| `--tint-2` | `#E8DAC7` | erősebb halvány barna felület |
-| `--text` | `#2A1C11` | elsődleges szövegszín |
-| `--text-muted` | `#7A6959` | másodlagos szövegszín |
-| `--on-brown` | `#FDF9F4` | szöveg barna felületen |
-| `--border` | `#E0D3C2` | keretek és elválasztók |
-| `--graphite` | `#2B2926` | acél / szerkezeti elem, műszaki felirat |
-| `--concrete` | `#F1F0EC` | beton — hideg világos sáv |
-| `--concrete-2` | `#E4E2DB` | beton él, vonalzó osztás |
-| `--kraft` | `#EFE3D0` | fa / kraft felület |
-| `--kraft-2` | `#DCC7A8` | fa él |
+| `--bg-2` | `#FDF1E8` | másodlagos háttér — halvány barack |
+| `--card` / `--card-2` | `#FFFFFF` / `#FEF6F0` | kártyák, emelt kártyák |
+| `--tint` / `--tint-2` | `#FDF4EE` / `#F9E5D6` | barack wash felületek |
+| `--kraft` / `--kraft-2` | `#FBEADC` / `--peach` | fa és falazat sraffozás alapja, jelzősáv |
+| `--concrete` / `--concrete-2` | `#F2EFEA` / `#E5E0D8` | beton és acél sraffozás — semleges anyagcsalád |
+| `--ink` | `#2E211B` | elsődleges szöveg, műszaki adatsáv |
+| `--text-muted` | `#7A6357` | másodlagos szöveg |
+| `--border` | `#EEDCCD` | keretek és elválasztók |
+| `--hatch-ink` | `rgba(202,100,62,.32)` | sraffozás vonalszíne |
 
-A meleg homok tónus szándékosan csak a váltakozó szekciósávokon, a kép-helykitöltőkön
-és a lezáró CTA blokkon jelenik meg — a tartalmi felületek fehérek maradnak.
-Minden szövegszín/háttér páros eléri a WCAG AA szintet (legkisebb mért érték: 4,7:1).
+A `--brown*` nevek megmaradtak aliasként, hogy a meglévő szabályok ne törjenek;
+értékük a fenti terrakotta skálára mutat.
+
+Minden szövegszín/háttér páros eléri a WCAG AA szintet (legkisebb mért érték: 4,8:1).
 
 ## Tipográfia
 
