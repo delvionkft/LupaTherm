@@ -1,12 +1,10 @@
-# [PROJEKT NEVE] — prémium landingoldal-váz
+# [CÉGNÉV] — landingoldal (redőny, szúnyogháló, nyílászárócsere)
 
 Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** fehér alapon,
 barack–terrakotta színvilágban, építőipari–műszaki rajz vizuális nyelven.
 
-> **Fontos:** az oldal jelenleg **nem tartalmaz valódi tartalmat**. Minden címsor,
-> bekezdés, CTA, adat, referencia és szolgáltatás **szögletes zárójeles helykitöltő**
-> (pl. `[FŐCÍM HELYKITÖLTŐ SZÖVEG]`). A cél kizárólag a szerkezet, a vizuális irány
-> és a felhasználói élmény bemutatása.
+> **Állapot:** a szövegezés elkészült. Ami **szögletes zárójelben** maradt, az
+> kizárólag cégadat, fotó vagy konkrét referenciaadat — ezeket nem találjuk ki.
 
 ## Futtatás
 
@@ -111,17 +109,65 @@ A szekció az építőipar saját szakmai vernakulárisából épül, nem ikonok
 
 A sarkok lekerekítése szándékosan 2–3 px (`--radius`), a geometria szögletes.
 
+## Szövegezés
+
+A landing szövege a megkapott anyagból készült, a **meglévő szerkezethez igazítva**.
+
+### Mi került hova
+
+| Szekció | Forrásanyag |
+|---|---|
+| Hero | „Redőny, szúnyogháló vagy ablakcsere?" + a bevezető bekezdés |
+| Előnysáv (4 kártya) | „Egyszerű és átlátható folyamat" négy pontja |
+| SZ—02 Ajánlatkérés | „Ne neked kelljen pontosan tudnod, mire van szükséged" |
+| SZ—03 Mikor érdemes | „Mikor érdemes foglalkozni a cserével?" — 5 pont 3 kártyába vonva |
+| SZ—04 Megoldások | a négy szolgáltatás 1:1-ben |
+| SZ—04 záró blokk | „Mennyibe kerül…?" üzenete egy mondatba sűrítve |
+| SZ—05 Referenciák | „Korábbi munkáink" + a `[Település] – [munka]` felirat-minta |
+| SZ—06 Folyamat | a négylépéses ajánlatkérési folyamat |
+| SZ—07 Záró CTA | „Indítsd el otthonod korszerűsítését…" |
+| Footer | tagline, kapcsolat, jogi linkek |
+| `<title>` / meta | a megadott SEO-adatok |
+
+A hero rajzlap fejbélyege a négy megoldás legendájává vált, a lapszám (`01 / 04`)
+pedig a négylépéses folyamatra utal.
+
+### Ami nem fért be a jelenlegi szerkezetbe
+
+Ezekhez új szekció vagy új űrlapmező kellene:
+
+1. **Gyakori kérdések (6 db)** — nincs FAQ-szekció az oldalon. A legfontosabb
+   három állítás beépült a bizalmi listába, a garanciasávba és a hero
+   mikroszövegébe, a többi kimaradt.
+2. **Külön árazási szekció** — az üzenete a szolgáltatások záró blokkjában van,
+   a felsorolás (darabszám, méret, kivitel, helyszín…) nem.
+3. **Extra űrlapmezők** — a javasolt *Település*, *Darabszám*, *Méretek*,
+   *Időpont* és *Fotófeltöltés* mezők nincsenek az űrlapokon; ezek most a
+   szövegmező helykitöltőjében szerepelnek kérdésként.
+4. **Sikeres beküldés üzenete** — az `index.html` végén HTML-kommentben vár a
+   bekötésre. Amíg az űrlap nincs bekötve, a JS szándékosan azt írja ki, hogy a
+   beküldés még nem működik — nem jelenítünk meg valótlan visszaigazolást.
+
+### Ami helykitöltő maradt
+
+`[CÉGNÉV]`, `[TELEFONSZÁM]`, `[E-MAIL-CÍM]`, `[SZOLGÁLTATÁSI TERÜLET]`, `[ÉV]`,
+`[RÖVID CÉGBEMUTATÓ]`, a referenciák adatai (`[TELEPÜLÉS]`, `[AZ ELVÉGZETT MUNKA]`,
+`[RÖVID LEÍRÁS A MUNKÁRÓL]`, `[BEÉPÍTETT MEGOLDÁS]`) és a képhelyek
+(`[REFERENCIAFOTÓ 01–04]`, `[KIEMELT KÉP VAGY VIDEÓ HELYE]`, `[IKON VAGY KÉP HELYE]`).
+
+A `<meta name="robots" content="noindex, nofollow">` szándékosan bent maradt,
+amíg a cégadatok nincsenek kitöltve.
+
 ## Tartalom beillesztése
 
 1. Keresd a `[` … `]` mintát az `index.html`-ben — minden találat egy kitöltendő hely.
-2. A kiemelést a `<span class="hl">` osztály adja (világosabb barna → espresso gradiens).
+2. A kiemelést a `<span class="hl">` osztály adja (terrakotta gradiens).
 3. A kép-helykitöltők (`.visual__stage`, `.service__media`, `.ref__media`,
-   `.lightbox__media`) meleg homokszínű blokkok — ezek cserélhetők valódi `<img>` vagy `<video>` elemre.
+   `.lightbox__media`) sraffozott blokkok — cserélhetők valódi `<img>` vagy `<video>` elemre.
 4. Az űrlapok jelenleg **nem küldenek adatot**: a `main.js` `10.` blokkja csak
-   egy helykitöltő visszajelzést jelenít meg. Valós bekötéskor ezt kell cserélni
-   (`form action` vagy `fetch`).
-5. A `<meta name="robots" content="noindex, nofollow">` szándékosan van bent,
-   amíg a váz nem élesíthető.
+   egy visszajelzést jelenít meg. Valós bekötéskor ezt kell cserélni
+   (`form action` vagy `fetch`), és ott használandó a fájl végén kommentben
+   elhelyezett sikerüzenet.
 
 ## Reszponzív viselkedés
 
