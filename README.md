@@ -23,6 +23,8 @@ index.html            – teljes oldalszerkezet (fejléc → 7 szekció → foot
 assets/css/styles.css – design tokenek, komponensek, szekciók, reszponzív szabályok
 assets/js/main.js     – fejléc állapot, mobil menü, reveal, parallax,
                         carousel, lightbox, idővonal-töltés, űrlap demó
+assets/img/           – referenciafotók helye (ref-01.jpg … ref-05.jpg);
+                        a mappa README-je leírja, melyik fájl hova kerül
 ```
 
 ## Szekciók
@@ -108,6 +110,24 @@ A hero rajzlapján a beágyazott Facebook Reel fut, a hivatalos
 - A beágyazás harmadik féltől (Facebook) tölt be tartalmat és sütiket
   helyezhet el — ezt érdemes átvezetni az adatkezelési tájékoztatón, illetve
   sütikezelő mögé tenni, ha az oldalon lesz ilyen.
+
+## Referenciafotók
+
+A galéria **5 kártyából** áll, mindegyik egy fotóra hivatkozik:
+`assets/img/ref-01.jpg` … `ref-05.jpg`. A fájlok még nincsenek feltöltve —
+a pontos hozzárendelést az `assets/img/README.md` tartalmazza.
+
+Az oldal fotók nélkül sem törik el: a `main.js` elrejti a be nem töltődő
+képet, és a sraffozott helykitöltő panel marad a helyén a
+`[REFERENCIAFOTÓ 0X]` felirattal. Amint a fájl bekerül, a fotó automatikusan
+megjelenik, a felirat pedig eltűnik.
+
+- Kártyán: `object-fit: cover`, 4:3 vágás
+- Lightboxban: `object-fit: contain`, a teljes kép látszik
+- `loading="lazy"` és `decoding="async"` mindkét helyen
+
+A címeket és leírásokat abból írtam, ami a fotókon **látszik**; a település
+mindenhol `[TELEPÜLÉS]` helykitöltő. Érdemes átnézni és pontosítani őket.
 
 ## Vizuális nyelv
 

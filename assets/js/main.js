@@ -167,6 +167,15 @@
     syncCarousel();
   }
 
+  /* ---------- 06b. REFERENCIAFOTÓK ---------- */
+  /* Ha egy fotó nem tölthető be (még nincs feltöltve), elrejtjük, hogy a
+     sraffozott helykitöltő maradjon látható törött kép ikon helyett. */
+  $$('.ref__photo').forEach(function (img) {
+    var hide = function () { img.hidden = true; };
+    img.addEventListener('error', hide);
+    if (img.complete && img.naturalWidth === 0) hide();
+  });
+
   /* ---------- 07. LIGHTBOX ---------- */
   var lightbox = $('#lightbox');
   var lbTriggers = $$('[data-lightbox]');
@@ -174,6 +183,7 @@
   var lastFocused = null;
 
   var lbRefs = {
+    img:    $('[data-lightbox-img]'),
     label:  $('[data-lightbox-label]'),
     cat:    $('[data-lightbox-cat]'),
     title:  $('[data-lightbox-title]'),
@@ -186,6 +196,21 @@
     if (!card) return;
     var item = card.closest('.ref');
     lbIndex = i;
+
+    /* Nagy kép: ugyanaz a fájl, mint a kártyán. Nem a betöltöttségre
+       szűrünk (lazy-load miatt kattintáskor még lehet félkész), hanem arra,
+       hogy a kártyaképet nem jelölte-e hibásnak a betöltési hibakezelő. */
+    var photo = $('.ref__photo', card);
+    if (lbRefs.img) {
+      if (photo && !photo.hidden) {
+        lbRefs.img.hidden = false;
+        lbRefs.img.alt = photo.alt || '';
+        lbRefs.img.src = photo.getAttribute('src');
+      } else {
+        lbRefs.img.hidden = true;
+        lbRefs.img.removeAttribute('src');
+      }
+    }
 
     if (lbRefs.label)  lbRefs.label.textContent  = ($('.ref__media-label', card) || {}).textContent || '';
     if (!item) return;
@@ -221,6 +246,10 @@
     if (!lbTriggers.length) return;
     var next = (lbIndex + delta + lbTriggers.length) % lbTriggers.length;
     fillLightbox(next);
+  }
+
+  if (lbRefs.img) {
+    lbRefs.img.addEventListener('error', function () { lbRefs.img.hidden = true; });
   }
 
   if (lightbox && lbTriggers.length) {

@@ -1644,6 +1644,37 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 .fbvideo__link:hover{color:var(--brown-hover);text-decoration:underline}
 
+
+/* ---------- Referenciafotók ---------- */
+/* A fotó a sraffozott panel FÖLÉ kerül. Ha a fájl még hiányzik vagy nem
+   tölthető be, a JS elrejti az img-et, és a sraffozott helykitöltő marad —
+   így az oldal fotók nélkül is rendezett. */
+.ref__photo{
+  position:absolute;inset:0;z-index:1;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+}
+.ref__photo[hidden]{display:none}
+.ref:hover .ref__photo{filter:brightness(.96)}
+.ref__photo{transition:filter var(--dur) var(--ease)}
+.ref__media::after{z-index:2}
+.ref__zoom{z-index:3}
+.ref__media-label{z-index:1}
+/* ha betöltött a fotó, a helykitöltő felirat eltűnik */
+.ref__photo:not([hidden]) ~ .ref__media-label{display:none}
+.lightbox__photo:not([hidden]) ~ [data-lightbox-label]{display:none}
+
+.lightbox__photo{
+  position:absolute;inset:0;z-index:1;
+  width:100%;height:100%;
+  object-fit:contain;
+  background:var(--n-100);
+  display:block;
+}
+.lightbox__photo[hidden]{display:none}
+.lightbox__media{position:relative}
+
 /* ---------- 17. RESZPONZÍV TÖRÉSPONTOK ---------- */
 
 /* Tablet fekvő / kisebb asztali */
