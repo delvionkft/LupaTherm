@@ -295,7 +295,7 @@
       var status = $('[data-form-status]', form);
       if (!status) return;
       status.hidden = false;
-      status.textContent = '[ŰRLAP VISSZAJELZÉS HELYE — a beküldés még nincs bekötve]';
+      status.textContent = 'Az űrlap beküldése még nincs bekötve. Éles működésnél itt jelenik meg a visszaigazolás.';
     });
   });
 
