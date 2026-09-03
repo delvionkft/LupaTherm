@@ -1,7 +1,7 @@
 # [CÉGNÉV] — landingoldal (redőny, szúnyogháló, nyílászárócsere)
 
 Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** fehér alapon,
-barack–terrakotta színvilágban, építőipari–műszaki rajz vizuális nyelven.
+egyetlen akcentszínnel, építőipari–műszaki rajz vizuális nyelven.
 
 > **Állapot:** a szövegezés elkészült. Ami **szögletes zárójelben** maradt, az
 > kizárólag cégadat, fotó vagy konkrét referenciaadat — ezeket nem találjuk ki.
@@ -41,60 +41,60 @@ assets/js/main.js     – fejléc állapot, mobil menü, reveal, parallax,
 
 ## Színpaletta
 
-A rendszer két megadott alapszínre épül; minden más ezekből származik.
-Az oldal szándékosan egyetlen, világos témára készült (`color-scheme: light`).
-
-### A két alapszín
+Egyszerű fehér alap, **egyetlen** akcentszín. Minden más semleges.
 
 | Változó | Érték | Szerep |
 |---|---|---|
-| `--peach` | `#F0BE99` | **megadott** — felületek, sraffozás-alap, jelzősáv, háttérfények |
-| `--terra` | `#CA643E` | **megadott** — vonalak, méretjelek, ikonok, keretek, nagy kiemelés |
+| `--accent` | `#CA4E23` | **megadott** — gombok, vonalak, méretjelek, ikonok, kiemelés |
+| `--accent-dark` | `#A33C17` | hoverállapot |
+| `--accent-50` | `#FDF4F0` | leheletnyi akcentfelület |
+| `--accent-100` | `#F7DFD4` | halvány akcentfelület, keret |
+| `--bg-1` | `#FFFFFF` | elsődleges háttér |
+| `--n-50` | `#FAFAF9` | másodlagos sáv, emelt kártya |
+| `--n-100` | `#F4F4F2` | sraffozott felület alapja |
+| `--n-200` | `#E9E8E5` | keretek, elválasztók |
+| `--n-300` | `#DAD9D5` | erősebb él |
+| `--ink` | `#1C1B1A` | elsődleges szöveg, műszaki adatsáv |
+| `--ink-muted` | `#6B6A66` | másodlagos szöveg |
 
-### Származtatott terrakotta árnyalatok
+`#CA4E23` fehéren **4,54:1** — eléri a WCAG AA szintet normál szövegre is,
+ezért a CTA-gombok a **pontos megadott árnyalatot** viselik fehér felirattal,
+származtatott sötétítés nélkül; a gombok laposak, gradiens nélkül.
+A hoverállapot `--accent-dark` (6,5:1).
 
-`#CA643E` fehéren 3,89:1 — ez grafikára és nagy szövegre elég, kis szövegre nem.
-Ezért a szöveget hordozó felületekhez két sötétebb testvér készült:
+Az anyagsraffozások vonalszíne semleges (`rgba(28,27,26,.14)`), a háttérfények
+alig láthatóak — így a szín egyetlen helyen dolgozik: az akcentelemeken.
 
-| Változó | Érték | Kontraszt fehérrel | Szerep |
-|---|---|---|---|
-| `--terra-mid` | `#B85433` | 4,82:1 | CTA-gomb felső sávja, kis akcentszöveg |
-| `--terra-deep` | `#7E3419` | 8,78:1 | CTA-gomb alsó sávja, hoverállapot |
+A régi `--brown*` / `--terra*` / `--peach` nevek aliasként megmaradtak.
 
-### Felületek és tinta
+## Kapcsolati adatok
 
-| Változó | Érték | Szerep |
-|---|---|---|
-| `--bg-1` | `#FFFFFF` | elsődleges háttér — tiszta fehér |
-| `--bg-2` | `#FDF1E8` | másodlagos háttér — halvány barack |
-| `--card` / `--card-2` | `#FFFFFF` / `#FEF6F0` | kártyák, emelt kártyák |
-| `--tint` / `--tint-2` | `#FDF4EE` / `#F9E5D6` | barack wash felületek |
-| `--kraft` / `--kraft-2` | `#FBEADC` / `--peach` | fa és falazat sraffozás alapja, jelzősáv |
-| `--concrete` / `--concrete-2` | `#F2EFEA` / `#E5E0D8` | beton és acél sraffozás — semleges anyagcsalád |
-| `--ink` | `#2E211B` | elsődleges szöveg, műszaki adatsáv |
-| `--text-muted` | `#7A6357` | másodlagos szöveg |
-| `--border` | `#EEDCCD` | keretek és elválasztók |
-| `--hatch-ink` | `rgba(202,100,62,.32)` | sraffozás vonalszíne |
+Az oldalon végig kattinthatóak (`tel:` és `mailto:`):
 
-A `--brown*` nevek megmaradtak aliasként, hogy a meglévő szabályok ne törjenek;
-értékük a fenti terrakotta skálára mutat.
+| Adat | Hol jelenik meg |
+|---|---|
+| `+36 30 113 1261` | fejléc adatsáv, hero másodlagos CTA, SZ—02, SZ—07, footer, mobil sáv |
+| `+36 30 530 7556` | SZ—02, SZ—07, footer |
+| `polanyiablak@gmail.com` | SZ—02, SZ—07, footer |
 
-Minden szövegszín/háttér páros eléri a WCAG AA szintet (legkisebb mért érték: 4,8:1).
+**A cégnév szándékosan `[CÉGNÉV]` maradt.** Az e-mail-címből kikövetkeztethető
+lenne, de a `<title>`-ben, a logóban, a footerben és a copyrightban is megjelenik
+— ezt nem tippeljük meg. Kell hozzá a pontos márkanév (és ha eltér, a bejegyzett
+cégnév a jogi oldalakhoz).
 
 ## Tipográfia
 
-- Főcímek: **Archivo** (`--font-display`) — 500-as súly a nagy címeknél,
-  600 a kártyacímeknél; **mondatkezdő nagybetűs**, nem csupa nagybetűs
-- Törzsszöveg és kezelőfelület: **Inter** (`--font-body`)
-- Műszaki annotáció: **IBM Plex Mono** (`--font-mono`) — méretek, rajzszámok,
-  tételkódok, fejbélyeg-cellák
+**Egyetlen betűcsalád az egész oldalon: Inter.** A `--font-display`, a
+`--font-body` és a `--font-mono` mind ugyanarra a stackre mutat.
 
-Mindhárom a Google Fontsról töltődik be az `index.html` `<head>` részében.
-Az Archivo `latin-ext` készlete lefedi a magyar ékezeteket (Ő, Ű is).
+- Címsorok: 500-as súly a nagy címeknél, 600 a kártyacímeknél, mondatkezdő
+  nagybetűs szedéssel
+- Törzsszöveg: 400
+- Műszaki címkék (méretvonal, rajzszám, fejbélyeg, tételkód): 600, csupa
+  nagybetűs, ritkított, `font-variant-numeric: tabular-nums`
 
-A csupa nagybetűs szedés a **kis műszaki címkéken** maradt meg
-(`.eyebrow`, `.eyebrow__idx`, `.footer__title`, gombok, mezőcímkék) — ott
-jelzésértéke van; a címsorokon a lazább, mondatkezdő nagybetűs szedés fut.
+A technikai jelleget nem külön betűtípus adja, hanem a szedés — ezért maradt
+egyszerű az oldal.
 
 ## Hero videó
 
