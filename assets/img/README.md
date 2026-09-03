@@ -1,4 +1,17 @@
-# Referenciafotók
+# Képek
+
+## Logó
+
+`logo.svg` — a **valódi LupaTherm logó** helye. Amíg nincs itt, a fejlécben és
+a láblécben egy egyszerű, arculatba illő tartalék jel látszik (három sávos
+elem a logó három tónusában). A fájl bemásolásával automatikusan átveszi a
+helyét, kódmódosítás nélkül.
+
+- Ajánlott: **SVG** (élesen skálázódik), 1:1 arányú vágás
+- Ha csak PNG van: 120×120 px, átlátszó háttér, és az `index.html`-ben írd át
+  a kiterjesztést `logo.svg`-ről `logo.png`-re (két helyen)
+
+## Referenciafotók
 
 Másold ide az 5 fotót **pontosan ezekkel a nevekkel** — az `index.html` már
 ezekre hivatkozik, más teendő nincs.

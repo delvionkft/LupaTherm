@@ -1,4 +1,4 @@
-# [CÉGNÉV] — landingoldal (redőny, szúnyogháló, nyílászárócsere)
+# LupaTherm — landingoldal (redőny, szúnyogháló, nyílászárócsere)
 
 Leadgenerálásra optimalizált, egyoldalas landing **dizájnváz** fehér alapon,
 egyetlen akcentszínnel, építőipari–műszaki rajz vizuális nyelven.
@@ -79,10 +79,13 @@ Az oldalon végig kattinthatóak (`tel:` és `mailto:`):
 | `+36 30 530 7556` | SZ—02, SZ—07, footer |
 | `polanyiablak@gmail.com` | SZ—02, SZ—07, footer |
 
-**A cégnév szándékosan `[CÉGNÉV]` maradt.** Az e-mail-címből kikövetkeztethető
-lenne, de a `<title>`-ben, a logóban, a footerben és a copyrightban is megjelenik
-— ezt nem tippeljük meg. Kell hozzá a pontos márkanév (és ha eltér, a bejegyzett
-cégnév a jogi oldalakhoz).
+A márkanév **LupaTherm**, a lábléc copyrightjában **LupaTherm Kft.** szerepel
+(a copyright éve a `main.js`-ből frissül, nem avul el).
+
+A **valódi logó** helye `assets/img/logo.svg`. Amíg nincs feltöltve, egy
+egyszerű, arculatba illő tartalék jel látszik — három sávos elem a logó három
+tónusában (`#EDC0A0`, `#CA4E23`, `#6E3222`). A fájl bemásolása automatikusan
+átveszi a helyét.
 
 ## Tipográfia
 
@@ -186,7 +189,7 @@ Ezekhez új szekció vagy új űrlapmező kellene:
 
 ### Ami helykitöltő maradt
 
-`[CÉGNÉV]`, `[SZOLGÁLTATÁSI TERÜLET]`, `[ÉV]`,
+`[SZOLGÁLTATÁSI TERÜLET]`,
 `[RÖVID CÉGBEMUTATÓ]`, a referenciák adatai (`[TELEPÜLÉS]`, `[AZ ELVÉGZETT MUNKA]`,
 `[RÖVID LEÍRÁS A MUNKÁRÓL]`, `[BEÉPÍTETT MEGOLDÁS]`) és a képhelyek
 (`[REFERENCIAFOTÓ 01–04]`, `[KIEMELT KÉP VAGY VIDEÓ HELYE]`, `[IKON VAGY KÉP HELYE]`).

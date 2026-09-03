@@ -170,10 +170,15 @@
   /* ---------- 06b. REFERENCIAFOTÓK ---------- */
   /* Ha egy fotó nem tölthető be (még nincs feltöltve), elrejtjük, hogy a
      sraffozott helykitöltő maradjon látható törött kép ikon helyett. */
-  $$('.ref__photo').forEach(function (img) {
+  $$('.ref__photo, .logo__img').forEach(function (img) {
     var hide = function () { img.hidden = true; };
     img.addEventListener('error', hide);
     if (img.complete && img.naturalWidth === 0) hide();
+  });
+
+  /* Copyright éve — ne avuljon el a lábléc */
+  $$('[data-year]').forEach(function (el) {
+    el.textContent = String(new Date().getFullYear());
   });
 
   /* ---------- 07. LIGHTBOX ---------- */
