@@ -25,10 +25,17 @@ Parancssorból, ha van ImageMagick:
 magick eredeti.jpg -auto-orient -resize 1600x1600\> -quality 80 -strip ref-01.jpg
 ```
 
-## Amíg a fájlok hiányoznak
+## Jelenlegi állapot: placeholder képek
 
-Az oldal nem törik el: a `main.js` elrejti a be nem töltődő képet, és a
-sraffozott helykitöltő panel marad a helyén a `[REFERENCIAFOTÓ 0X]` felirattal.
+A mappában most **generált helykitöltő JPEG-ek** vannak, ugyanezekkel a nevekkel.
+A valódi fotókat egyszerűen **írd felül** velük — az `index.html`-ben nincs
+teendő.
+
+Ha egy fájl hiányzik vagy hibás, az oldal akkor sem törik el: a `main.js`
+elrejti a be nem töltődő képet, és a sraffozott panel marad a helyén.
+
+A helykitöltők újragenerálhatók: a generátor a fejlesztői jegyzetek között
+maradt, de egyszerűbb egyszerűen felülírni őket a valódi fotókkal.
 
 ## Ellenőrizd a feliratokat
 

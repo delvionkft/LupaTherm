@@ -114,13 +114,13 @@ A hero rajzlapján a beágyazott Facebook Reel fut, a hivatalos
 ## Referenciafotók
 
 A galéria **5 kártyából** áll, mindegyik egy fotóra hivatkozik:
-`assets/img/ref-01.jpg` … `ref-05.jpg`. A fájlok még nincsenek feltöltve —
-a pontos hozzárendelést az `assets/img/README.md` tartalmazza.
+`assets/img/ref-01.jpg` … `ref-05.jpg`. Jelenleg **generált helykitöltő
+JPEG-ek** vannak a helyükön — a valódi fotókat elég felülírni velük, az
+`index.html`-ben nincs teendő. A hozzárendelést az `assets/img/README.md`
+tartalmazza.
 
-Az oldal fotók nélkül sem törik el: a `main.js` elrejti a be nem töltődő
-képet, és a sraffozott helykitöltő panel marad a helyén a
-`[REFERENCIAFOTÓ 0X]` felirattal. Amint a fájl bekerül, a fotó automatikusan
-megjelenik, a felirat pedig eltűnik.
+Hiányzó vagy hibás fájl esetén az oldal nem törik el: a `main.js` elrejti a
+képet, és a sraffozott panel marad a helyén.
 
 - Kártyán: `object-fit: cover`, 4:3 vágás
 - Lightboxban: `object-fit: contain`, a teljes kép látszik
@@ -136,8 +136,6 @@ A szekció az építőipar saját szakmai vernakulárisából épül, nem ikonok
 | Eszköz | Hol | Mit kódol |
 |---|---|---|
 | Rajzlap-hivatkozás (`SZ—01` … `SZ—07`) | szekciócímkék | a szekció valódi sorszáma |
-| Méretvonal (`.dimline`) | hero | mutatószám kiemelése |
-| Fejbélyeg / title block (`.titleblock`) | hero vizuál | lépték, dátum, verzió, státusz |
 | Illesztőjelek (`.cropmark`) | rajzlap sarkai | rajzlap-keretezés |
 | Anyagsraffozások (`.hatch--*`) | kép-helykitöltők | beton, falazat, fa, acél, hőszigetelés |
 | Léptékvonalzó (`.section::before`) | szekcióhatárok | vizuális váltás |
