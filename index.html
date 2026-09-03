@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -121,17 +121,34 @@
 
         <div class="visual__frame">
           <div class="visual__bar">
-            <span class="visual__sheet">Ajánlatkérési folyamat</span>
-            <span class="visual__no">01 / 04</span>
+            <span class="visual__sheet">Bemutató videó</span>
+            <span class="visual__no">Reel</span>
           </div>
 
-          <div class="visual__stage hatch hatch--concrete">
+          <div class="visual__stage visual__stage--video hatch hatch--concrete">
             <span class="cropmark cropmark--tl" aria-hidden="true"></span>
             <span class="cropmark cropmark--tr" aria-hidden="true"></span>
             <span class="cropmark cropmark--bl" aria-hidden="true"></span>
             <span class="cropmark cropmark--br" aria-hidden="true"></span>
-            <span class="visual__label">[KIEMELT KÉP VAGY VIDEÓ HELYE]</span>
-            <span class="visual__hint">[FOTÓ VAGY VIDEÓ A MUNKÁKRÓL]</span>
+
+            <div class="fbvideo">
+              <!-- Tartalék: akkor látszik, ha a beágyazás nem tölthető be
+                   (pl. tartalomvédelmi szabály vagy nem nyilvános videó). -->
+              <div class="fbvideo__fallback" aria-hidden="true">
+                <span class="fbvideo__mark">Videó</span>
+                <span class="fbvideo__note">A lejátszó a Facebookról töltődik be.</span>
+              </div>
+              <iframe class="fbvideo__frame"
+                src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2391955484963079&show_text=false&width=267&height=476&t=0"
+                title="Bemutató videó"
+                loading="lazy" scrolling="no" frameborder="0" allowfullscreen
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+            </div>
+
+            <a class="fbvideo__link" href="https://www.facebook.com/reel/2391955484963079"
+               target="_blank" rel="noopener noreferrer">
+              Megnyitás a Facebookon<span aria-hidden="true">&nbsp;&rarr;</span>
+            </a>
           </div>
 
           <div class="titleblock">

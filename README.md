@@ -83,13 +83,31 @@ Minden szövegszín/háttér páros eléri a WCAG AA szintet (legkisebb mért é
 
 ## Tipográfia
 
-- Főcímek: **Anton** (`--font-display`) — nehéz, táblaszerű kondenzált sans
+- Főcímek: **Archivo** (`--font-display`) — 500-as súly a nagy címeknél,
+  600 a kártyacímeknél; **mondatkezdő nagybetűs**, nem csupa nagybetűs
 - Törzsszöveg és kezelőfelület: **Inter** (`--font-body`)
 - Műszaki annotáció: **IBM Plex Mono** (`--font-mono`) — méretek, rajzszámok,
   tételkódok, fejbélyeg-cellák
 
 Mindhárom a Google Fontsról töltődik be az `index.html` `<head>` részében.
-Az Anton `latin-ext` készlete lefedi a magyar ékezeteket (Ő, Ű is).
+Az Archivo `latin-ext` készlete lefedi a magyar ékezeteket (Ő, Ű is).
+
+A csupa nagybetűs szedés a **kis műszaki címkéken** maradt meg
+(`.eyebrow`, `.eyebrow__idx`, `.footer__title`, gombok, mezőcímkék) — ott
+jelzésértéke van; a címsorokon a lazább, mondatkezdő nagybetűs szedés fut.
+
+## Hero videó
+
+A hero rajzlapján a beágyazott Facebook Reel fut, a hivatalos
+`facebook.com/plugins/video.php` beágyazón keresztül, 9:16 arányú keretben.
+
+- A lejátszó mögött **tartalék réteg** ül (`.fbvideo__fallback`): ha a
+  beágyazás nem tölthető be — nem nyilvános videó, tartalomvédelmi szabály
+  vagy a beágyazást tiltó CSP —, üres keret helyett ez marad látható.
+- A keret alatt mindig kattintható marad a **„Megnyitás a Facebookon"** link.
+- A beágyazás harmadik féltől (Facebook) tölt be tartalmat és sütiket
+  helyezhet el — ezt érdemes átvezetni az adatkezelési tájékoztatón, illetve
+  sütikezelő mögé tenni, ha az oldalon lesz ilyen.
 
 ## Vizuális nyelv
 
