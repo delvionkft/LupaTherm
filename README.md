@@ -29,15 +29,15 @@ assets/js/main.js     – fejléc állapot, mobil menü, reveal, parallax,
 
 | # | Szekció | Azonosító |
 |---|---------|-----------|
-| – | Fejléc (ragadós, görgetésre blur + barna alsó keret) | `#header` |
+| – | Fejléc (ragadós, görgetésre blur + akcent alsó keret) | `#header` |
 | 1 | Hero + social proof sáv | `#hero` |
-| 2 | Első ajánlatkérő blokk (kétoszlopos, sötét űrlapkártya) | `#ajanlatkeres` |
+| 2 | Első ajánlatkérő blokk (kétoszlopos, űrlapkártya) | `#ajanlatkeres` |
 | 3 | Probléma / fő előnyök (3 kártya) | `#problemak` |
 | 4 | Megoldás és szolgáltatások (moduláris grid, 4 kártya) | `#szolgaltatasok` |
 | 5 | Referenciák (lapozható galéria + lightbox) | `#referenciak` |
-| 6 | Folyamat (idővonal, görgetésre töltődő barna vonal) | `#folyamat` |
+| 6 | Folyamat (idővonal, görgetésre töltődő akcentvonal) | `#folyamat` |
 | 7 | Záró ajánlat + űrlap | `#kapcsolat` |
-| 8 | Footer (háttérben halvány barna cégnév-vízjel) | `.footer` |
+| 8 | Footer (háttérben halvány cégnév-vízjel) | `.footer` |
 
 ## Színpaletta
 
@@ -168,7 +168,7 @@ Ezekhez új szekció vagy új űrlapmező kellene:
 
 ### Ami helykitöltő maradt
 
-`[CÉGNÉV]`, `[TELEFONSZÁM]`, `[E-MAIL-CÍM]`, `[SZOLGÁLTATÁSI TERÜLET]`, `[ÉV]`,
+`[CÉGNÉV]`, `[SZOLGÁLTATÁSI TERÜLET]`, `[ÉV]`,
 `[RÖVID CÉGBEMUTATÓ]`, a referenciák adatai (`[TELEPÜLÉS]`, `[AZ ELVÉGZETT MUNKA]`,
 `[RÖVID LEÍRÁS A MUNKÁRÓL]`, `[BEÉPÍTETT MEGOLDÁS]`) és a képhelyek
 (`[REFERENCIAFOTÓ 01–04]`, `[KIEMELT KÉP VAGY VIDEÓ HELYE]`, `[IKON VAGY KÉP HELYE]`).
