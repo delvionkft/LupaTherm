@@ -11,6 +11,21 @@ helyét, kódmódosítás nélkül.
 - Ha csak PNG van: 120×120 px, átlátszó háttér, és az `index.html`-ben írd át
   a kiterjesztést `logo.svg`-ről `logo.png`-re (két helyen)
 
+## Szolgáltatásfotók
+
+A megoldások szekció kártyáinak képei:
+
+| Fájlnév | Kártya | Mi látszik |
+|---|---|---|
+| `svc-nyilaszaro.jpg` | 01 · Ablak- és nyílászárócsere | családi ház homlokzata új fehér nyílászárókkal |
+| `svc-redony.jpg` | 02 · Redőnyök | antracit árnyékoló egy nagy terasznyílás előtt |
+| `svc-szunyoghalo.jpg` | 03 · Szúnyoghálók | nyíló szúnyogháló-ajtó bejárati ajtón |
+| `svc-parkany.jpg` | 04 · Párkányok | beépített fa ablakpárkány |
+| — | 05 · Komplett megoldások | **még nincs fotó**, sraffozott helykitöltő |
+
+Feltöltéskor a hosszabbik oldal 1400 px, JPEG ~82% minőség. A kártyán
+`object-fit: cover` vág, tehát nem kell előre vágni.
+
 ## Referenciafotók
 
 Másold ide az 5 fotót **pontosan ezekkel a nevekkel** — az `index.html` már

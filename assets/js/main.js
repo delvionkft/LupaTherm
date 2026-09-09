@@ -170,7 +170,7 @@
   /* ---------- 06b. REFERENCIAFOTÓK ---------- */
   /* Ha egy fotó nem tölthető be (még nincs feltöltve), elrejtjük, hogy a
      sraffozott helykitöltő maradjon látható törött kép ikon helyett. */
-  $$('.ref__photo, .logo__img').forEach(function (img) {
+  $$('.ref__photo, .service__photo, .logo__img').forEach(function (img) {
     var hide = function () { img.hidden = true; };
     img.addEventListener('error', hide);
     if (img.complete && img.naturalWidth === 0) hide();
