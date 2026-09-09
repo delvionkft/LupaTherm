@@ -31,6 +31,7 @@
   --accent-dark:#A33C17;   /* hoverállapot (6,5:1 fehéren) */
   --accent-50:#FDF4F0;     /* leheletnyi akcenttel színezett felület */
   --accent-100:#F7DFD4;    /* halvány akcentfelület, keret */
+  --accent-on-dark:#E8825A;/* akcentszöveg sötét sávon (6,4:1) */
 
   /* Semleges skála — egyszerű fehér alap */
   --n-50:#FAFAF9;
@@ -245,7 +246,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   display:inline-flex;align-items:center;
   align-self:stretch;
   padding:8px 11px;margin-right:12px;
-  background:var(--graphite);color:#FFFFFF;
+  background:var(--accent);color:#FFFFFF;
   font-size:10.5px;font-weight:600;letter-spacing:.1em;
 }
 
@@ -756,6 +757,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 
 /* ---------- 10. AJÁNLATKÉRŐ SZEKCIÓ ---------- */
 .quote{background:linear-gradient(180deg,var(--bg-1),var(--n-50) 55%,var(--bg-1))}
+.pains{background:linear-gradient(180deg,var(--bg-1),var(--accent-50) 45%,var(--bg-1))}
 .quote__inner{
   display:grid;grid-template-columns:1fr 1fr;
   gap:clamp(32px,5vw,72px);align-items:start;
@@ -1177,7 +1179,61 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .lightbox__caption{display:grid;gap:9px;padding:clamp(20px,3vw,32px)}
 
 /* ---------- 14. FOLYAMAT IDŐVONAL ---------- */
-.process{background:linear-gradient(180deg,var(--bg-1),var(--n-50) 55%,var(--bg-1))}
+/* Sötét sáv az oldal közepén — ez töri meg a fehér monotóniát */
+.process{background:var(--ink);border-top-color:rgba(255,255,255,.14)}
+.process::before{opacity:.22}
+.process .section__glow{display:none}
+.process .eyebrow{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.18);
+  color:#FFFFFF;
+}
+.process .h2{color:#FFFFFF}
+.process .hl{
+  background:linear-gradient(180deg,#F3A784,var(--accent-on-dark));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.process .lead{color:#B5B1AA}
+
+.process .timeline__rail{
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.16) 12%,rgba(255,255,255,.16) 88%,rgba(255,255,255,0));
+}
+.process .timeline__fill{
+  background:linear-gradient(180deg,var(--accent),var(--accent-on-dark));
+  box-shadow:0 0 12px rgba(232,130,90,.5);
+}
+.process .timeline-wrap::before{
+  background-image:
+    repeating-linear-gradient(180deg,rgba(255,255,255,.15) 0 1px,transparent 1px 11px),
+    repeating-linear-gradient(180deg,rgba(255,255,255,.26) 0 1px,transparent 1px 55px);
+}
+.process .step__dot{
+  background:var(--ink);
+  border-color:rgba(255,255,255,.3);
+  box-shadow:0 0 0 5px var(--ink);
+}
+.process .step.is-visible .step__dot{
+  border-color:var(--accent-on-dark);
+  box-shadow:0 0 0 5px var(--ink),0 0 16px rgba(232,130,90,.55);
+}
+.process .step__card{
+  background:rgba(255,255,255,.045);
+  border-color:rgba(255,255,255,.13);
+  box-shadow:none;
+}
+.process .step__card:hover{
+  background:rgba(255,255,255,.075);
+  border-color:var(--accent-on-dark);
+  box-shadow:0 14px 32px -18px rgba(0,0,0,.7);
+}
+.process .step__num{color:var(--accent-on-dark)}
+.process .step__title{color:#FFFFFF}
+.process .step__text{color:#B5B1AA}
+.process .step__icon{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.16);
+  color:var(--accent-on-dark);
+}
 
 .timeline-wrap{position:relative}
 .timeline{display:grid;gap:clamp(12px,1.6vw,24px)}
