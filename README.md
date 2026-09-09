@@ -116,21 +116,17 @@ A hero rajzlapján a beágyazott Facebook Reel fut, a hivatalos
 
 ## Referenciafotók
 
-A galéria **5 kártyából** áll, mindegyik egy fotóra hivatkozik:
-`assets/img/ref-01.jpg` … `ref-05.jpg`. Jelenleg **generált helykitöltő
-JPEG-ek** vannak a helyükön — a valódi fotókat elég felülírni velük, az
-`index.html`-ben nincs teendő. A hozzárendelést az `assets/img/README.md`
-tartalmazza.
+A galéria **8 kártyából** áll, valódi munkafotókkal
+(`assets/img/ref-01.jpg` … `ref-08.jpg`), a lapozós elrendezésben.
+A hozzárendelést és a leírásokat az `assets/img/README.md` tartalmazza.
 
-Hiányzó vagy hibás fájl esetén az oldal nem törik el: a `main.js` elrejti a
-képet, és a sraffozott panel marad a helyén.
-
-- Kártyán: `object-fit: cover`, 4:3 vágás
+- Kártyán: `object-fit: cover`, **4:5** arány — a többségében álló fotókból
+  ez vág a legkevesebbet
 - Lightboxban: `object-fit: contain`, a teljes kép látszik
-- `loading="lazy"` és `decoding="async"` mindkét helyen
+- Hiányzó vagy hibás fájl esetén a `main.js` elrejti a képet, és a
+  sraffozott panel marad a helyén
 
-A címeket és leírásokat abból írtam, ami a fotókon **látszik**; a település
-mindenhol `[TELEPÜLÉS]` helykitöltő. Érdemes átnézni és pontosítani őket.
+A települések `[TELEPÜLÉS]` helykitöltők maradtak.
 
 ## Vizuális nyelv
 

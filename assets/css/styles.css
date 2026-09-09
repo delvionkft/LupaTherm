@@ -1039,7 +1039,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 .ref__media{
   position:relative;
-  width:100%;aspect-ratio:4/3;
+  width:100%;aspect-ratio:4/5;   /* a fotók többsége álló — ez vág a legkevesebbet */
   display:grid;place-content:center;
   border-bottom:1px solid var(--border);
   background:

@@ -27,45 +27,26 @@ Feltöltéskor a hosszabbik oldal 1400 px, JPEG ~82% minőség. A kártyán
 
 ## Referenciafotók
 
-Másold ide az 5 fotót **pontosan ezekkel a nevekkel** — az `index.html` már
-ezekre hivatkozik, más teendő nincs.
+A galéria **8 kártyából** áll (a lapozó tetszőleges elemszámot kezel).
+A fájlok már a helyükön vannak, átméretezve (hosszabbik oldal 1400 px, JPEG 82%).
 
-| Fájlnév | Melyik fotó | Az oldalon megjelenő cím |
+| Fájl | Eredeti | Mi látszik |
 |---|---|---|
-| `ref-01.jpg` | belső nézet, háromrészes fehér ablak védőfóliával, zöld kerítés a háttérben | [TELEPÜLÉS] – Háromrészes ablak beépítése |
-| `ref-02.jpg` | homlokzat, két új fehér nyílászáró a régi vakolatban, terrakotta terasz | [TELEPÜLÉS] – Homlokzati ablak- és ajtócsere |
-| `ref-03.jpg` | panellakás erkélyajtaja és ablaka, lakótelepi kilátással | [TELEPÜLÉS] – Erkélyajtó és ablak cseréje |
-| `ref-04.jpg` | elkészült családi ház, faerezetű nyílászárók, kőhatású kávaburkolat | [TELEPÜLÉS] – Faerezetű nyílászárók családi házon |
-| `ref-05.jpg` | nagyméretű kétszárnyú teraszajtó, kőburkolatos fal, pergola | [TELEPÜLÉS] – Nagyméretű teraszajtó |
+| `ref-01.jpg` | IMG_5588-1 | klinkerburkolatos homlokzat új fehér ablaksorral |
+| `ref-02.jpg` | IMG_5940 | aranytölgy bejárati ajtó oldalvilágítóval |
+| `ref-03.jpg` | IMG_5007 | két fehér ablak ráépített redőnnyel |
+| `ref-04.jpg` | IMG_6879 | fehér bejárati ajtó oldal- és felülvilágítóval |
+| `ref-05.jpg` | IMG_3101 | sötét tölgy ablak redőnnyel és szúnyoghálóval |
+| `ref-06.jpg` | IMG_4456 | fehér bejárati ajtó íves üvegbetétekkel |
+| `ref-07.jpg` | IMG_5939 | fehér bejárati ajtó oldalvilágítóval, belülről |
+| `ref-08.jpg` | IMG_4348 | bejárati ajtó a beépítés fázisában |
 
-## Ajánlott formátum
+A sorrend szándékosan váltakozik (ablak / ajtó), hogy ne öt ajtó jöjjön egymás után.
 
-- **Méret:** hosszabbik oldal kb. **1600 px** (a kártya 400 px-en, a lightbox
-  1080 px-en jeleníti meg — 1600 px mindkettőre bőven elég)
-- **Formátum:** JPEG, ~78–82% minőség, fájlonként kb. **150–300 KB**
-- **Arány:** a kártyán 4:3-ra vág (`object-fit: cover`), a lightboxban
-  teljes egészében látszik (`object-fit: contain`) — nem kell előre vágni
+A kártyán `object-fit: cover` vág **4:5** arányban — ez a leggyakoribb álló
+tájolású fotókból vág a legkevesebbet. A lightboxban `object-fit: contain`,
+tehát ott a teljes kép látszik.
 
-Parancssorból, ha van ImageMagick:
-
-```bash
-magick eredeti.jpg -auto-orient -resize 1600x1600\> -quality 80 -strip ref-01.jpg
-```
-
-## Jelenlegi állapot: placeholder képek
-
-A mappában most **generált helykitöltő JPEG-ek** vannak, ugyanezekkel a nevekkel.
-A valódi fotókat egyszerűen **írd felül** velük — az `index.html`-ben nincs
-teendő.
-
-Ha egy fájl hiányzik vagy hibás, az oldal akkor sem törik el: a `main.js`
-elrejti a be nem töltődő képet, és a sraffozott panel marad a helyén.
-
-A helykitöltők újragenerálhatók: a generátor a fejlesztői jegyzetek között
-maradt, de egyszerűbb egyszerűen felülírni őket a valódi fotókkal.
-
-## Ellenőrizd a feliratokat
-
-A címeket és leírásokat abból írtam, ami a fotókon **látszik** — a település
-mindenhol `[TELEPÜLÉS]` helykitöltő maradt. Nézd át és pontosítsd őket az
-`index.html` `#referenciak` szekciójában.
+**A települések `[TELEPÜLÉS]` helykitöltők**, és a leírásokat abból írtam,
+ami a fotókon látszik. Érdemes átnézni és pontosítani őket az `index.html`
+`#referenciak` szekciójában.
