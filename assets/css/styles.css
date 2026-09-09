@@ -907,12 +907,14 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .service:hover::before{opacity:1}
 .service:hover::after{opacity:1}
 
-/* Négy kártya kiegyenlített 2x2 rácsban */
-.service{grid-column:span 3}
-.service--wide,.service--tall{grid-column:span 3;grid-row:auto}
+/* Moduláris rács — Sor 1: széles (4) + magas (2, két sorra)
+   Sor 2: két kisebb (2 + 2), mellettük a magas kártya folytatódik */
+.service--wide{grid-column:span 4}
+.service--tall{grid-column:span 2;grid-row:span 2}
 
 .service__media{
   position:relative;
+  flex:none;
   aspect-ratio:16/9;
   display:grid;place-content:center;
   border-bottom:1px solid var(--border);
@@ -922,7 +924,10 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
     var(--bg-2);
 }
 .service__media--sm{aspect-ratio:16/9}
-.service--tall .service__media{aspect-ratio:16/9}
+.service--wide .service__media{aspect-ratio:21/9}
+.service:not(.service--wide):not(.service--tall) .service__media{aspect-ratio:4/3}
+/* a magas kártyán a fotó nyúlik meg, nem a kártya alja marad üresen */
+.service--tall .service__media{aspect-ratio:auto;flex:1;min-height:300px}
 
 /* Szolgáltatásfotó: a sraffozott panel fölé kerül; ha a fájl hiányzik,
    a JS elrejti és a helykitöltő marad. */
@@ -1615,10 +1620,13 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   .hero__inner{grid-template-columns:1fr;gap:44px}
   .hero__visual{order:2}
   .hero__content{order:1;max-width:640px}
-      .proof{grid-template-columns:repeat(2,1fr)}
+  .proof{grid-template-columns:repeat(2,1fr)}
   .section__head--split{grid-template-columns:1fr;align-items:start}
   .refs__nav{justify-content:flex-start}
   .service--wide,.service--tall,.service{grid-column:span 3}
+  .service--tall{grid-row:auto}
+  .service--wide .service__media,
+  .service--tall .service__media{aspect-ratio:16/9;flex:none;min-height:0}
   .final__inner{grid-template-columns:1fr}
   .footer__inner{grid-template-columns:1fr 1fr}
   .footer__brand{grid-column:1/-1;max-width:none}
@@ -1658,6 +1666,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   .cards--3{grid-template-columns:1fr}
   .service-grid{grid-template-columns:1fr}
   .service--wide,.service--tall,.service{grid-column:auto}
+  .service--tall{grid-row:auto}
 
   /* Idővonal: függőleges, bal oldali sínnel */
   .timeline{gap:22px}
