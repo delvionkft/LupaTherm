@@ -20,8 +20,7 @@ A megoldások szekció kártyáinak képei:
 | `svc-nyilaszaro.jpg` | 01 · Ablak- és nyílászárócsere | családi ház homlokzata új fehér nyílászárókkal |
 | `svc-redony.jpg` | 02 · Redőnyök | antracit árnyékoló egy nagy terasznyílás előtt |
 | `svc-szunyoghalo.jpg` | 03 · Szúnyoghálók | nyíló szúnyogháló-ajtó bejárati ajtón |
-| `svc-parkany.jpg` | 04 · Párkányok | beépített fa ablakpárkány |
-| — | 05 · Komplett megoldások | **még nincs fotó**, sraffozott helykitöltő |
+| `svc-parkany.jpg` | 04 · Komplett megoldások | beépített fa ablakpárkány — a párkány kiegészítőként a kártya leírásában szerepel |
 
 Feltöltéskor a hosszabbik oldal 1400 px, JPEG ~82% minőség. A kártyán
 `object-fit: cover` vág, tehát nem kell előre vágni.

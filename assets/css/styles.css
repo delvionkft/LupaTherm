@@ -907,18 +907,13 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .service:hover::before{opacity:1}
 .service:hover::after{opacity:1}
 
-/* Öt kártya: első sorban három, másodikban kettő szélesebb */
-.service--wide{grid-column:span 2}
-.service--tall{grid-column:span 2;grid-row:auto}
-.service:nth-child(4),
-.service:nth-child(5){grid-column:span 3}
-/* a szélesebb kártyák laposabb képmezőt kapnak, hogy a két sor kiegyenlítődjön */
-.service:nth-child(4) .service__media,
-.service:nth-child(5) .service__media{aspect-ratio:16/9}
+/* Négy kártya kiegyenlített 2x2 rácsban */
+.service{grid-column:span 3}
+.service--wide,.service--tall{grid-column:span 3;grid-row:auto}
 
 .service__media{
   position:relative;
-  aspect-ratio:4/3;
+  aspect-ratio:16/9;
   display:grid;place-content:center;
   border-bottom:1px solid var(--border);
   background:
@@ -926,8 +921,8 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
     repeating-linear-gradient(45deg,var(--hairline) 0 1px,transparent 1px 12px),
     var(--bg-2);
 }
-.service__media--sm{aspect-ratio:4/3}
-.service--tall .service__media{aspect-ratio:4/3}
+.service__media--sm{aspect-ratio:16/9}
+.service--tall .service__media{aspect-ratio:16/9}
 
 /* Szolgáltatásfotó: a sraffozott panel fölé kerül; ha a fájl hiányzik,
    a JS elrejti és a helykitöltő marad. */
@@ -1623,8 +1618,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
       .proof{grid-template-columns:repeat(2,1fr)}
   .section__head--split{grid-template-columns:1fr;align-items:start}
   .refs__nav{justify-content:flex-start}
-  .service--wide,.service--tall,.service,
-  .service:nth-child(4),.service:nth-child(5){grid-column:span 3}
+  .service--wide,.service--tall,.service{grid-column:span 3}
   .final__inner{grid-template-columns:1fr}
   .footer__inner{grid-template-columns:1fr 1fr}
   .footer__brand{grid-column:1/-1;max-width:none}
@@ -1663,8 +1657,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   .quote__inner{grid-template-columns:1fr;gap:36px}
   .cards--3{grid-template-columns:1fr}
   .service-grid{grid-template-columns:1fr}
-  .service--wide,.service--tall,.service,
-  .service:nth-child(4),.service:nth-child(5){grid-column:auto}
+  .service--wide,.service--tall,.service{grid-column:auto}
 
   /* Idővonal: függőleges, bal oldali sínnel */
   .timeline{gap:22px}
