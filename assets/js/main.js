@@ -351,6 +351,15 @@
     var legalDocs = $$('[data-legal-doc]', legalModal);
     var legalLast = null;
 
+    /* Beágyazott (sandboxolt) nézetben a History API dobhat — a panel
+       ilyenkor is működjön, csak az URL ne kövesse a dokumentumot. */
+    function setHash(hash) {
+      if (!history.replaceState) return;
+      try {
+        history.replaceState(null, '', hash || (location.pathname + location.search));
+      } catch (err) { /* nincs teendő */ }
+    }
+
     function keyFromHash(hash) {
       var h = String(hash || '').replace(/^#/, '');
       for (var k in LEGAL_HASH) { if (LEGAL_HASH[k] === h) return k; }
@@ -373,9 +382,7 @@
         if (on && moveFocus) tab.focus();
       });
       if (legalBody) legalBody.scrollTop = 0;
-      if (history.replaceState) {
-        history.replaceState(null, '', '#' + LEGAL_HASH[key]);
-      }
+      setHash('#' + LEGAL_HASH[key]);
       return true;
     }
 
@@ -394,9 +401,7 @@
       if (legalModal.hidden) return;
       legalModal.hidden = true;
       document.body.classList.remove('is-locked');
-      if (history.replaceState) {
-        history.replaceState(null, '', location.pathname + location.search);
-      }
+      setHash('');
       if (legalLast && legalLast.focus) legalLast.focus();
     }
 
