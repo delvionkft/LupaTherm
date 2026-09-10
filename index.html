@@ -245,6 +245,7 @@
 
     <div class="reveal reveal--right">
       <form class="form-card" data-form>
+        <input type="hidden" name="forras" value="hero-urlap">
         <div class="form-card__glow" aria-hidden="true"></div>
 
         <header class="form-card__head">
@@ -255,34 +256,34 @@
         <fieldset class="qgroup">
           <legend class="field__label">Milyen ingatlanról van szó?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f1-ingatlan" value="csaladi-haz"><span>Családi ház</span></label>
-          <label class="chip"><input type="radio" name="f1-ingatlan" value="tarsashaz"><span>Társasházi lakás</span></label>
-          <label class="chip"><input type="radio" name="f1-ingatlan" value="egyeb"><span>Egyéb (iroda, üzlet)</span></label>
+          <label class="chip"><input type="radio" name="ingatlan" value="csaladi-haz"><span>Családi ház</span></label>
+          <label class="chip"><input type="radio" name="ingatlan" value="tarsashaz"><span>Társasházi lakás</span></label>
+          <label class="chip"><input type="radio" name="ingatlan" value="egyeb"><span>Egyéb (iroda, üzlet)</span></label>
           </div>
         </fieldset>
         <fieldset class="qgroup">
           <legend class="field__label">Hány nyílászárót érint a csere?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f1-darabszam" value="1-3"><span>1–3 db</span></label>
-          <label class="chip"><input type="radio" name="f1-darabszam" value="4-8"><span>4–8 db</span></label>
-          <label class="chip"><input type="radio" name="f1-darabszam" value="8-plusz"><span>8 db felett</span></label>
+          <label class="chip"><input type="radio" name="darabszam" value="1-3"><span>1–3 db</span></label>
+          <label class="chip"><input type="radio" name="darabszam" value="4-8"><span>4–8 db</span></label>
+          <label class="chip"><input type="radio" name="darabszam" value="8-plusz"><span>8 db felett</span></label>
           </div>
         </fieldset>
         <fieldset class="qgroup">
           <legend class="field__label">Mire van szükséged?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f1-igeny" value="nyilaszaro"><span>Nyílászáró</span></label>
-          <label class="chip"><input type="radio" name="f1-igeny" value="bejarati-ajto"><span>Bejárati ajtó</span></label>
-          <label class="chip"><input type="radio" name="f1-igeny" value="arnyekolas"><span>Árnyékolás (redőny, zsalúzia)</span></label>
-          <label class="chip"><input type="radio" name="f1-igeny" value="komplett"><span>Komplett megoldás</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="nyilaszaro"><span>Nyílászáró</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="bejarati-ajto"><span>Bejárati ajtó</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="arnyekolas"><span>Árnyékolás (redőny, zsalúzia)</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="komplett"><span>Komplett megoldás</span></label>
           </div>
         </fieldset>
         <fieldset class="qgroup">
           <legend class="field__label">Mikor tervezed a cserét?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f1-idozites" value="azonnal"><span>Most azonnal</span></label>
-          <label class="chip"><input type="radio" name="f1-idozites" value="1-3-honap"><span>1–3 hónapon belül</span></label>
-          <label class="chip"><input type="radio" name="f1-idozites" value="tajekozodom"><span>Még csak tájékozódom</span></label>
+          <label class="chip"><input type="radio" name="idozites" value="azonnal"><span>Most azonnal</span></label>
+          <label class="chip"><input type="radio" name="idozites" value="1-3-honap"><span>1–3 hónapon belül</span></label>
+          <label class="chip"><input type="radio" name="idozites" value="tajekozodom"><span>Még csak tájékozódom</span></label>
           </div>
         </fieldset>
         <div class="field-row">
@@ -313,7 +314,7 @@
         </div>
 
         <label class="checkbox">
-          <input type="checkbox" name="hozzajarulas" required>
+          <input type="checkbox" name="hozzajarulas" value="igen" required>
           <span class="checkbox__box" aria-hidden="true"></span>
           <span class="checkbox__text">Elolvastam és elfogadom az <a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
@@ -777,6 +778,7 @@
 
     <div class="reveal reveal--right">
       <form class="form-card form-card--final" data-form>
+        <input type="hidden" name="forras" value="zaro-urlap">
         <div class="form-card__glow" aria-hidden="true"></div>
 
         <header class="form-card__head">
@@ -787,34 +789,34 @@
         <fieldset class="qgroup">
           <legend class="field__label">Milyen ingatlanról van szó?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f2-ingatlan" value="csaladi-haz"><span>Családi ház</span></label>
-          <label class="chip"><input type="radio" name="f2-ingatlan" value="tarsashaz"><span>Társasházi lakás</span></label>
-          <label class="chip"><input type="radio" name="f2-ingatlan" value="egyeb"><span>Egyéb (iroda, üzlet)</span></label>
+          <label class="chip"><input type="radio" name="ingatlan" value="csaladi-haz"><span>Családi ház</span></label>
+          <label class="chip"><input type="radio" name="ingatlan" value="tarsashaz"><span>Társasházi lakás</span></label>
+          <label class="chip"><input type="radio" name="ingatlan" value="egyeb"><span>Egyéb (iroda, üzlet)</span></label>
           </div>
         </fieldset>
         <fieldset class="qgroup">
           <legend class="field__label">Hány nyílászárót érint a csere?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f2-darabszam" value="1-3"><span>1–3 db</span></label>
-          <label class="chip"><input type="radio" name="f2-darabszam" value="4-8"><span>4–8 db</span></label>
-          <label class="chip"><input type="radio" name="f2-darabszam" value="8-plusz"><span>8 db felett</span></label>
+          <label class="chip"><input type="radio" name="darabszam" value="1-3"><span>1–3 db</span></label>
+          <label class="chip"><input type="radio" name="darabszam" value="4-8"><span>4–8 db</span></label>
+          <label class="chip"><input type="radio" name="darabszam" value="8-plusz"><span>8 db felett</span></label>
           </div>
         </fieldset>
         <fieldset class="qgroup">
           <legend class="field__label">Mire van szükséged?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f2-igeny" value="nyilaszaro"><span>Nyílászáró</span></label>
-          <label class="chip"><input type="radio" name="f2-igeny" value="bejarati-ajto"><span>Bejárati ajtó</span></label>
-          <label class="chip"><input type="radio" name="f2-igeny" value="arnyekolas"><span>Árnyékolás (redőny, zsalúzia)</span></label>
-          <label class="chip"><input type="radio" name="f2-igeny" value="komplett"><span>Komplett megoldás</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="nyilaszaro"><span>Nyílászáró</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="bejarati-ajto"><span>Bejárati ajtó</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="arnyekolas"><span>Árnyékolás (redőny, zsalúzia)</span></label>
+          <label class="chip"><input type="radio" name="igeny" value="komplett"><span>Komplett megoldás</span></label>
           </div>
         </fieldset>
         <fieldset class="qgroup">
           <legend class="field__label">Mikor tervezed a cserét?</legend>
           <div class="chips">
-          <label class="chip"><input type="radio" name="f2-idozites" value="azonnal"><span>Most azonnal</span></label>
-          <label class="chip"><input type="radio" name="f2-idozites" value="1-3-honap"><span>1–3 hónapon belül</span></label>
-          <label class="chip"><input type="radio" name="f2-idozites" value="tajekozodom"><span>Még csak tájékozódom</span></label>
+          <label class="chip"><input type="radio" name="idozites" value="azonnal"><span>Most azonnal</span></label>
+          <label class="chip"><input type="radio" name="idozites" value="1-3-honap"><span>1–3 hónapon belül</span></label>
+          <label class="chip"><input type="radio" name="idozites" value="tajekozodom"><span>Még csak tájékozódom</span></label>
           </div>
         </fieldset>
         <div class="field-row">
@@ -845,7 +847,7 @@
         </div>
 
         <label class="checkbox">
-          <input type="checkbox" name="hozzajarulas" required>
+          <input type="checkbox" name="hozzajarulas" value="igen" required>
           <span class="checkbox__box" aria-hidden="true"></span>
           <span class="checkbox__text">Elolvastam és elfogadom az <a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
