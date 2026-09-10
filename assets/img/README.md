@@ -17,10 +17,10 @@ A megoldások szekció kártyáinak képei:
 
 | Fájlnév | Kártya | Mi látszik |
 |---|---|---|
-| `svc-nyilaszaro.jpg` | 01 · Ablak- és nyílászárócsere | családi ház homlokzata új fehér nyílászárókkal |
-| `svc-redony.jpg` | 02 · Redőnyök | antracit árnyékoló egy nagy terasznyílás előtt |
-| `svc-szunyoghalo.jpg` | 03 · Szúnyoghálók | nyíló szúnyogháló-ajtó bejárati ajtón |
-| `svc-parkany.jpg` | 04 · Komplett megoldások | beépített fa ablakpárkány — a párkány kiegészítőként a kártya leírásában szerepel |
+| `svc-nyilaszaro.jpg` | 01 · Nyílászáró beépítés | hosszú házhomlokzat új fehér műanyag ablakokkal és ajtóval |
+| `svc-ajto.jpg` | 02 · Bejárati ajtók | aranytölgy dekorfóliás bejárati ajtó keskeny üvegbetétekkel |
+| `svc-redony.jpg` | 03 · Árnyékolástechnika | antracit zsalúzia egy nagy terasznyílás előtt |
+| `svc-szunyoghalo.jpg` | 04 · Komplett megoldások | nyíló szúnyoghálós ajtó bejárati ajtón |
 
 Feltöltéskor a hosszabbik oldal 1400 px, JPEG ~82% minőség. A kártyán
 `object-fit: cover` vág, tehát nem kell előre vágni.
@@ -30,18 +30,20 @@ Feltöltéskor a hosszabbik oldal 1400 px, JPEG ~82% minőség. A kártyán
 A galéria **8 kártyából** áll (a lapozó tetszőleges elemszámot kezel).
 A fájlok már a helyükön vannak, átméretezve (hosszabbik oldal 1400 px, JPEG 82%).
 
-| Fájl | Eredeti | Mi látszik |
+| Fájl | Kategória a kártyán | Mi látszik |
 |---|---|---|
-| `ref-01.jpg` | IMG_5588-1 | klinkerburkolatos homlokzat új fehér ablaksorral |
-| `ref-02.jpg` | IMG_5940 | aranytölgy bejárati ajtó oldalvilágítóval |
-| `ref-03.jpg` | IMG_5007 | két fehér ablak ráépített redőnnyel |
-| `ref-04.jpg` | IMG_6879 | fehér bejárati ajtó oldal- és felülvilágítóval |
-| `ref-05.jpg` | IMG_3101 | sötét tölgy ablak redőnnyel és szúnyoghálóval |
-| `ref-06.jpg` | IMG_4456 | fehér bejárati ajtó íves üvegbetétekkel |
-| `ref-07.jpg` | IMG_5939 | fehér bejárati ajtó oldalvilágítóval, belülről |
-| `ref-08.jpg` | IMG_4348 | bejárati ajtó a beépítés fázisában |
+| `ref-01.jpg` | Ablakbeépítés | négy fehér műanyag ablak klinkerburkolatos homlokzaton |
+| `ref-02.jpg` | Bejárati ajtó | fehér ajtó két oldalvilágítóval és felülvilágítóval |
+| `ref-03.jpg` | Ablak és redőny | fehér ablak ráépített redőnytokkal |
+| `ref-04.jpg` | Bejárati ajtó | fehér ajtó két íves üvegbetéttel |
+| `ref-05.jpg` | Komplett megoldás | sötét tölgy ablak redőnnyel és szúnyoghálóval |
+| `ref-06.jpg` | Bejárati ajtó | fehér ajtó oldalvilágítóval, belülről |
+| `ref-07.jpg` | Belső párkány | sötét fahatású belső ablakpárkány |
+| `ref-08.jpg` | Bejárati ajtó | ajtó felülvilágítóval, beépítés közben |
 
-A sorrend szándékosan váltakozik (ablak / ajtó), hogy ne öt ajtó jöjjön egymás után.
+A sorrend szándékosan váltakozik (ablak / ajtó / kiegészítő), hogy ne jöjjön több
+ajtó egymás után. A kategóriacímke minden kártyán ahhoz igazodik, ami a fotón
+ténylegesen látszik.
 
 A kártyán `object-fit: cover` vág **4:5** arányban — ez a leggyakoribb álló
 tájolású fotókból vág a legkevesebbet. A lightboxban `object-fit: contain`,
