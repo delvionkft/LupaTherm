@@ -144,6 +144,30 @@ A szekció az építőipar saját szakmai vernakulárisából épül, nem ikonok
 
 A sarkok lekerekítése szándékosan 2–3 px (`--radius`), a geometria szögletes.
 
+## Minősítő kérdőív
+
+Mindkét űrlap ugyanazt a hat lépést kérdezi, ebben a sorrendben:
+
+| # | Kérdés | Forma | Kötelező |
+|---|---|---|---|
+| 1 | Milyen ingatlanról van szó? | 3 választható csempe | nem |
+| 2 | Hány nyílászárót érint a csere? | 3 csempe | nem |
+| 3 | Mire van szükséged? | 3 csempe | nem |
+| 4 | Mikor tervezed a cserét? | 3 csempe | nem |
+| 5 | Név, telefonszám | szövegmező | **igen** |
+| – | E-mail-cím | szövegmező | nem |
+| 6 | Hol van az ingatlan? | szövegmező | **igen** |
+| – | Megjegyzés | szövegmező | nem |
+
+A csempék `input[type=radio]` elemek, `.chip` stílussal — kiválasztva
+akcentkeretet és akcenthátteret kapnak. A `novalidate` lekerült az
+űrlapokról, így a böngésző valóban meggátolja a hiányos beküldést.
+
+**Fontos részlet:** az adatkezelési jelölőnégyzet `required`, ezért a rejtett
+inputot valós méretűre kellett venni (átlátszóan, a látható doboz fölé).
+Nulla méretű, nem fókuszálható kontrollnál a Chrome némán elbukná a
+beküldést, hibaüzenet nélkül.
+
 ## Szövegezés
 
 A landing szövege a megkapott anyagból készült, a **meglévő szerkezethez igazítva**.
@@ -176,9 +200,9 @@ Ezekhez új szekció vagy új űrlapmező kellene:
    mikroszövegébe, a többi kimaradt.
 2. **Külön árazási szekció** — az üzenete a szolgáltatások záró blokkjában van,
    a felsorolás (darabszám, méret, kivitel, helyszín…) nem.
-3. **Extra űrlapmezők** — a javasolt *Település*, *Darabszám*, *Méretek*,
-   *Időpont* és *Fotófeltöltés* mezők nincsenek az űrlapokon; ezek most a
-   szövegmező helykitöltőjében szerepelnek kérdésként.
+3. **Fotófeltöltés** — ez az egyetlen javasolt mező, ami nincs az űrlapon.
+   A minősítő kérdések (ingatlan típusa, darabszám, igény, időzítés,
+   helyszín) bekerültek.
 4. **Sikeres beküldés üzenete** — az `index.html` végén HTML-kommentben vár a
    bekötésre. Amíg az űrlap nincs bekötve, a JS szándékosan azt írja ki, hogy a
    beküldés még nem működik — nem jelenítünk meg valótlan visszaigazolást.

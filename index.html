@@ -244,52 +244,75 @@
     </div>
 
     <div class="reveal reveal--right">
-      <form class="form-card" novalidate data-form>
+      <form class="form-card" data-form>
         <div class="form-card__glow" aria-hidden="true"></div>
 
         <header class="form-card__head">
           <h3 class="h4">Előzetes árajánlat kérése</h3>
-          <p class="muted">Néhány alapinformáció elég az induláshoz.</p>
+          <p class="muted">Négy gyors kérdés, és már hívunk is.</p>
         </header>
 
-        <div class="field">
-          <label class="field__label" for="f1-nev">Név</label>
-          <input class="field__input" id="f1-nev" name="nev" type="text" placeholder="Ahogy szólíthatunk" autocomplete="name">
+        <fieldset class="qgroup">
+          <legend class="field__label">Milyen ingatlanról van szó?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f1-ingatlan" value="csaladi-haz"><span>Családi ház</span></label>
+          <label class="chip"><input type="radio" name="f1-ingatlan" value="tarsashaz"><span>Társasházi lakás</span></label>
+          <label class="chip"><input type="radio" name="f1-ingatlan" value="egyeb"><span>Egyéb (iroda, üzlet)</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qgroup">
+          <legend class="field__label">Hány nyílászárót érint a csere?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f1-darabszam" value="1-3"><span>1–3 db</span></label>
+          <label class="chip"><input type="radio" name="f1-darabszam" value="4-8"><span>4–8 db</span></label>
+          <label class="chip"><input type="radio" name="f1-darabszam" value="8-plusz"><span>8 db felett</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qgroup">
+          <legend class="field__label">Mire van szükséged?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f1-igeny" value="ablak"><span>Csak ablakra</span></label>
+          <label class="chip"><input type="radio" name="f1-igeny" value="ablak-redony"><span>Ablak és redőny</span></label>
+          <label class="chip"><input type="radio" name="f1-igeny" value="komplett"><span>Ablak, redőny és szúnyogháló</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qgroup">
+          <legend class="field__label">Mikor tervezed a cserét?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f1-idozites" value="azonnal"><span>Most azonnal</span></label>
+          <label class="chip"><input type="radio" name="f1-idozites" value="1-3-honap"><span>1–3 hónapon belül</span></label>
+          <label class="chip"><input type="radio" name="f1-idozites" value="tajekozodom"><span>Még csak tájékozódom</span></label>
+          </div>
+        </fieldset>
+        <div class="field-row">
+          <div class="field">
+            <label class="field__label" for="f1-nev">Név *</label>
+            <input class="field__input" id="f1-nev" name="nev" type="text" required placeholder="Ahogy szólíthatunk" autocomplete="name">
+          </div>
+          <div class="field">
+            <label class="field__label" for="f1-tel">Telefonszám *</label>
+            <input class="field__input" id="f1-tel" name="telefon" type="tel" required placeholder="Ahol elérünk" autocomplete="tel">
+          </div>
         </div>
 
         <div class="field-row">
           <div class="field">
-            <label class="field__label" for="f1-tel">Telefonszám</label>
-            <input class="field__input" id="f1-tel" name="telefon" type="tel" placeholder="Ahol elérünk" autocomplete="tel">
-          </div>
-          <div class="field">
-            <label class="field__label" for="f1-email">E-mail-cím</label>
+            <label class="field__label" for="f1-email">E-mail-cím <span class="field__opt">nem kötelező</span></label>
             <input class="field__input" id="f1-email" name="email" type="email" placeholder="Az ajánlathoz" autocomplete="email">
           </div>
-        </div>
-
-        <div class="field">
-          <label class="field__label" for="f1-tema">Milyen megoldás érdekel?</label>
-          <div class="field__select-wrap">
-            <select class="field__input field__select" id="f1-tema" name="tema">
-              <option value="">Válassz a lehetőségek közül</option>
-              <option value="nyilaszaro">Nyílászárócsere</option>
-              <option value="redony">Redőny</option>
-              <option value="szunyogaho">Szúnyogháló</option>
-              <option value="komplett">Komplett megoldás</option>
-              <option value="nem-tudom">Még nem tudom pontosan</option>
-            </select>
-            <span class="field__caret" aria-hidden="true"></span>
+          <div class="field">
+            <label class="field__label" for="f1-hely">Hol van az ingatlan? *</label>
+            <input class="field__input" id="f1-hely" name="helyszin" type="text" required placeholder="Település vagy megye" autocomplete="address-level2">
           </div>
         </div>
 
         <div class="field">
-          <label class="field__label" for="f1-uzenet">Rövid leírás</label>
-          <textarea class="field__input field__textarea" id="f1-uzenet" name="uzenet" rows="4" placeholder="Település, hány darabról van szó, hozzávetőleges méretek, tervezett időpont"></textarea>
+          <label class="field__label" for="f1-uzenet">Megjegyzés <span class="field__opt">nem kötelező</span></label>
+          <textarea class="field__input field__textarea" id="f1-uzenet" name="uzenet" rows="3" placeholder="Hozzávetőleges méretek, egyéb tudnivaló"></textarea>
         </div>
 
         <label class="checkbox">
-          <input type="checkbox" name="hozzajarulas">
+          <input type="checkbox" name="hozzajarulas" required>
           <span class="checkbox__box" aria-hidden="true"></span>
           <span class="checkbox__text">Elolvastam és elfogadom az <a href="#">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
@@ -752,37 +775,75 @@
     </div>
 
     <div class="reveal reveal--right">
-      <form class="form-card form-card--final" novalidate data-form>
+      <form class="form-card form-card--final" data-form>
         <div class="form-card__glow" aria-hidden="true"></div>
 
         <header class="form-card__head">
           <h3 class="h4">Kérj előzetes árajánlatot</h3>
-          <p class="muted">Írd le röviden, mire van szükséged.</p>
+          <p class="muted">Négy gyors kérdés, és már hívunk is.</p>
         </header>
 
-        <div class="field">
-          <label class="field__label" for="f2-nev">Név</label>
-          <input class="field__input" id="f2-nev" name="nev" type="text" placeholder="Ahogy szólíthatunk" autocomplete="name">
+        <fieldset class="qgroup">
+          <legend class="field__label">Milyen ingatlanról van szó?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f2-ingatlan" value="csaladi-haz"><span>Családi ház</span></label>
+          <label class="chip"><input type="radio" name="f2-ingatlan" value="tarsashaz"><span>Társasházi lakás</span></label>
+          <label class="chip"><input type="radio" name="f2-ingatlan" value="egyeb"><span>Egyéb (iroda, üzlet)</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qgroup">
+          <legend class="field__label">Hány nyílászárót érint a csere?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f2-darabszam" value="1-3"><span>1–3 db</span></label>
+          <label class="chip"><input type="radio" name="f2-darabszam" value="4-8"><span>4–8 db</span></label>
+          <label class="chip"><input type="radio" name="f2-darabszam" value="8-plusz"><span>8 db felett</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qgroup">
+          <legend class="field__label">Mire van szükséged?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f2-igeny" value="ablak"><span>Csak ablakra</span></label>
+          <label class="chip"><input type="radio" name="f2-igeny" value="ablak-redony"><span>Ablak és redőny</span></label>
+          <label class="chip"><input type="radio" name="f2-igeny" value="komplett"><span>Ablak, redőny és szúnyogháló</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qgroup">
+          <legend class="field__label">Mikor tervezed a cserét?</legend>
+          <div class="chips">
+          <label class="chip"><input type="radio" name="f2-idozites" value="azonnal"><span>Most azonnal</span></label>
+          <label class="chip"><input type="radio" name="f2-idozites" value="1-3-honap"><span>1–3 hónapon belül</span></label>
+          <label class="chip"><input type="radio" name="f2-idozites" value="tajekozodom"><span>Még csak tájékozódom</span></label>
+          </div>
+        </fieldset>
+        <div class="field-row">
+          <div class="field">
+            <label class="field__label" for="f2-nev">Név *</label>
+            <input class="field__input" id="f2-nev" name="nev" type="text" required placeholder="Ahogy szólíthatunk" autocomplete="name">
+          </div>
+          <div class="field">
+            <label class="field__label" for="f2-tel">Telefonszám *</label>
+            <input class="field__input" id="f2-tel" name="telefon" type="tel" required placeholder="Ahol elérünk" autocomplete="tel">
+          </div>
         </div>
 
         <div class="field-row">
           <div class="field">
-            <label class="field__label" for="f2-tel">Telefonszám</label>
-            <input class="field__input" id="f2-tel" name="telefon" type="tel" placeholder="Ahol elérünk" autocomplete="tel">
+            <label class="field__label" for="f2-email">E-mail-cím <span class="field__opt">nem kötelező</span></label>
+            <input class="field__input" id="f2-email" name="email" type="email" placeholder="Az ajánlathoz" autocomplete="email">
           </div>
           <div class="field">
-            <label class="field__label" for="f2-email">E-mail-cím</label>
-            <input class="field__input" id="f2-email" name="email" type="email" placeholder="Az ajánlathoz" autocomplete="email">
+            <label class="field__label" for="f2-hely">Hol van az ingatlan? *</label>
+            <input class="field__input" id="f2-hely" name="helyszin" type="text" required placeholder="Település vagy megye" autocomplete="address-level2">
           </div>
         </div>
 
         <div class="field">
-          <label class="field__label" for="f2-uzenet">Mire van szükséged?</label>
-          <textarea class="field__input field__textarea" id="f2-uzenet" name="uzenet" rows="4" placeholder="Megoldás, település, darabszám, hozzávetőleges méretek, tervezett időpont"></textarea>
+          <label class="field__label" for="f2-uzenet">Megjegyzés <span class="field__opt">nem kötelező</span></label>
+          <textarea class="field__input field__textarea" id="f2-uzenet" name="uzenet" rows="3" placeholder="Hozzávetőleges méretek, egyéb tudnivaló"></textarea>
         </div>
 
         <label class="checkbox">
-          <input type="checkbox" name="hozzajarulas">
+          <input type="checkbox" name="hozzajarulas" required>
           <span class="checkbox__box" aria-hidden="true"></span>
           <span class="checkbox__text">Elolvastam és elfogadom az <a href="#">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
