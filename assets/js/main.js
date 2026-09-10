@@ -11,6 +11,7 @@
    08. Folyamat idővonal töltése
    09. Mobil ragadós CTA sáv
    10. Űrlapok (demó viselkedés — nincs valódi beküldés)
+   11. Jogi dokumentumok panel (impresszum, adatkezelés, süti)
    ============================================================ */
 (function () {
   'use strict';
@@ -332,6 +333,122 @@
       status.textContent = 'Az űrlap beküldése még nincs bekötve. Éles működésnél itt jelenik meg a visszaigazolás.';
     });
   });
+
+  /* ---------- 11. JOGI DOKUMENTUMOK PANEL ---------- */
+  /* A három jogi dokumentum az oldal része: külön oldal helyett
+     itt, helyben nyílik meg, fülekkel váltható, és mély linkelhető
+     (#impresszum, #adatkezelesi-tajekoztato, #suti-szabalyzat). */
+  var legalModal = $('#legal-modal');
+
+  if (legalModal) {
+    var LEGAL_HASH = {
+      impresszum: 'impresszum',
+      adatkezeles: 'adatkezelesi-tajekoztato',
+      suti: 'suti-szabalyzat'
+    };
+    var legalBody = $('[data-legal-body]', legalModal);
+    var legalTabs = $$('[data-legal-tab]', legalModal);
+    var legalDocs = $$('[data-legal-doc]', legalModal);
+    var legalLast = null;
+
+    function keyFromHash(hash) {
+      var h = String(hash || '').replace(/^#/, '');
+      for (var k in LEGAL_HASH) { if (LEGAL_HASH[k] === h) return k; }
+      return null;
+    }
+
+    function showLegalDoc(key, moveFocus) {
+      var found = false;
+      legalDocs.forEach(function (doc) {
+        var on = doc.getAttribute('data-legal-doc') === key;
+        doc.hidden = !on;
+        if (on) found = true;
+      });
+      if (!found) return false;
+      legalTabs.forEach(function (tab) {
+        var on = tab.getAttribute('data-legal-tab') === key;
+        tab.classList.toggle('is-active', on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+        if (on && moveFocus) tab.focus();
+      });
+      if (legalBody) legalBody.scrollTop = 0;
+      if (history.replaceState) {
+        history.replaceState(null, '', '#' + LEGAL_HASH[key]);
+      }
+      return true;
+    }
+
+    function openLegal(key) {
+      if (!showLegalDoc(key, false)) return;
+      legalLast = document.activeElement;
+      legalModal.hidden = false;
+      document.body.classList.add('is-locked');
+      /* A dokumentumra fókuszálunk, nem a fülre: így nem ugrik elő
+         fókuszkeret nyitáskor, de a Tab és a felolvasó a panelben marad. */
+      var doc = legalDocs.filter(function (d) { return !d.hidden; })[0];
+      if (doc) doc.focus();
+    }
+
+    function closeLegal() {
+      if (legalModal.hidden) return;
+      legalModal.hidden = true;
+      document.body.classList.remove('is-locked');
+      if (history.replaceState) {
+        history.replaceState(null, '', location.pathname + location.search);
+      }
+      if (legalLast && legalLast.focus) legalLast.focus();
+    }
+
+    $$('[data-legal]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        openLegal(link.getAttribute('data-legal'));
+      });
+    });
+
+    legalTabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () {
+        showLegalDoc(tab.getAttribute('data-legal-tab'), false);
+      });
+      tab.addEventListener('keydown', function (e) {
+        var delta = e.key === 'ArrowRight' ? 1 : (e.key === 'ArrowLeft' ? -1 : 0);
+        if (!delta) return;
+        e.preventDefault();
+        var next = legalTabs[(i + delta + legalTabs.length) % legalTabs.length];
+        showLegalDoc(next.getAttribute('data-legal-tab'), true);
+      });
+    });
+
+    $$('[data-legal-close]', legalModal).forEach(function (el) {
+      el.addEventListener('click', closeLegal);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (legalModal.hidden) return;
+      if (e.key === 'Escape') closeLegal();
+    });
+
+    /* Fókuszcsapda */
+    legalModal.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var focusables = $$('button, [href], input, select, textarea', legalModal)
+        .filter(function (el) { return el.offsetParent !== null && el.tabIndex !== -1; });
+      if (!focusables.length) return;
+      var first = focusables[0];
+      var last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    /* Mély link: az oldal betöltésekor és hash-váltáskor */
+    var initialKey = keyFromHash(location.hash);
+    if (initialKey) openLegal(initialKey);
+    window.addEventListener('hashchange', function () {
+      var k = keyFromHash(location.hash);
+      if (k) openLegal(k);
+    });
+  }
 
   /* Kezdeti állapotok beállítása */
   onScroll();

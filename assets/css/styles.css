@@ -1862,25 +1862,99 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 
 /* ==========================================================================
-   14 · JOGI OLDALAK (impresszum, adatkezelés, süti)
+   14 · JOGI DOKUMENTUMOK PANEL (impresszum, adatkezelés, süti)
    ========================================================================== */
 
-.legal-page{background:var(--bg-1)}
+/* Panelkeret — a dokumentumok az oldalon belül nyílnak */
+.legal-modal{position:fixed;inset:0;z-index:160;display:flex;align-items:center;justify-content:center;padding:clamp(12px,3vw,32px)}
+.legal-modal[hidden]{display:none}
+.legal-modal__backdrop{
+  position:absolute;inset:0;
+  background:rgba(28,27,26,.62);
+  backdrop-filter:blur(3px);
+  animation:legalFade var(--dur) var(--ease) both;
+}
+.legal-modal__panel{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;
+  width:min(880px,100%);min-width:0;
+  max-height:100%;
+  background:var(--bg-1);
+  border:1px solid var(--border);
+  box-shadow:0 24px 70px rgba(28,27,26,.28);
+  animation:legalRise var(--dur) var(--ease) both;
+}
+@keyframes legalFade{from{opacity:0}to{opacity:1}}
+@keyframes legalRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .legal-modal__backdrop,.legal-modal__panel{animation:none}
+}
 
-.legal-head{
-  position:sticky;top:0;z-index:80;
-  background:rgba(255,255,255,.94);
-  backdrop-filter:saturate(140%) blur(10px);
+.legal-modal__head{
+  display:flex;align-items:center;gap:12px;
+  padding:0 8px 0 clamp(14px,2.4vw,26px);
   border-bottom:1px solid var(--border);
+  background:var(--bg-1);
 }
-.legal-head__inner{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  min-height:68px;
+.legal-modal__tabs{
+  display:flex;flex:1;min-width:0;
+  overflow-x:auto;
+  scrollbar-width:none;
 }
+.legal-modal__tabs::-webkit-scrollbar{display:none}
+/* halk jelzés, hogy a fülsor oldalra görgethető szűk kijelzőn */
+@supports (mask-image:linear-gradient(#000,#000)){
+  @media (max-width:640px){
+    .legal-modal__tabs{
+      mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);
+      -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);
+    }
+  }
+}
+.legal-modal__tab{
+  flex:none;
+  padding:16px 14px;
+  border:0;background:none;cursor:pointer;
+  color:var(--text-muted);
+  font:inherit;font-size:13.5px;font-weight:500;
+  white-space:nowrap;
+  box-shadow:inset 0 -2px 0 transparent;
+  transition:color var(--dur) var(--ease),box-shadow var(--dur) var(--ease);
+}
+.legal-modal__tab:hover{color:var(--ink)}
+.legal-modal__tab.is-active{
+  color:var(--accent-dark);font-weight:600;
+  box-shadow:inset 0 -2px 0 var(--accent);
+}
+.legal-modal__close{
+  flex:none;
+  display:grid;place-items:center;
+  width:38px;height:38px;
+  border:1px solid var(--border);background:var(--bg-1);
+  color:var(--text-muted);cursor:pointer;
+  transition:color var(--dur) var(--ease),background var(--dur) var(--ease),border-color var(--dur) var(--ease);
+}
+.legal-modal__close svg{width:17px;height:17px}
+.legal-modal__close:hover{color:var(--on-brown);background:var(--accent);border-color:var(--accent)}
 
-.legal{padding-block:clamp(38px,6vw,72px) clamp(48px,7vw,96px)}
-.legal__inner{max-width:840px}
-.legal__lead{margin-bottom:clamp(28px,4vw,44px);max-width:64ch}
+.legal-modal__body{
+  flex:1;min-height:0;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding:clamp(24px,3.4vw,38px) clamp(18px,3vw,38px) clamp(28px,4vw,44px);
+}
+.legal-doc[hidden]{display:none}
+.legal-doc:focus{outline:none}
+
+.legal-modal__foot{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  padding:12px clamp(14px,2.4vw,26px);
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+}
+.legal-modal__foot p{margin:0;color:var(--text-muted);font-size:12px;line-height:1.55}
+
+.legal__lead{margin-bottom:clamp(24px,3.4vw,36px);max-width:64ch}
 
 .legal__sec{
   padding-top:clamp(24px,3.2vw,34px);
@@ -1907,16 +1981,16 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   margin:24px 0 10px;
 }
 
-.legal p{
+.legal-doc p{
   color:var(--text-muted);
   font-size:15px;line-height:1.78;
   margin-bottom:14px;
   max-width:72ch;
 }
-.legal p:last-child{margin-bottom:0}
-.legal strong{color:var(--ink);font-weight:600}
-.legal a{color:var(--accent-dark);text-decoration:underline;text-underline-offset:2px}
-.legal a:hover{color:var(--accent)}
+.legal-doc p:last-child{margin-bottom:0}
+.legal-doc strong{color:var(--ink);font-weight:600}
+.legal-doc a{color:var(--accent-dark);text-decoration:underline;text-underline-offset:2px}
+.legal-doc a:hover{color:var(--accent)}
 
 .legal__list{
   margin:0 0 14px;padding:0;list-style:none;
@@ -1995,25 +2069,13 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   font-size:13.5px;line-height:1.65;
 }
 
-.legal-foot{
-  border-top:1px solid var(--border);
-  background:var(--bg-2);
-  padding-block:26px;
-}
-.legal-foot__inner{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;flex-wrap:wrap;
-}
-.legal-foot p{
-  margin:0;color:var(--text-muted);
-  font-size:12.5px;line-height:1.6;
-}
-.legal-foot .footer__legal a{text-decoration:none}
-
 @media (max-width:640px){
-  .legal-head__inner{min-height:60px}
+  .legal-modal{padding:0}
+  .legal-modal__panel{width:100%;height:100%;max-height:100%;border:0}
+  .legal-modal__tab{padding:14px 11px;font-size:13px}
   .legal__h2{gap:10px}
   .legal__row{grid-template-columns:1fr;gap:3px;padding:12px 14px}
   .legal__row dt{padding-top:0}
-  .legal-foot__inner{flex-direction:column;align-items:flex-start;gap:12px}
+  .legal-modal__foot p{display:none}
+  .legal-modal__foot{justify-content:flex-end}
 }

@@ -314,7 +314,7 @@
         <label class="checkbox">
           <input type="checkbox" name="hozzajarulas" required>
           <span class="checkbox__box" aria-hidden="true"></span>
-          <span class="checkbox__text">Elolvastam és elfogadom az <a href="adatkezelesi-tajekoztato.html" target="_blank" rel="noopener">adatkezelési tájékoztatóban</a> foglaltakat.</span>
+          <span class="checkbox__text">Elolvastam és elfogadom az <a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
 
         <button class="btn btn--primary btn--block" type="submit">
@@ -845,7 +845,7 @@
         <label class="checkbox">
           <input type="checkbox" name="hozzajarulas" required>
           <span class="checkbox__box" aria-hidden="true"></span>
-          <span class="checkbox__text">Elolvastam és elfogadom az <a href="adatkezelesi-tajekoztato.html" target="_blank" rel="noopener">adatkezelési tájékoztatóban</a> foglaltakat.</span>
+          <span class="checkbox__text">Elolvastam és elfogadom az <a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
 
         <button class="btn btn--primary btn--block" type="submit">
@@ -926,9 +926,9 @@
   <div class="container footer__bottom">
     <p class="footer__copy">© <span data-year>2026</span> LupaTherm Kft. Minden jog fenntartva.</p>
     <ul class="footer__legal">
-      <li><a href="adatkezelesi-tajekoztato.html">Adatkezelési tájékoztató</a></li>
-      <li><a href="suti-szabalyzat.html">Süti szabályzat</a></li>
-      <li><a href="impresszum.html">Impresszum</a></li>
+      <li><a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">Adatkezelési tájékoztató</a></li>
+      <li><a href="#suti-szabalyzat" data-legal="suti">Süti szabályzat</a></li>
+      <li><a href="#impresszum" data-legal="impresszum">Impresszum</a></li>
     </ul>
   </div>
 </footer>
@@ -937,6 +937,268 @@
 <div class="mobile-cta" id="mobile-cta">
   <a class="btn btn--ghost btn--sm" href="tel:+36301131261">Hívás</a>
   <a class="btn btn--primary btn--sm" href="#ajanlatkeres">Árajánlatot kérek</a>
+</div>
+
+<!-- Jogi dokumentumok — az oldalon belül nyíló panel -->
+<div class="legal-modal" id="legal-modal" role="dialog" aria-modal="true" aria-label="Jogi dokumentumok" hidden>
+  <div class="legal-modal__backdrop" data-legal-close></div>
+  <div class="legal-modal__panel">
+    <header class="legal-modal__head">
+      <div class="legal-modal__tabs" role="tablist" aria-label="Jogi dokumentumok">
+        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="impresszum" id="legal-tab-impresszum" aria-controls="legal-doc-impresszum" aria-selected="false" tabindex="-1">Impresszum</button>
+        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="adatkezeles" id="legal-tab-adatkezeles" aria-controls="legal-doc-adatkezeles" aria-selected="false" tabindex="-1">Adatkezelési tájékoztató</button>
+        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="suti" id="legal-tab-suti" aria-controls="legal-doc-suti" aria-selected="false" tabindex="-1">Süti szabályzat</button>
+      </div>
+      <button class="legal-modal__close" type="button" data-legal-close aria-label="Bezárás">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+    <div class="legal-modal__body" data-legal-body>
+      <article class="legal-doc" id="legal-doc-impresszum" role="tabpanel" aria-labelledby="legal-tab-impresszum" data-legal-doc="impresszum" tabindex="-1" hidden>
+          <p class="lead legal__lead">A weboldal üzemeltetőjének adatai és a szolgáltatásra vonatkozó legfontosabb tudnivalók.</p>
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">01</span>Szolgáltató adatai</h2>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Cégnév</dt><dd>Lupa Therm Kft.</dd></div>
+              <div class="legal__row"><dt>Székhely és számlázási cím</dt><dd>2433 Sárosd, Munkácsy Mihály utca 21.</dd></div>
+              <div class="legal__row"><dt>Adószám</dt><dd>27993024-2-07</dd></div>
+              <div class="legal__row"><dt>Cégjegyzékszám</dt><dd>07-09-031217</dd></div>
+              <div class="legal__row"><dt>Főtevékenység</dt><dd>4332 '08 Épületasztalos-szerkezet szerelése</dd></div>
+              <div class="legal__row"><dt>Képviselő</dt><dd>Polányi Ádám</dd></div>
+              <div class="legal__row"><dt>Telefon</dt><dd><a href="tel:+36301131261">+36 30 113 1261</a> · <a href="tel:+36305307556">+36 30 530 7556</a></dd></div>
+              <div class="legal__row"><dt>E-mail</dt><dd><a href="mailto:polanyiablak@gmail.com">polanyiablak@gmail.com</a></dd></div>
+            </dl>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">02</span>Tárhelyszolgáltató</h2>
+            <p>A weboldal tárhelyét az alábbi szolgáltató biztosítja:</p>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Név</dt><dd>[TÁRHELYSZOLGÁLTATÓ NEVE]</dd></div>
+              <div class="legal__row"><dt>Székhely</dt><dd>[TÁRHELYSZOLGÁLTATÓ CÍME]</dd></div>
+              <div class="legal__row"><dt>E-mail</dt><dd>[TÁRHELYSZOLGÁLTATÓ E-MAIL-CÍME]</dd></div>
+            </dl>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">03</span>Panaszkezelés, vitarendezés</h2>
+            <p>Panaszát írásban a 2433 Sárosd, Munkácsy Mihály utca 21. címre vagy a <a href="mailto:polanyiablak@gmail.com">polanyiablak@gmail.com</a> e-mail-címre küldheti. Fogyasztói jogvita esetén a lakóhelye szerint illetékes békéltető testülethez fordulhat. A szolgáltató székhelye szerint illetékes testület: <strong>Fejér Vármegyei Békéltető Testület</strong> (8000 Székesfehérvár, Hosszúsétatér 4–6.).</p>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">04</span>Szerzői jogok</h2>
+            <p>A weboldalon megjelenő szövegek, fotók és grafikai elemek a szolgáltató, illetve szerződéses partnerei tulajdonát képezik. Ezek engedély nélküli felhasználása, másolása vagy terjesztése nem megengedett.</p>
+          </section>
+
+
+          <p class="legal__updated">Hatályos: <strong>[HATÁLYBALÉPÉS DÁTUMA]</strong>-tól visszavonásig vagy módosításig.</p>
+      </article>
+      <article class="legal-doc" id="legal-doc-adatkezeles" role="tabpanel" aria-labelledby="legal-tab-adatkezeles" data-legal-doc="adatkezeles" tabindex="-1" hidden>
+          <p class="lead legal__lead">Ez a tájékoztató a Lupa Therm Kft. weboldalán folytatott adatkezelésre vonatkozik. Adatait a jogszabályok előírásainak megfelelően, a legnagyobb körültekintéssel kezeljük.</p>
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">01</span>Az adatkezelő adatai</h2>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Cégnév</dt><dd>Lupa Therm Kft.</dd></div>
+              <div class="legal__row"><dt>Székhely és számlázási cím</dt><dd>2433 Sárosd, Munkácsy Mihály utca 21.</dd></div>
+              <div class="legal__row"><dt>Adószám</dt><dd>27993024-2-07</dd></div>
+              <div class="legal__row"><dt>Cégjegyzékszám</dt><dd>07-09-031217</dd></div>
+              <div class="legal__row"><dt>Főtevékenység</dt><dd>4332 '08 Épületasztalos-szerkezet szerelése</dd></div>
+              <div class="legal__row"><dt>Képviselő</dt><dd>Polányi Ádám</dd></div>
+              <div class="legal__row"><dt>Telefon</dt><dd><a href="tel:+36301131261">+36 30 113 1261</a> · <a href="tel:+36305307556">+36 30 530 7556</a></dd></div>
+              <div class="legal__row"><dt>E-mail</dt><dd><a href="mailto:polanyiablak@gmail.com">polanyiablak@gmail.com</a></dd></div>
+            </dl>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">02</span>Irányadó jogszabályok</h2>
+            <ul class="legal__list">
+              <li>Az Európai Parlament és a Tanács (EU) 2016/679 rendelete (GDPR)</li>
+              <li>Az információs önrendelkezési jogról és az információszabadságról szóló 2011. évi CXII. törvény (Infotv.)</li>
+              <li>Magyarország Alaptörvénye</li>
+              <li>A Polgári Törvénykönyvről szóló 2013. évi V. törvény (Ptk.)</li>
+              <li>Az elektronikus hírközlésről szóló 2003. évi C. törvény (Eht.)</li>
+              <li>Az adózás rendjéről szóló 2017. évi CL. törvény (Art.)</li>
+              <li>A számvitelről szóló 2000. évi C. törvény (Sztv.)</li>
+              <li>A fogyasztóvédelemről szóló 1997. évi CLV. törvény</li>
+              <li>A gazdasági reklámtevékenységről szóló 2008. évi XLVIII. törvény (Grtv.)</li>
+            </ul>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">03</span>Fogalmak</h2>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Személyes adat</dt><dd>Az érintettre vonatkozó bármely információ: név, azonosító, helymeghatározó adat, online azonosító, illetve a természetes személy fizikai, gazdasági vagy kulturális azonosságára vonatkozó adat.</dd></div>
+              <div class="legal__row"><dt>Adatkezelés</dt><dd>A személyes adatokon végzett bármely művelet: gyűjtés, rögzítés, tárolás, módosítás, lekérdezés, továbbítás, törlés.</dd></div>
+              <div class="legal__row"><dt>Adatkezelő</dt><dd>Aki a személyes adatok kezelésének célját és eszközeit meghatározza.</dd></div>
+              <div class="legal__row"><dt>Adatfeldolgozó</dt><dd>Aki az adatkezelő nevében személyes adatokat kezel.</dd></div>
+              <div class="legal__row"><dt>Érintett</dt><dd>Az azonosított vagy azonosítható természetes személy, akire a személyes adat vonatkozik.</dd></div>
+              <div class="legal__row"><dt>Adatvédelmi incidens</dt><dd>A biztonság olyan sérülése, amely a kezelt személyes adatok véletlen vagy jogellenes megsemmisítését, elvesztését, megváltoztatását vagy jogosulatlan közlését eredményezi.</dd></div>
+              <div class="legal__row"><dt>NAIH</dt><dd>Nemzeti Adatvédelmi és Információszabadság Hatóság — a GDPR szerinti magyar felügyeleti hatóság.</dd></div>
+            </dl>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">04</span>Az adatkezelés alapelvei</h2>
+            <ul class="legal__list">
+              <li><strong>Jogszerűség, tisztességes eljárás, átláthatóság.</strong> Az adatkezelést jogszerűen és átlátható módon végezzük.</li>
+              <li><strong>Célhoz kötöttség.</strong> A gyűjtés csak meghatározott, egyértelmű és jogszerű célból történik.</li>
+              <li><strong>Adattakarékosság.</strong> Csak a célhoz szükséges minimális adatot kezeljük.</li>
+              <li><strong>Pontosság.</strong> Az adatok pontosak és naprakészek; a pontatlan adatokat töröljük vagy helyesbítjük.</li>
+              <li><strong>Korlátozott tárolhatóság.</strong> Az adatokat csak a cél eléréséhez szükséges ideig tároljuk.</li>
+              <li><strong>Integritás és bizalmas jelleg.</strong> Megfelelő technikai és szervezési intézkedésekkel biztosítjuk az adatok biztonságát.</li>
+            </ul>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">05</span>A kezelt adatok köre</h2>
+            <p><strong>Ajánlatkérés a weboldal űrlapján.</strong> Érintettek: azok a természetes és jogi személyek, akik a weboldalon ajánlatot kérnek. Az adatokat az ajánlat elkészítéséhez és a kapcsolattartáshoz használjuk.</p>
+            <div class="legal__table-wrap">
+              <table class="legal__table">
+                <thead><tr><th>Adatfajta</th><th>Jogalap</th><th>Őrzési idő</th></tr></thead>
+                <tbody>
+                  <tr><td>Név</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                  <tr><td>Telefonszám</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                  <tr><td>E-mail-cím (opcionális)</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                  <tr><td>Ingatlan helyszíne (település, megye)</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                  <tr><td>Az igényre vonatkozó válaszok (ingatlan típusa, darabszám, igényelt megoldás, tervezett időpont)</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                  <tr><td>Megjegyzés mezőben megadott adatok</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Szerződéskötés és számlázás esetén a számviteli bizonylatokat a Sztv. 169. § alapján <strong>8 évig</strong> őrizzük meg; ennek jogalapja a GDPR 6. cikk (1) c) pontja (jogi kötelezettség teljesítése).</p>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">06</span>Az adatok biztonsága</h2>
+            <p>Az adatokat megfelelő intézkedésekkel védjük a jogosulatlan hozzáférés, megváltoztatás, továbbítás, nyilvánosságra hozatal, törlés vagy megsemmisítés ellen. A személyes adatokhoz csak azok a munkatársaink férnek hozzá, akiknek a feladataik ellátásához erre szükségük van.</p>
+            <ul class="legal__list">
+              <li>Felmérjük és folyamatosan csökkentjük a lehetséges kockázatokat.</li>
+              <li>Figyelemmel kísérjük a felmerülő fenyegetéseket és sérülékenységeket.</li>
+              <li>Védjük az informatikai eszközöket és a papíralapú dokumentumokat.</li>
+              <li>Az üzemeltetésben részt vevő szolgáltatókat megbízhatóság alapján választjuk.</li>
+            </ul>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">07</span>Adattovábbítás, adatfeldolgozók</h2>
+            <p>Személyes adatait kizárólag az alábbi adatfeldolgozóinknak továbbítjuk, illetve hatósági megkeresés esetén a hatóságoknak. Minden adatfeldolgozóval írásbeli megállapodást kötünk.</p>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Tárhelyszolgáltató</dt><dd>[TÁRHELYSZOLGÁLTATÓ NEVE ÉS SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>Az űrlapadatok fogadása és tárolása</dt><dd>[ŰRLAP- VAGY CRM-SZOLGÁLTATÓ NEVE ÉS SZÉKHELYE]</dd></div>
+            </dl>
+            <p><em>A fenti mezőket a weboldal éles indulása előtt, a tényleges szolgáltatók megnevezésével kell kitölteni.</em></p>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">08</span>Az Ön jogai</h2>
+            <h3 class="legal__h3">Előzetes tájékoztatáshoz való jog</h3>
+            <p>Az adatkezelés megkezdése előtt átlátható, érthető és könnyen hozzáférhető tájékoztatást kap.</p>
+            <h3 class="legal__h3">A hozzáférés joga</h3>
+            <p>Visszajelzést kérhet arról, folyamatban van-e az adatainak kezelése, és hozzáférhet az adatokhoz, a célokhoz, a címzettekhez és a tárolási időhöz.</p>
+            <h3 class="legal__h3">A helyesbítéshez való jog</h3>
+            <p>Kérheti a pontatlan adatok helyesbítését vagy a hiányos adatok kiegészítését.</p>
+            <h3 class="legal__h3">A törléshez való jog</h3>
+            <p>Kérheti adatai törlését, például ha visszavonja hozzájárulását, vagy ha az adatkezelés célja megszűnt.</p>
+            <h3 class="legal__h3">Az adatkezelés korlátozásához való jog</h3>
+            <p>Kérheti a korlátozást, ha vitatja az adatok pontosságát, vagy ha tiltakozott az adatkezelés ellen.</p>
+            <h3 class="legal__h3">Adathordozhatósághoz való jog</h3>
+            <p>Kérheti, hogy adatait tagolt, géppel olvasható formátumban megkapja, és továbbítsa másik adatkezelőnek.</p>
+            <h3 class="legal__h3">A tiltakozáshoz való jog</h3>
+            <p>Tiltakozhat adatai kezelése ellen, különösen közvetlen üzletszerzés céljából történő kezelés esetén.</p>
+            <h3 class="legal__h3">Értesítés adatvédelmi incidensről</h3>
+            <p>Tájékoztatást kap az őt érintő incidensről, ha az magas kockázattal jár a jogaira nézve.</p>
+            <h3 class="legal__h3">Panasztétel a felügyeleti hatóságnál</h3>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Hatóság</dt><dd>Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</dd></div>
+              <div class="legal__row"><dt>Postacím</dt><dd>1363 Budapest, Pf. 9.</dd></div>
+              <div class="legal__row"><dt>Székhely</dt><dd>1055 Budapest, Falk Miksa utca 9–11.</dd></div>
+              <div class="legal__row"><dt>Telefon</dt><dd><a href="tel:+3613911400">06-1-391-1400</a></dd></div>
+              <div class="legal__row"><dt>E-mail</dt><dd><a href="mailto:ugyfelszolgalat@naih.hu">ugyfelszolgalat@naih.hu</a></dd></div>
+              <div class="legal__row"><dt>Honlap</dt><dd><a href="https://www.naih.hu" target="_blank" rel="noopener">www.naih.hu</a></dd></div>
+            </dl>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">09</span>Jogainak gyakorlása</h2>
+            <p>Jogait az alábbi elérhetőségeken, írásban gyakorolhatja. Minden megkeresésre legfeljebb <strong>15 munkanapon belül</strong> válaszolunk.</p>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>E-mail</dt><dd><a href="mailto:polanyiablak@gmail.com">polanyiablak@gmail.com</a></dd></div>
+              <div class="legal__row"><dt>Telefon</dt><dd><a href="tel:+36301131261">+36 30 113 1261</a> · <a href="tel:+36305307556">+36 30 530 7556</a></dd></div>
+              <div class="legal__row"><dt>Postacím</dt><dd>2433 Sárosd, Munkácsy Mihály utca 21.</dd></div>
+            </dl>
+          </section>
+
+
+          <p class="legal__updated">Hatályos: <strong>[HATÁLYBALÉPÉS DÁTUMA]</strong>-tól visszavonásig vagy módosításig.</p>
+      </article>
+      <article class="legal-doc" id="legal-doc-suti" role="tabpanel" aria-labelledby="legal-tab-suti" data-legal-doc="suti" tabindex="-1" hidden>
+          <p class="lead legal__lead">Ez a szabályzat a Lupa Therm Kft. weboldalán alkalmazott sütikre vonatkozik. A weboldal használatával elfogadja a szabályzat rendelkezéseit.</p>
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">01</span>Mik azok a sütik?</h2>
+            <p>A sütik (cookie-k) kisméretű adatfájlok, amelyeket a weboldal küld a böngészőjének, és amelyeket a böngésző eltárol. Segítik a weboldal működését, javítják a felhasználói élményt, és lehetővé tehetik a felhasználói viselkedés elemzését.</p>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">02</span>Hogyan működnek?</h2>
+            <p>A rendszer egy egyedi azonosítót hoz létre, amelyet a böngésző eltárol. Visszatéréskor a böngésző elküldi ezt az azonosítót. Ezen alapulhat például:</p>
+            <ul class="legal__list">
+              <li>a sütibeállítások megjegyzése</li>
+              <li>űrlapértékek ideiglenes tárolása</li>
+              <li>statisztikai adatgyűjtés</li>
+              <li>beágyazott tartalmak (például videó) működése</li>
+            </ul>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">03</span>Milyen sütiket használ ez a weboldal?</h2>
+            <p><strong>Ez a weboldal jelenleg nem használ saját statisztikai, hirdetési vagy kampánykövető sütit.</strong> A működéshez szükséges technikai adatokon túl kizárólag a beágyazott tartalom szolgáltatója helyezhet el sütit:</p>
+            <dl class="legal__dl">
+              <div class="legal__row"><dt>Beágyazott videó (Facebook / Meta)</dt><dd>A főoldalon beágyazott videó lejátszója a Meta Platforms szervereiről töltődik be, és a szolgáltató sütiket helyezhet el az Ön eszközén. Részletek: <a href="https://www.facebook.com/policies/cookies/" target="_blank" rel="noopener">Meta süti-tájékoztató</a>.</dd></div>
+              <div class="legal__row"><dt>Betűtípusok (Google Fonts)</dt><dd>A weboldal betűtípusai a Google szervereiről töltődnek be. Ennek során a szolgáltató megismerheti az Ön IP-címét. Részletek: <a href="https://policies.google.com/privacy?hl=hu" target="_blank" rel="noopener">Google adatvédelmi irányelvek</a>.</dd></div>
+            </dl>
+            <p><em>[HA A JÖVŐBEN STATISZTIKAI VAGY HIRDETÉSI ESZKÖZ KERÜL AZ OLDALRA — például Google Analytics, Google Ads, Meta Pixel —, azt itt kell felsorolni, és a bevezetés előtt sütikezelő felületet kell működtetni.]</em></p>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">04</span>A sütik kezelése és kikapcsolása</h2>
+            <p>Böngészőjében bármikor módosíthatja vagy törölheti a sütiket. Felhívjuk a figyelmét, hogy a tiltás csökkentheti a weboldal működésének minőségét, és a beágyazott videó nem feltétlenül lesz elérhető.</p>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">05</span>Böngésző-specifikus beállítások</h2>
+            <ul class="legal__list">
+              <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+              <li><a href="https://support.mozilla.org/hu/kb/sutik-engedelyezese-es-tiltasa" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+              <li><a href="https://support.microsoft.com/hu-hu/microsoft-edge" target="_blank" rel="noopener">Microsoft Edge</a></li>
+              <li><a href="https://support.apple.com/hu-hu/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari (Mac)</a></li>
+            </ul>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">06</span>Jogszabályi háttér</h2>
+            <ul class="legal__list">
+              <li>2003. évi C. törvény az elektronikus hírközlésről</li>
+              <li>2001. évi CVIII. törvény az elektronikus kereskedelmi szolgáltatásokról</li>
+              <li>2011. évi CXII. törvény az információs önrendelkezési jogról</li>
+              <li>2002/58/EK irányelv</li>
+              <li>GDPR — az Európai Parlament és a Tanács (EU) 2016/679 rendelete</li>
+            </ul>
+          </section>
+
+          <section class="legal__sec">
+            <h2 class="legal__h2"><span class="legal__num">07</span>Kérdése van?</h2>
+            <p>Süti szabályzatunkkal kapcsolatos kérdéseit az alábbi elérhetőségen várjuk: <a href="mailto:polanyiablak@gmail.com">polanyiablak@gmail.com</a></p>
+          </section>
+
+
+          <p class="legal__updated">Hatályos: <strong>[HATÁLYBALÉPÉS DÁTUMA]</strong>-tól visszavonásig vagy módosításig.</p>
+      </article>
+    </div>
+    <footer class="legal-modal__foot">
+      <p>Lupa Therm Kft. · 2433 Sárosd, Munkácsy Mihály utca 21. · Adószám: 27993024-2-07</p>
+      <button class="btn btn--ghost btn--sm" type="button" data-legal-close>Bezárás</button>
+    </footer>
+  </div>
 </div>
 
 <!-- Lightbox -->
