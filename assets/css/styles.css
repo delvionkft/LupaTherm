@@ -1860,3 +1860,160 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   .header,.mobile-cta,.lightbox,.hero__bg,.section__glow,.footer__watermark{display:none !important}
   body{background:#fff;color:#000}
 }
+
+/* ==========================================================================
+   14 · JOGI OLDALAK (impresszum, adatkezelés, süti)
+   ========================================================================== */
+
+.legal-page{background:var(--bg-1)}
+
+.legal-head{
+  position:sticky;top:0;z-index:80;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:saturate(140%) blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.legal-head__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:68px;
+}
+
+.legal{padding-block:clamp(38px,6vw,72px) clamp(48px,7vw,96px)}
+.legal__inner{max-width:840px}
+.legal__lead{margin-bottom:clamp(28px,4vw,44px);max-width:64ch}
+
+.legal__sec{
+  padding-top:clamp(24px,3.2vw,34px);
+  margin-top:clamp(24px,3.2vw,34px);
+  border-top:1px solid var(--border);
+}
+.legal__sec:first-of-type{border-top:0;margin-top:0;padding-top:0}
+
+.legal__h2{
+  display:flex;align-items:baseline;gap:14px;
+  font-size:clamp(19px,2.1vw,25px);
+  font-weight:600;line-height:1.24;letter-spacing:-.012em;
+  margin-bottom:16px;
+}
+.legal__num{
+  flex:none;
+  font-size:12px;font-weight:600;letter-spacing:.08em;
+  color:var(--accent);
+  font-variant-numeric:tabular-nums;
+}
+
+.legal__h3{
+  font-size:16.5px;font-weight:600;line-height:1.35;
+  margin:24px 0 10px;
+}
+
+.legal p{
+  color:var(--text-muted);
+  font-size:15px;line-height:1.78;
+  margin-bottom:14px;
+  max-width:72ch;
+}
+.legal p:last-child{margin-bottom:0}
+.legal strong{color:var(--ink);font-weight:600}
+.legal a{color:var(--accent-dark);text-decoration:underline;text-underline-offset:2px}
+.legal a:hover{color:var(--accent)}
+
+.legal__list{
+  margin:0 0 14px;padding:0;list-style:none;
+  display:flex;flex-direction:column;gap:9px;max-width:72ch;
+}
+.legal__list li{
+  position:relative;padding-left:20px;
+  color:var(--text-muted);font-size:15px;line-height:1.7;
+}
+.legal__list li::before{
+  content:"";position:absolute;left:0;top:.62em;
+  width:7px;height:1.5px;background:var(--accent);
+}
+.legal__list li:last-child{margin-bottom:0}
+.legal__list strong{color:var(--ink)}
+
+.legal__dl{
+  margin:0 0 14px;
+  border:1px solid var(--border);
+  background:var(--card-2);
+}
+.legal__row{
+  display:grid;
+  grid-template-columns:minmax(160px,34%) 1fr;
+  gap:0 20px;
+  padding:11px 16px;
+  border-bottom:1px solid var(--border-soft);
+}
+.legal__row:last-child{border-bottom:0}
+.legal__row dt{
+  color:var(--text-muted);
+  font-size:12px;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;
+  line-height:1.5;padding-top:2px;
+}
+.legal__row dd{
+  margin:0;color:var(--ink);
+  font-size:15px;line-height:1.55;
+}
+
+.legal__table-wrap{
+  margin:0 0 14px;
+  overflow-x:auto;
+  border:1px solid var(--border);
+  -webkit-overflow-scrolling:touch;
+}
+.legal__table{
+  width:100%;min-width:520px;
+  border-collapse:collapse;
+  font-size:14px;
+}
+.legal__table th,
+.legal__table td{
+  padding:11px 14px;
+  text-align:left;vertical-align:top;
+  border-bottom:1px solid var(--border-soft);
+  line-height:1.6;
+}
+.legal__table th{
+  background:var(--card-2);
+  color:var(--ink);
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.legal__table td{color:var(--text-muted)}
+.legal__table tr:last-child th,
+.legal__table tr:last-child td{border-bottom:0}
+
+.legal__updated{
+  margin-top:clamp(28px,4vw,44px);
+  padding:14px 16px;
+  border-left:2px solid var(--accent);
+  background:var(--accent-50);
+  color:var(--text-muted);
+  font-size:13.5px;line-height:1.65;
+}
+
+.legal-foot{
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+  padding-block:26px;
+}
+.legal-foot__inner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+}
+.legal-foot p{
+  margin:0;color:var(--text-muted);
+  font-size:12.5px;line-height:1.6;
+}
+.legal-foot .footer__legal a{text-decoration:none}
+
+@media (max-width:640px){
+  .legal-head__inner{min-height:60px}
+  .legal__h2{gap:10px}
+  .legal__row{grid-template-columns:1fr;gap:3px;padding:12px 14px}
+  .legal__row dt{padding-top:0}
+  .legal-foot__inner{flex-direction:column;align-items:flex-start;gap:12px}
+}
