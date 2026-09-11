@@ -51,11 +51,40 @@ A beküldött értékek gépi kulcsok. Ha a sablonban olvasható szöveg kell:
 | `forras` | `hero-urlap` | Hero szekció űrlapja |
 | | `zaro-urlap` | Záró szekció űrlapja |
 
-## Beküldés bekötése
+## Beküldés — EmailJS
 
-Jelenleg **egyik űrlap sincs bekötve** — a `assets/js/main.js` 10. blokkja
-csak egy demó üzenetet ír ki. Éles működéshez ott kell megadni a `fetch`
-hívást vagy a `<form action>` attribútumot.
+Az űrlap az **EmailJS**-en keresztül küld. A beállítások az
+`assets/js/main.js` 10. blokkjában, az `EMAILJS` objektumban vannak.
+
+**FONTOS:** az EmailJS felületén (Account → Security) korlátozd az
+engedélyezett domainekre. A publikus kulcs látszik a kódban — ez így
+működik, de korlátozás nélkül bárki küldhet a fiókod keretéből.
+
+### Amit az EmailJS-sablon kap
+
+A JS **nem a nyers mezőneveket küldi**, hanem olvasható magyar szöveget:
+`csaladi-haz` helyett `Családi ház`. Ha egy rádiós kérdésre nem válaszolt
+a látogató, az érték `nincs megadva` — tehát **a sablonban egyik változó
+sem lesz üres**.
+
+| Sablonváltozó | Tartalom |
+|---|---|
+| `{{forras}}` | Hero szekció űrlapja / Záró szekció űrlapja |
+| `{{nev}}` | Név |
+| `{{telefon}}` | Telefonszám |
+| `{{email}}` | E-mail-cím vagy „nincs megadva" |
+| `{{helyszin}}` | Település vagy megye |
+| `{{ingatlan}}` | Családi ház / Társasházi lakás / Egyéb (iroda, üzlet) |
+| `{{darabszam}}` | 1–3 db / 4–8 db / 8 db felett |
+| `{{igeny}}` | Nyílászáró / Bejárati ajtó / Árnyékolás (redőny, zsalúzia) / Komplett megoldás |
+| `{{idozites}}` | Most azonnal / 1–3 hónapon belül / Még csak tájékozódom |
+| `{{uzenet}}` | Megjegyzés vagy „nincs megadva" |
+| `{{hozzajarulas}}` | Elfogadva |
+| `{{idopont}}` | A beküldés időpontja |
+| `{{oldal_url}}` | Melyik oldalról érkezett |
+
+Ha új válaszlehetőség kerül egy rádiós kérdésbe, a `main.js` `LABELS`
+objektumát is bővíteni kell, különben a gépi kulcs megy az e-mailbe.
 
 Élesítés előtt még: az `index.html` fejlécéből törlendő a
 `<meta name="robots" content="noindex, nofollow">` sor.

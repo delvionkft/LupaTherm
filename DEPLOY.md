@@ -46,11 +46,16 @@ Cseréld a `https://[DOMAIN]` szövegrészt a valódi címre:
 - `robots.txt`: töröld a `Disallow: /` sort, és vedd ki a kommentből az alsó blokkot
 - A `404.html` `noindex` sora **maradjon** — hibaoldal ne kerüljön keresőbe
 
-### 3. Űrlap bekötése
+### 3. EmailJS lezárása és tesztelése
 
-Jelenleg **egyik űrlap sem küld adatot sehova** — az `assets/js/main.js`
-10. blokkja csak egy demó üzenetet ír ki. A mezőnevek az `URLAP.md`-ben.
-Bekötés után teszteld mindkét űrlapot (hero alatti és záró szekció).
+Az űrlap **be van kötve** (EmailJS). Két teendő maradt:
+
+- **EmailJS → Account → Security:** korlátozd az engedélyezett domainekre.
+  A publikus kulcs látszik a kódban — korlátozás nélkül bárki küldhet
+  a fiókod keretéből.
+- **Éles teszt:** küldj be egy próbaajánlatkérést **mindkét űrlapról**
+  (hero alatti és záró szekció), és nézd meg, megérkezik-e a levél.
+  A sablonváltozók listája az `URLAP.md`-ben.
 
 ### 4. Hiányzó tartalom
 

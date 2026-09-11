@@ -2079,3 +2079,13 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   .legal-modal__foot p{display:none}
   .legal-modal__foot{justify-content:flex-end}
 }
+
+/* Űrlap-visszajelzés állapotai */
+.form-card__status.is-success{
+  color:#1B5E3F;background:#EDF7F1;border-left:2px solid #1B5E3F;
+  padding:11px 14px;font-weight:500;
+}
+.form-card__status.is-error{
+  color:#8A1F1F;background:#FCEFEF;border-left:2px solid #8A1F1F;
+  padding:11px 14px;font-weight:500;
+}

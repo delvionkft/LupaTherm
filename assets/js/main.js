@@ -10,7 +10,7 @@
    07. Lightbox
    08. Folyamat idővonal töltése
    09. Mobil ragadós CTA sáv
-   10. Űrlapok (demó viselkedés — nincs valódi beküldés)
+   10. Űrlapok (EmailJS beküldés)
    11. Jogi dokumentumok panel (impresszum, adatkezelés, süti)
    ============================================================ */
 (function () {
@@ -321,16 +321,112 @@
     });
   }
 
-  /* ---------- 10. ŰRLAPOK ---------- */
-  /* Demó viselkedés: a váz nem küld adatot sehova.
-     Valós bekötéskor ez a blokk cserélendő (fetch / form action). */
+  /* ---------- 10. ŰRLAPOK — EmailJS bekötés ---------- */
+  /* A beküldés az EmailJS-en keresztül megy. A publikus kulcs
+     szándékosan látszik a kódban — ez így működik, DE az EmailJS
+     felületén be kell állítani az engedélyezett domaineket, különben
+     bárki küldhet a fiók keretéből. */
+  var EMAILJS = {
+    publicKey:  'uzvZrjrzMD2cW1yym',
+    serviceId:  'service_cjy3pdo',
+    templateId: 'template_4t3b9ji'
+  };
+
+  /* A rádiógombok gépi értékei helyett olvasható magyar szöveg megy
+     az e-mailbe. Új válaszlehetőségnél ezt is bővíteni kell. */
+  var LABELS = {
+    forras: {
+      'hero-urlap': 'Hero szekció űrlapja',
+      'zaro-urlap': 'Záró szekció űrlapja'
+    },
+    ingatlan: {
+      'csaladi-haz': 'Családi ház',
+      'tarsashaz':   'Társasházi lakás',
+      'egyeb':       'Egyéb (iroda, üzlet)'
+    },
+    darabszam: {
+      '1-3':     '1–3 db',
+      '4-8':     '4–8 db',
+      '8-plusz': '8 db felett'
+    },
+    igeny: {
+      'nyilaszaro':    'Nyílászáró',
+      'bejarati-ajto': 'Bejárati ajtó',
+      'arnyekolas':    'Árnyékolás (redőny, zsalúzia)',
+      'komplett':      'Komplett megoldás'
+    },
+    idozites: {
+      'azonnal':     'Most azonnal',
+      '1-3-honap':   '1–3 hónapon belül',
+      'tajekozodom': 'Még csak tájékozódom'
+    }
+  };
+
+  var NINCS = 'nincs megadva';
+
+  function readable(field, value) {
+    if (!value) return NINCS;
+    var map = LABELS[field];
+    return (map && map[value]) || value;
+  }
+
+  function collect(form) {
+    var data = new FormData(form);
+    var get = function (k) { return (data.get(k) || '').toString().trim(); };
+    return {
+      forras:       readable('forras',    get('forras')),
+      nev:          get('nev'),
+      telefon:      get('telefon'),
+      email:        get('email') || NINCS,
+      helyszin:     get('helyszin'),
+      ingatlan:     readable('ingatlan',  get('ingatlan')),
+      darabszam:    readable('darabszam', get('darabszam')),
+      igeny:        readable('igeny',     get('igeny')),
+      idozites:     readable('idozites',  get('idozites')),
+      uzenet:       get('uzenet') || NINCS,
+      hozzajarulas: get('hozzajarulas') ? 'Elfogadva' : 'Nincs elfogadva',
+      idopont:      new Date().toLocaleString('hu-HU'),
+      oldal_url:    location.href
+    };
+  }
+
+  function setStatus(status, text, state) {
+    if (!status) return;
+    status.hidden = false;
+    status.textContent = text;
+    status.classList.toggle('is-error', state === 'error');
+    status.classList.toggle('is-success', state === 'success');
+  }
+
   $$('[data-form]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+
       var status = $('[data-form-status]', form);
-      if (!status) return;
-      status.hidden = false;
-      status.textContent = 'Az űrlap beküldése még nincs bekötve. Éles működésnél itt jelenik meg a visszaigazolás.';
+      var button = $('button[type="submit"]', form);
+
+      if (typeof window.emailjs === 'undefined') {
+        setStatus(status, 'A küldés most nem érhető el. Kérlek hívj minket: +36 30 113 1261', 'error');
+        return;
+      }
+
+      if (button) { button.disabled = true; button.dataset.label = button.textContent; }
+      setStatus(status, 'Küldés folyamatban…');
+
+      window.emailjs
+        .send(EMAILJS.serviceId, EMAILJS.templateId, collect(form), { publicKey: EMAILJS.publicKey })
+        .then(function () {
+          form.reset();
+          setStatus(status, 'Köszönjük! Megkaptuk az ajánlatkérésed, hamarosan keresünk telefonon.', 'success');
+        })
+        .catch(function (err) {
+          setStatus(status,
+            'A küldés nem sikerült. Kérlek próbáld újra, vagy hívj minket: +36 30 113 1261', 'error');
+          if (window.console) console.error('EmailJS hiba:', err);
+        })
+        .then(function () {
+          if (button) button.disabled = false;
+        });
     });
   });
 
