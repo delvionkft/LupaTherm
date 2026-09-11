@@ -76,6 +76,16 @@ Ha bekerül Google Analytics, Meta Pixel vagy hasonló, azt **fel kell venni
 a 03. szakaszba**, és **sütikezelő sávot kell működtetni a bevezetés előtt**.
 Enélkül a szabályzat valótlan állítást tartalmazna.
 
+## Gyorsítótár — verziószám
+
+A `styles.css` és a `main.js` hivatkozása `?v=20260911a` végződést kap
+az `index.html`-ben és a `404.html`-ben. **Minden CSS/JS módosítás után
+ezt a számot emelni kell**, különben a látogatók böngészője és a hosting
+CDN-je a régi fájlt szolgálja ki, és a változás nem látszik.
+
+Emergentben deploy után érdemes egy erős frissítéssel (Ctrl+F5 / Cmd+Shift+R)
+ellenőrizni.
+
 ## Amit ne csinálj
 
 - Ne szerkeszd a fájlokat Emergentben.
