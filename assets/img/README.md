@@ -36,7 +36,7 @@ A fájlok már a helyükön vannak, átméretezve (hosszabbik oldal 1400 px, JPE
 | `ref-02.jpg` | Bejárati ajtó | fehér ajtó két oldalvilágítóval és felülvilágítóval |
 | `ref-03.jpg` | Ablak és redőny | fehér ablak ráépített redőnytokkal |
 | `ref-04.jpg` | Bejárati ajtó | fehér ajtó két íves üvegbetéttel |
-| `ref-05.jpg` | Komplett megoldás | sötét tölgy ablak redőnnyel és szúnyoghálóval |
+| `ref-05.jpg` | Komplett megoldás | dió barna ablak redőnnyel és szúnyoghálóval |
 | `ref-06.jpg` | Bejárati ajtó | fehér ajtó oldalvilágítóval, belülről |
 | `ref-07.jpg` | Belső párkány | sötét fahatású belső ablakpárkány |
 | `ref-08.jpg` | Bejárati ajtó | ajtó felülvilágítóval, beépítés közben |
