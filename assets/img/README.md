@@ -11,6 +11,15 @@ helyét, kódmódosítás nélkül.
 - Ha csak PNG van: 120×120 px, átlátszó háttér, és az `index.html`-ben írd át
   a kiterjesztést `logo.svg`-ről `logo.png`-re (két helyen)
 
+## Hero kép
+
+`hero.jpg` — a hero szekció jobb oldali képe, a korábbi videó helyén.
+Amíg a fájl nincs itt, egy helykitöltő panel látszik `[HERO KÉP HELYE]`
+felirattal. A fájl bemásolása elég, kódmódosítás nem kell.
+
+- Ajánlott: **álló tájolás, kb. 3:4 arány**, hosszabbik oldal 1400 px
+- `object-fit: cover` vág, tehát nem kell előre vágni
+
 ## Szolgáltatásfotók
 
 A megoldások szekció kártyáinak képei:

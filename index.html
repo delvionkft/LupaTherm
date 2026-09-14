@@ -34,7 +34,26 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260911a">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260914a">
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '962398476156311');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 </head>
 <body>
 
@@ -145,34 +164,33 @@
 
         <div class="visual__frame">
           <div class="visual__bar">
-            <span class="visual__sheet">Bemutató videó</span>
-            <span class="visual__no">Reel</span>
+            <span class="visual__sheet">Munkáink</span>
+            <span class="visual__no">01</span>
           </div>
 
-          <div class="visual__stage visual__stage--video hatch hatch--concrete">
+          <div class="visual__stage visual__stage--photo hatch hatch--concrete">
             <span class="cropmark cropmark--tl" aria-hidden="true"></span>
             <span class="cropmark cropmark--tr" aria-hidden="true"></span>
             <span class="cropmark cropmark--bl" aria-hidden="true"></span>
             <span class="cropmark cropmark--br" aria-hidden="true"></span>
 
-            <div class="fbvideo">
-              <!-- Tartalék: akkor látszik, ha a beágyazás nem tölthető be
-                   (pl. tartalomvédelmi szabály vagy nem nyilvános videó). -->
-              <div class="fbvideo__fallback" aria-hidden="true">
-                <span class="fbvideo__mark">Videó</span>
-                <span class="fbvideo__note">A lejátszó a Facebookról töltődik be.</span>
-              </div>
-              <iframe class="fbvideo__frame"
-                src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2391955484963079&show_text=false&width=267&height=476&t=0"
-                title="Bemutató videó"
-                loading="lazy" scrolling="no" frameborder="0" allowfullscreen
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-            </div>
+            <!-- Ide kerül a végleges hero kép: assets/img/hero.jpg
+                 Amíg a fájl nincs a helyén, az alábbi helykitöltő látszik.
+                 A kép bemásolásával automatikusan átveszi a helyét. -->
+            <img class="hero__photo" src="assets/img/hero.jpg"
+                 alt="Beépített nyílászárók egy elkészült munkán"
+                 decoding="async">
 
-            <a class="fbvideo__link" href="https://www.facebook.com/reel/2391955484963079"
-               target="_blank" rel="noopener noreferrer">
-              Megnyitás a Facebookon<span aria-hidden="true">&nbsp;&rarr;</span>
-            </a>
+            <span class="hero__ph" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor"
+                   stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="10" width="38" height="28"/>
+                <circle cx="16.5" cy="20" r="3"/>
+                <path d="M5 32.5 17 23l9.5 7.5L34 25l9 7.5"/>
+              </svg>
+              <span class="hero__ph-label">[HERO KÉP HELYE]</span>
+              <span class="hero__ph-note">assets/img/hero.jpg · álló, kb. 3:4</span>
+            </span>
           </div>
         </div>
       </div>
@@ -1174,18 +1192,20 @@
               <li>a sütibeállítások megjegyzése</li>
               <li>űrlapértékek ideiglenes tárolása</li>
               <li>statisztikai adatgyűjtés</li>
-              <li>beágyazott tartalmak (például videó) működése</li>
+              <li>hirdetések eredményének mérése</li>
             </ul>
           </section>
 
           <section class="legal__sec">
             <h2 class="legal__h2"><span class="legal__num">03</span>Milyen sütiket használ ez a weboldal?</h2>
-            <p><strong>Ez a weboldal jelenleg nem használ saját statisztikai, hirdetési vagy kampánykövető sütit.</strong> A működéshez szükséges technikai adatokon túl kizárólag a beágyazott tartalom szolgáltatója helyezhet el sütit:</p>
+            <p>A weboldal az alábbi külső szolgáltatók sütijeit, illetve adatkezelését érinti:</p>
             <dl class="legal__dl">
-              <div class="legal__row"><dt>Beágyazott videó (Facebook / Meta)</dt><dd>A főoldalon beágyazott videó lejátszója a Meta Platforms szervereiről töltődik be, és a szolgáltató sütiket helyezhet el az Ön eszközén. Részletek: <a href="https://www.facebook.com/policies/cookies/" target="_blank" rel="noopener">Meta süti-tájékoztató</a>.</dd></div>
+              <div class="legal__row"><dt>Meta Pixel (Facebook / Instagram hirdetés)</dt><dd><strong>Hirdetési és mérési célú követőkód.</strong> A Meta Platforms Ireland Ltd. szolgáltatása, amely sütiket helyez el az Ön eszközén, és adatot továbbít a Meta felé az oldal látogatásáról. Ez teszi lehetővé a hirdetések eredményének mérését, valamint azt, hogy Ön később is találkozzon hirdetésünkkel. Azonosító: 962398476156311. Részletek: <a href="https://www.facebook.com/policies/cookies/" target="_blank" rel="noopener">Meta süti-tájékoztató</a>. A hirdetési beállításait a <a href="https://www.facebook.com/adpreferences" target="_blank" rel="noopener">Meta hirdetési beállítások</a> oldalon módosíthatja.</dd></div>
               <div class="legal__row"><dt>Betűtípusok (Google Fonts)</dt><dd>A weboldal betűtípusai a Google szervereiről töltődnek be. Ennek során a szolgáltató megismerheti az Ön IP-címét. Részletek: <a href="https://policies.google.com/privacy?hl=hu" target="_blank" rel="noopener">Google adatvédelmi irányelvek</a>.</dd></div>
+              <div class="legal__row"><dt>Űrlapbeküldés (EmailJS)</dt><dd>Az ajánlatkérő űrlap beküldését az EmailJS szolgáltatása továbbítja e-mailben a szolgáltatóhoz. Az űrlapba beírt adatok a szolgáltatáson keresztül haladnak át.</dd></div>
             </dl>
-            <p><em>[HA A JÖVŐBEN STATISZTIKAI VAGY HIRDETÉSI ESZKÖZ KERÜL AZ OLDALRA — például Google Analytics, Google Ads, Meta Pixel —, azt itt kell felsorolni, és a bevezetés előtt sütikezelő felületet kell működtetni.]</em></p>
+            <p>A weboldal <strong>saját statisztikai sütit nem használ</strong> — statisztikai és hirdetési célra kizárólag a fenti Meta Pixel működik.</p>
+            <p><em>[TEENDŐ: a Meta Pixel hirdetési célú követőkód, amelynek betöltéséhez az EU-ban a látogató előzetes hozzájárulása szükséges. Sütikezelő sáv beüzemeléséig a pixel hozzájárulás nélkül fut.]</em></p>
           </section>
 
           <section class="legal__sec">
@@ -1268,6 +1288,6 @@
 -->
 <!-- EmailJS SDK — az űrlapbeküldést szolgálja ki -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-<script src="assets/js/main.js?v=20260911a" defer></script>
+<script src="assets/js/main.js?v=20260914a" defer></script>
 </body>
 </html>

@@ -59,6 +59,8 @@ Az űrlap **be van kötve** (EmailJS). Két teendő maradt:
 
 ### 4. Hiányzó tartalom
 
+- `assets/img/hero.jpg` — a hero szekció képe. Amíg nincs ott, helykitöltő
+  panel látszik. Álló tájolás, kb. 3:4.
 - `assets/img/logo.svg` — a valódi logó helye. Amíg nincs ott, a fejlécben
   és a láblécben egy tartalék jel látszik. A fájl bemásolása elég,
   kódmódosítás nem kell.
@@ -68,13 +70,19 @@ Az űrlap **be van kötve** (EmailJS). Két teendő maradt:
 - `[TÁRHELYSZOLGÁLTATÓ ...]` — impresszum, 02. szakasz (Emergent adatai)
 - `[ŰRLAP- VAGY CRM-SZOLGÁLTATÓ ...]` — adatkezelési tájékoztató, 07. szakasz
 
-### 5. Süti szabályzat frissítése analitika bevezetésekor
+### 5. Sütikezelő sáv — NYITOTT KÉRDÉS
 
-A süti szabályzat jelenleg **kimondja, hogy az oldal nem használ saját
-statisztikai, hirdetési vagy kampánykövető sütit** — mert tényleg nem.
-Ha bekerül Google Analytics, Meta Pixel vagy hasonló, azt **fel kell venni
-a 03. szakaszba**, és **sütikezelő sávot kell működtetni a bevezetés előtt**.
-Enélkül a szabályzat valótlan állítást tartalmazna.
+Az oldalon **fut a Meta Pixel** (azonosító: 962398476156311). Ez hirdetési
+célú követőkód, amelynek betöltéséhez az EU-ban a látogató **előzetes
+hozzájárulása** kellene. Jelenleg a pixel **hozzájárulás nélkül, azonnal
+betölt**.
+
+A süti szabályzat 03. szakasza már helyesen felsorolja a pixelt, tehát a
+tájékoztatás megvan — a **hozzájárulás bekérése hiányzik**. Sütikezelő sáv
+beüzemelésekor a pixelt a hozzájárulás mögé kell tenni.
+
+Ha később további eszköz kerül az oldalra (Google Analytics, Google Ads),
+azt is **fel kell venni a 03. szakaszba**.
 
 ## Gyorsítótár — verziószám
 

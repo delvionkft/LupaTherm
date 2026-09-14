@@ -1623,8 +1623,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .footer__spec-item--link:hover{background:var(--accent-50)}
 
 
-/* ---------- Hero videó (Facebook Reel a rajzlapra szerelve) ---------- */
-.visual__stage--video{
+.visual__stage--photo{
   aspect-ratio:auto;
   min-height:clamp(340px,38vw,470px);
   align-content:center;
@@ -1632,56 +1631,8 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   padding:26px 20px 20px;
 }
 
-.fbvideo{
-  position:relative;
-  height:clamp(280px,32vw,392px);
-  aspect-ratio:9/16;          /* a Reel álló formátuma */
-  max-width:100%;
-  margin-inline:auto;
-  border:1px solid var(--ink);
-  background:#FFFFFF;
-  box-shadow:var(--shadow-md);
-  overflow:hidden;
-}
-.fbvideo__frame{
-  position:absolute;inset:0;z-index:1;
-  width:100%;height:100%;
-  border:0;display:block;
-}
 /* A tartalék a lejátszó mögött ül: ha a beágyazás betölt, eltakarja;
    ha nem tölthető be, ez marad látható az üres keret helyén. */
-.fbvideo__fallback{
-  position:absolute;inset:0;z-index:0;
-  display:grid;align-content:center;justify-items:center;gap:8px;
-  padding:20px;text-align:center;
-  background:
-    repeating-linear-gradient(135deg,var(--hatch-ink) 0 1px,transparent 1px 14px),
-    var(--kraft);
-}
-.fbvideo__mark{
-  font-family:var(--font-mono);
-  font-size:11px;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:var(--brown);
-  padding:7px 13px;
-  border:1px dashed var(--tint-2);
-  background:rgba(255,255,255,.94);
-}
-.fbvideo__note{
-  font-size:12px;line-height:1.5;
-  color:var(--text-muted);
-  max-width:22ch;
-}
-.fbvideo__link{
-  position:relative;z-index:2;
-  display:inline-flex;align-items:center;
-  font-family:var(--font-mono);
-  font-size:11px;font-weight:600;
-  letter-spacing:.12em;text-transform:uppercase;
-  color:var(--brown);
-  transition:color var(--dur) var(--ease);
-}
-.fbvideo__link:hover{color:var(--brown-hover);text-decoration:underline}
 
 
 /* ---------- Referenciafotók ---------- */
@@ -1813,9 +1764,8 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   .final__glow{opacity:.55}
 
     .visual__stage{aspect-ratio:16/11}
-  .visual__stage--video{aspect-ratio:auto;min-height:auto;padding:20px 16px 16px}
-  .fbvideo{height:min(64vh,420px)}
-
+  .visual__stage--photo{aspect-ratio:4/5;min-height:0;padding:0}
+  
   .proof{grid-template-columns:1fr}
   .proof__item{padding:20px}
 
@@ -2089,3 +2039,28 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   color:#8A1F1F;background:#FCEFEF;border-left:2px solid #8A1F1F;
   padding:11px 14px;font-weight:500;
 }
+
+/* Hero kép — a végleges fotó helye (assets/img/hero.jpg).
+   Amíg a fájl hiányzik, a JS elrejti a képet, és a helykitöltő marad. */
+.visual__stage--photo{position:relative;overflow:hidden;display:grid;place-items:center}
+.hero__photo{
+  position:absolute;inset:0;z-index:1;
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+.hero__photo[hidden]{display:none}
+.hero__photo:not([hidden]) ~ .hero__ph{display:none}
+
+.hero__ph{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:26px 20px;text-align:center;
+  color:var(--text-muted);
+}
+.hero__ph svg{width:44px;height:44px;color:var(--accent);opacity:.55}
+.hero__ph-label{
+  color:var(--accent-dark);
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;
+}
+.hero__ph-note{font-size:11.5px;line-height:1.5;opacity:.85}
