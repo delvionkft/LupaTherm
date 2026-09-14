@@ -14,11 +14,14 @@ helyét, kódmódosítás nélkül.
 ## Hero kép
 
 `hero.jpg` — a hero szekció jobb oldali képe, a korábbi videó helyén.
-Amíg a fájl nincs itt, egy helykitöltő panel látszik `[HERO KÉP HELYE]`
-felirattal. A fájl bemásolása elég, kódmódosítás nem kell.
+Belső nézet: fehér műanyag ablak fa belső párkánnyal, kertre néző
+kilátással. Illusztráció, nem konkrét referenciamunka.
 
-- Ajánlott: **álló tájolás, kb. 3:4 arány**, hosszabbik oldal 1400 px
+- 788×1400 px, JPEG 84 (az eredeti 1,8 MB-os PNG-ből átalakítva)
+- Cserénél: álló tájolás, hosszabbik oldal 1400 px
 - `object-fit: cover` vág, tehát nem kell előre vágni
+- Ha a fájl hiányzik, a JS elrejti a képet, és a `[HERO KÉP HELYE]`
+  helykitöltő panel látszik helyette
 
 ## Szolgáltatásfotók
 

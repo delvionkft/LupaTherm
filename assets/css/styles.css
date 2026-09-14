@@ -1630,6 +1630,9 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   gap:16px;
   padding:26px 20px 20px;
 }
+/* A kép érdemi része (ablak, párkány) a kép középső-alsó sávjában van —
+   a vágás középpontját ezért toljuk lejjebb. */
+.hero__photo{object-position:center 62%}
 
 /* A tartalék a lejátszó mögött ül: ha a beágyazás betölt, eltakarja;
    ha nem tölthető be, ez marad látható az üres keret helyén. */
@@ -1686,6 +1689,9 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 
 /* Tablet álló */
 @media (max-width:900px){
+  /* Álló fotó teljes szélességen: fix arány, különben vékony sávvá lapul. */
+  .visual__stage--photo{aspect-ratio:3/2;min-height:0;padding:0}
+
   html{scroll-padding-top:76px}
 
   .utilbar{display:none}          /* mobilon a fejléc marad tiszta */
@@ -1765,6 +1771,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 
     .visual__stage{aspect-ratio:16/11}
   .visual__stage--photo{aspect-ratio:4/5;min-height:0;padding:0}
+  .hero__photo{object-position:center 58%}
   
   .proof{grid-template-columns:1fr}
   .proof__item{padding:20px}
