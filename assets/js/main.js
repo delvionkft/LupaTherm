@@ -10,7 +10,8 @@
    07. Lightbox
    08. Folyamat idővonal töltése
    09. Mobil ragadós CTA sáv
-   10. Űrlapok (EmailJS beküldés)
+   10. Űrlapok (beküldés a /api/lead végpontra)
+   10/b. Süti-hozzájárulás és Meta Pixel
    11. Jogi dokumentumok panel (impresszum, adatkezelés, süti)
    ============================================================ */
 (function () {
@@ -321,74 +322,14 @@
     });
   }
 
-  /* ---------- 10. ŰRLAPOK — EmailJS bekötés ---------- */
-  /* A beküldés az EmailJS-en keresztül megy. A publikus kulcs
-     szándékosan látszik a kódban — ez így működik, DE az EmailJS
-     felületén be kell állítani az engedélyezett domaineket, különben
-     bárki küldhet a fiók keretéből. */
-  var EMAILJS = {
-    publicKey:  'uzvZrjrzMD2cW1yym',
-    serviceId:  'service_cjy3pdo',
-    templateId: 'template_4t3b9ji'
-  };
+  /* ---------- 10. ŰRLAPOK — beküldés a /api/lead végpontra ---------- */
+  /* Az űrlapok method="post" action="/api/lead" beállítással működnek,
+     tehát JS nélkül is szabályosan, POST törzsben küldenek — személyes
+     adat semmilyen hibaesetben nem kerül az URL query paramétereibe.
+     Itt csak ráépítjük az AJAX-os utat, hogy ne kelljen oldalt váltani. */
 
-  /* A rádiógombok gépi értékei helyett olvasható magyar szöveg megy
-     az e-mailbe. Új válaszlehetőségnél ezt is bővíteni kell. */
-  var LABELS = {
-    forras: {
-      'hero-urlap': 'Hero szekció űrlapja',
-      'zaro-urlap': 'Záró szekció űrlapja'
-    },
-    ingatlan: {
-      'csaladi-haz': 'Családi ház',
-      'tarsashaz':   'Társasházi lakás',
-      'egyeb':       'Egyéb (iroda, üzlet)'
-    },
-    darabszam: {
-      '1-3':     '1–3 db',
-      '4-8':     '4–8 db',
-      '8-plusz': '8 db felett'
-    },
-    igeny: {
-      'nyilaszaro':    'Nyílászáró',
-      'bejarati-ajto': 'Bejárati ajtó',
-      'arnyekolas':    'Árnyékolás (redőny, zsalúzia)',
-      'komplett':      'Komplett megoldás'
-    },
-    idozites: {
-      'azonnal':     'Most azonnal',
-      '1-3-honap':   '1–3 hónapon belül',
-      'tajekozodom': 'Még csak tájékozódom'
-    }
-  };
-
-  var NINCS = 'nincs megadva';
-
-  function readable(field, value) {
-    if (!value) return NINCS;
-    var map = LABELS[field];
-    return (map && map[value]) || value;
-  }
-
-  function collect(form) {
-    var data = new FormData(form);
-    var get = function (k) { return (data.get(k) || '').toString().trim(); };
-    return {
-      forras:       readable('forras',    get('forras')),
-      nev:          get('nev'),
-      telefon:      get('telefon'),
-      email:        get('email') || NINCS,
-      helyszin:     get('helyszin'),
-      ingatlan:     readable('ingatlan',  get('ingatlan')),
-      darabszam:    readable('darabszam', get('darabszam')),
-      igeny:        readable('igeny',     get('igeny')),
-      idozites:     readable('idozites',  get('idozites')),
-      uzenet:       get('uzenet') || NINCS,
-      hozzajarulas: get('hozzajarulas') ? 'Elfogadva' : 'Nincs elfogadva',
-      idopont:      new Date().toLocaleString('hu-HU'),
-      oldal_url:    location.href
-    };
-  }
+  var COOLDOWN_MS = 30000;          /* ismételt beküldés elleni várakozás */
+  var lastSent = 0;
 
   function setStatus(status, text, state) {
     if (!status) return;
@@ -398,37 +339,184 @@
     status.classList.toggle('is-success', state === 'success');
   }
 
-  $$('[data-form]').forEach(function (form) {
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+  /* Kliensoldali ellenőrzés. A szerver ugyanezt újra elvégzi — ez itt
+     csak gyorsabb visszajelzés, nem védelem. */
+  function clientErrors(form) {
+    var get = function (name) {
+      var el = form.querySelector('[name="' + name + '"]');
+      return el ? String(el.value || '').trim() : '';
+    };
+    var out = [];
+    if (get('nev').length < 2) out.push('név');
+    var tel = get('telefon');
+    if (!/^[+0-9][0-9 ()./-]{5,}$/.test(tel) || (tel.match(/[0-9]/g) || []).length < 7) {
+      out.push('telefonszám');
+    }
+    if (get('helyszin').length < 2) out.push('helyszín');
+    var mail = get('email');
+    if (mail && !/^[^\s@,;:<>"']+@[^\s@,;:<>"']+\.[A-Za-z]{2,}$/.test(mail)) out.push('e-mail-cím');
+    var consent = form.querySelector('[name="hozzajarulas"]');
+    if (!consent || !consent.checked) out.push('adatkezelési hozzájárulás');
+    return out;
+  }
 
+  $$('[data-form]').forEach(function (form) {
+    /* Kitöltés kezdetének időbélyege — a szerver ebből látja, ha egy
+       automata emberi sebességnél gyorsabban küldött be. */
+    var ts = form.querySelector('[name="ts"]');
+    if (ts) ts.value = String(Date.now());
+
+    form.addEventListener('submit', function (e) {
       var status = $('[data-form-status]', form);
       var button = $('button[type="submit"]', form);
 
-      if (typeof window.emailjs === 'undefined') {
-        setStatus(status, 'A küldés most nem érhető el. Kérlek hívj minket: +36 30 113 1261', 'error');
+      var hibak = clientErrors(form);
+      if (hibak.length) {
+        e.preventDefault();
+        setStatus(status, 'Ellenőrizd a következőt: ' + hibak.join(', ') + '.', 'error');
+        var first = form.querySelector('[name="' + (
+          hibak[0] === 'név' ? 'nev' :
+          hibak[0] === 'telefonszám' ? 'telefon' :
+          hibak[0] === 'helyszín' ? 'helyszin' :
+          hibak[0] === 'e-mail-cím' ? 'email' : 'hozzajarulas') + '"]');
+        if (first && first.focus) first.focus();
         return;
       }
 
-      if (button) { button.disabled = true; button.dataset.label = button.textContent; }
+      /* Ismételt beküldés elleni védelem */
+      var now = Date.now();
+      if (now - lastSent < COOLDOWN_MS) {
+        e.preventDefault();
+        var maradt = Math.ceil((COOLDOWN_MS - (now - lastSent)) / 1000);
+        setStatus(status, 'Az előző beküldés még feldolgozás alatt van. Várj ' +
+          maradt + ' másodpercet.', 'error');
+        return;
+      }
+
+      /* Innentől AJAX-szal küldünk. Ha a fetch nem érhető el, nem
+         hívunk preventDefault-ot: a böngésző natívan, POST-tal küld. */
+      if (typeof window.fetch !== 'function' || typeof FormData !== 'function') return;
+
+      e.preventDefault();
+
+      if (button) button.disabled = true;
       setStatus(status, 'Küldés folyamatban…');
 
-      window.emailjs
-        .send(EMAILJS.serviceId, EMAILJS.templateId, collect(form), { publicKey: EMAILJS.publicKey })
-        .then(function () {
-          form.reset();
-          setStatus(status, 'Köszönjük! Megkaptuk az ajánlatkérésed, hamarosan keresünk telefonon.', 'success');
+      var payload = {};
+      new FormData(form).forEach(function (value, key) {
+        payload[key] = typeof value === 'string' ? value : '';
+      });
+
+      window.fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return { ok: res.ok, message: '' }; })
+            .then(function (body) { return { status: res.status, body: body }; });
         })
-        .catch(function (err) {
+        .then(function (r) {
+          if (r.status >= 200 && r.status < 300 && r.body && r.body.ok) {
+            lastSent = Date.now();
+            form.reset();
+            if (ts) ts.value = String(Date.now());
+            if (window.turnstile && form.querySelector('.cf-turnstile')) {
+              try { window.turnstile.reset(); } catch (err) { /* nincs teendő */ }
+            }
+            setStatus(status, r.body.message ||
+              'Köszönjük! Megkaptuk az ajánlatkérésed, hamarosan keresünk telefonon.', 'success');
+            /* Konverziós esemény — csak ha van marketing-hozzájárulás. */
+            if (window.fbq && consentState() === 'accepted') window.fbq('track', 'Lead');
+          } else {
+            setStatus(status, (r.body && r.body.message) ||
+              'A küldés nem sikerült. Kérlek hívj minket: +36 30 113 1261', 'error');
+          }
+        })
+        .catch(function () {
           setStatus(status,
             'A küldés nem sikerült. Kérlek próbáld újra, vagy hívj minket: +36 30 113 1261', 'error');
-          if (window.console) console.error('EmailJS hiba:', err);
         })
         .then(function () {
           if (button) button.disabled = false;
         });
     });
   });
+
+  /* ---------- 10/b. SÜTI-HOZZÁJÁRULÁS ÉS META PIXEL ---------- */
+  /* A Meta Pixel NEM töltődik be az oldal megnyitásakor. Csak akkor
+     inicializálódik, ha a látogató kifejezetten elfogadta a marketing-
+     sütiket. Elutasításnál semmilyen kérés nem indul a Meta felé.
+     A döntés bármikor visszavonható a lábléc "Süti-beállítások" linkjével. */
+
+  var PIXEL_ID = '962398476156311';
+  var CONSENT_KEY = 'lupatherm-consent-v1';
+  var banner = $('#consent');
+  var pixelLoaded = false;
+
+  function consentState() {
+    try { return localStorage.getItem(CONSENT_KEY) || 'unknown'; }
+    catch (err) { return 'unknown'; }
+  }
+
+  function storeConsent(value) {
+    try { localStorage.setItem(CONSENT_KEY, value); } catch (err) { /* nincs teendő */ }
+  }
+
+  function loadPixel() {
+    if (pixelLoaded || window.fbq) return;
+    pixelLoaded = true;
+
+    /* A Meta hivatalos betöltője, sorba állító csonkkal. */
+    var n = window.fbq = function () {
+      n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+    };
+    if (!window._fbq) window._fbq = n;
+    n.push = n;
+    n.loaded = true;
+    n.version = '2.0';
+    n.queue = [];
+
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    document.head.appendChild(s);
+
+    window.fbq('init', PIXEL_ID);
+    window.fbq('track', 'PageView');
+  }
+
+  function showBanner(show) {
+    if (!banner) return;
+    banner.hidden = !show;
+  }
+
+  function applyConsent(value, persist) {
+    if (persist) storeConsent(value);
+    if (value === 'accepted') loadPixel();
+    showBanner(false);
+  }
+
+  if (banner) {
+    var accept = $('[data-consent-accept]', banner);
+    var reject = $('[data-consent-reject]', banner);
+    if (accept) accept.addEventListener('click', function () { applyConsent('accepted', true); });
+    if (reject) reject.addEventListener('click', function () { applyConsent('rejected', true); });
+
+    /* Újranyitás a láblécből — a döntés visszavonható. */
+    $$('[data-consent-open]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.preventDefault();
+        showBanner(true);
+        if (accept && accept.focus) accept.focus();
+      });
+    });
+
+    var state = consentState();
+    if (state === 'accepted') { loadPixel(); showBanner(false); }
+    else if (state === 'rejected') { showBanner(false); }
+    else { showBanner(true); }
+  }
 
   /* ---------- 11. JOGI DOKUMENTUMOK PANEL ---------- */
   /* A három jogi dokumentum az oldal része: külön oldal helyett

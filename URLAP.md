@@ -51,40 +51,36 @@ A beküldött értékek gépi kulcsok. Ha a sablonban olvasható szöveg kell:
 | `forras` | `hero-urlap` | Hero szekció űrlapja |
 | | `zaro-urlap` | Záró szekció űrlapja |
 
-## Beküldés — EmailJS
+## Beküldés — szerveroldali végpont
 
-Az űrlap az **EmailJS**-en keresztül küld. A beállítások az
-`assets/js/main.js` 10. blokkjában, az `EMAILJS` objektumban vannak.
+Az űrlapok `method="post" action="/api/lead"` beállítással működnek, tehát
+**JS nélkül is szabályosan, POST törzsben küldenek** — személyes adat
+semmilyen hibaesetben nem kerül az URL query paramétereibe.
 
-**FONTOS:** az EmailJS felületén (Account → Security) korlátozd az
-engedélyezett domainekre. A publikus kulcs látszik a kódban — ez így
-működik, de korlátozás nélkül bárki küldhet a fiókod keretéből.
+Fut a JS: `fetch` hívás JSON-nel ugyanarra a végpontra, oldalváltás nélkül.
 
-### Amit az EmailJS-sablon kap
+A feldolgozás az `api/lead.js`-ben történik:
 
-A JS **nem a nyers mezőneveket küldi**, hanem olvasható magyar szöveget:
-`csaladi-haz` helyett `Családi ház`. Ha egy rádiós kérdésre nem válaszolt
-a látogató, az érték `nincs megadva` — tehát **a sablonban egyik változó
-sem lesz üres**.
+1. **méhkas** (`website`, `cegnev_megerosites`) — kitöltve: látszólagos siker, nincs küldés
+2. **időzítés** (`ts`) — 3 másodpercnél gyorsabb beküldés: ugyanaz
+3. **kérésszámlálás** — IP-nként 5 beküldés / 10 perc
+4. **Turnstile** — ha a titkos kulcs be van állítva
+5. **ellenőrzés és tisztítás** — hosszkorlát, vezérlőkarakter-szűrés,
+   a rádiós válaszok fix engedélyezőlistáról
+6. **levél** — Resend REST API, szerveroldali címzettel és tárggyal
 
-| Sablonváltozó | Tartalom |
+A kliens **nem adhat meg** címzettet, tárgyat, feladót vagy sablont: a
+szerver ezeket a mezőket eldobja, és környezeti változóból veszi.
+A titkos kulcsok az `ENV.md`-ben vannak dokumentálva.
+
+### Rejtett mezők
+
+| Mező | Szerep |
 |---|---|
-| `{{forras}}` | Hero szekció űrlapja / Záró szekció űrlapja |
-| `{{nev}}` | Név |
-| `{{telefon}}` | Telefonszám |
-| `{{email}}` | E-mail-cím vagy „nincs megadva" |
-| `{{helyszin}}` | Település vagy megye |
-| `{{ingatlan}}` | Családi ház / Társasházi lakás / Egyéb (iroda, üzlet) |
-| `{{darabszam}}` | 1–3 db / 4–8 db / 8 db felett |
-| `{{igeny}}` | Nyílászáró / Bejárati ajtó / Árnyékolás (redőny, zsalúzia) / Komplett megoldás |
-| `{{idozites}}` | Most azonnal / 1–3 hónapon belül / Még csak tájékozódom |
-| `{{uzenet}}` | Megjegyzés vagy „nincs megadva" |
-| `{{hozzajarulas}}` | Elfogadva |
-| `{{idopont}}` | A beküldés időpontja |
-| `{{oldal_url}}` | Melyik oldalról érkezett |
-
-Ha új válaszlehetőség kerül egy rádiós kérdésbe, a `main.js` `LABELS`
-objektumát is bővíteni kell, különben a gépi kulcs megy az e-mailbe.
+| `forras` | `hero-urlap` / `zaro-urlap` |
+| `ts` | a kitöltés kezdetének időbélyege (bot-szűrés) |
+| `website`, `cegnev_megerosites` | méhkas — ember nem látja, nem tölti ki |
+| `cf-turnstile-response` | a Turnstile widget tölti ki, ha van sitekey |
 
 Élesítés előtt még: az `index.html` fejlécéből törlendő a
 `<meta name="robots" content="noindex, nofollow">` sor.

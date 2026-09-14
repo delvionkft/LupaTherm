@@ -34,7 +34,16 @@ Beállítások a Vercel felületén, a projekt importálásakor:
 Ha a Vercel build parancsot kér, ne adj meg semmit. Egy kitalált
 `npm run build` itt csak hibára futna, mert nincs mit buildelni.
 
-### Környezeti változó: EGY SINCS
+### Környezeti változók: NÉGY DARAB
+
+Az űrlapbeküldés szerveroldali végpontra költözött (`api/lead.js`), ezért
+mostantól **négy környezeti változót kell beállítani** a Vercelben:
+`RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`, `TURNSTILE_SECRET_KEY`.
+
+Részletes leírás — honnan szerezhető, melyik környezetben kell, mi nem
+működik nélküle: **`ENV.md`**.
+
+### Korábbi állapot (már nem érvényes)
 
 A Vercel „Environment Variables" szekciójában **nem kell semmit megadni**.
 
@@ -110,16 +119,13 @@ Cseréld a `https://[DOMAIN]` szövegrészt a valódi címre:
 - `robots.txt`: töröld a `Disallow: /` sort, és vedd ki a kommentből az alsó blokkot
 - A `404.html` `noindex` sora **maradjon** — hibaoldal ne kerüljön keresőbe
 
-### 3. EmailJS lezárása és tesztelése
+### 3. Környezeti változók és éles teszt
 
-Az űrlap **be van kötve** (EmailJS). Két teendő maradt:
-
-- **EmailJS → Account → Security:** korlátozd az engedélyezett domainekre.
-  A publikus kulcs látszik a kódban — korlátozás nélkül bárki küldhet
-  a fiókod keretéből.
-- **Éles teszt:** küldj be egy próbaajánlatkérést **mindkét űrlapról**
-  (hero alatti és záró szekció), és nézd meg, megérkezik-e a levél.
-  A sablonváltozók listája az `URLAP.md`-ben.
+- Állítsd be a négy változót a Vercelben — lásd **`ENV.md`**, majd **redeploy**.
+- Írd be a Turnstile **Site Key**-t az `index.html`-be a
+  `[TURNSTILE_SITE_KEY]` helyére (két helyen, mindkét űrlapban).
+- Küldj be egy próbaajánlatkérést **mindkét űrlapról** (hero alatti és
+  záró szekció), és nézd meg, megérkezik-e a levél.
 
 ### 4. Hiányzó tartalom
 

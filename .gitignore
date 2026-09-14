@@ -4,3 +4,9 @@ Thumbs.db
 node_modules/
 .vscode/
 .idea/
+
+# Környezeti változók — soha ne kerüljenek a repóba
+.env
+.env.*
+!.env.example
+.vercel

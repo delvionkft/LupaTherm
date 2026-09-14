@@ -1,0 +1,17 @@
+{
+  "name": "lupatherm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LupaTherm landing oldal — statikus HTML/CSS/JS + egy Vercel serverless végpont",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "lint": "eslint api assets/js",
+    "check": "node --check assets/js/main.js && node -e \"import('./api/lead.js').then(()=>console.log('api/lead.js betolthето'))\"",
+    "build": "echo \"Nincs build lepes - statikus fajlok.\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

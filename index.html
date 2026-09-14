@@ -34,25 +34,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260914b">
+<link rel="stylesheet" href="assets/css/styles.css?v=20260915a">
 
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '962398476156311');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+<!-- A Meta Pixel NEM itt töltődik be. A hozzájárulás elfogadása után
+     az assets/js/main.js 10/b blokkja inicializálja. -->
 
 </head>
 <body>
@@ -75,7 +60,6 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
 
     <a class="logo" href="#hero" aria-label="LupaTherm — kezdőlap">
       <span class="logo__mark" aria-hidden="true">
-        <img class="logo__img" src="assets/img/logo.svg" alt="" loading="eager" decoding="async">
         <svg class="logo__fallback" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           <g stroke-width="2.6" stroke-linecap="square">
             <g stroke="#EDC0A0"><path d="M2.5 9h11M2.5 17h11M2.5 25h11M2.5 33h11M2.5 41h11"/></g>
@@ -287,8 +271,18 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
     </div>
 
     <div class="reveal reveal--right">
-      <form class="form-card" data-form>
+      <form class="form-card" method="post" action="/api/lead" data-form>
         <input type="hidden" name="forras" value="hero-urlap">
+        <input type="hidden" name="ts" value="0">
+        <!-- Méhkas: ember nem látja és nem tölti ki. A szerver eldobja,
+             ha bármelyik kitöltve érkezik. Nem "hidden", mert azt a
+             botok kiszűrik — CSS viszi ki a képernyőről. -->
+        <div class="hp" aria-hidden="true">
+          <label for="hp-website-hero">Ezt a mezőt hagyd üresen</label>
+          <input type="text" id="hp-website-hero" name="website" tabindex="-1" autocomplete="off">
+          <label for="hp-ceg-hero">Cégnév megerősítése</label>
+          <input type="text" id="hp-ceg-hero" name="cegnev_megerosites" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-card__glow" aria-hidden="true"></div>
 
         <header class="form-card__head">
@@ -361,6 +355,11 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
           <span class="checkbox__box" aria-hidden="true"></span>
           <span class="checkbox__text">Elolvastam és elfogadom az <a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
+
+        <!-- Cloudflare Turnstile. A data-sitekey publikus érték.
+             Amíg [TURNSTILE_SITE_KEY] a helyén van, a widget nem jelenik meg,
+             és a szerver a méhkasra + kérésszámlálásra támaszkodik. -->
+        <div class="cf-turnstile" data-sitekey="[TURNSTILE_SITE_KEY]" data-language="hu" data-theme="light"></div>
 
         <button class="btn btn--primary btn--block" type="submit">
           Előzetes árajánlatot kérek
@@ -820,8 +819,18 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
     </div>
 
     <div class="reveal reveal--right">
-      <form class="form-card form-card--final" data-form>
+      <form class="form-card form-card--final" method="post" action="/api/lead" data-form>
         <input type="hidden" name="forras" value="zaro-urlap">
+        <input type="hidden" name="ts" value="0">
+        <!-- Méhkas: ember nem látja és nem tölti ki. A szerver eldobja,
+             ha bármelyik kitöltve érkezik. Nem "hidden", mert azt a
+             botok kiszűrik — CSS viszi ki a képernyőről. -->
+        <div class="hp" aria-hidden="true">
+          <label for="hp-website-zaro">Ezt a mezőt hagyd üresen</label>
+          <input type="text" id="hp-website-zaro" name="website" tabindex="-1" autocomplete="off">
+          <label for="hp-ceg-zaro">Cégnév megerősítése</label>
+          <input type="text" id="hp-ceg-zaro" name="cegnev_megerosites" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-card__glow" aria-hidden="true"></div>
 
         <header class="form-card__head">
@@ -895,6 +904,11 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
           <span class="checkbox__text">Elolvastam és elfogadom az <a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">adatkezelési tájékoztatóban</a> foglaltakat.</span>
         </label>
 
+        <!-- Cloudflare Turnstile. A data-sitekey publikus érték.
+             Amíg [TURNSTILE_SITE_KEY] a helyén van, a widget nem jelenik meg,
+             és a szerver a méhkasra + kérésszámlálásra támaszkodik. -->
+        <div class="cf-turnstile" data-sitekey="[TURNSTILE_SITE_KEY]" data-language="hu" data-theme="light"></div>
+
         <button class="btn btn--primary btn--block" type="submit">
           Előzetes árajánlatot kérek
           <span class="btn__arrow" aria-hidden="true">&rarr;</span>
@@ -921,7 +935,6 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
     <div class="footer__brand">
       <a class="logo" href="#hero" aria-label="LupaTherm — kezdőlap">
         <span class="logo__mark" aria-hidden="true">
-        <img class="logo__img" src="assets/img/logo.svg" alt="" loading="eager" decoding="async">
         <svg class="logo__fallback" viewBox="0 0 48 48" fill="none" aria-hidden="true">
           <g stroke-width="2.6" stroke-linecap="square">
             <g stroke="#EDC0A0"><path d="M2.5 9h11M2.5 17h11M2.5 25h11M2.5 33h11M2.5 41h11"/></g>
@@ -975,10 +988,29 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
     <ul class="footer__legal">
       <li><a href="#adatkezelesi-tajekoztato" data-legal="adatkezeles">Adatkezelési tájékoztató</a></li>
       <li><a href="#suti-szabalyzat" data-legal="suti">Süti szabályzat</a></li>
+      <li><a href="#" data-consent-open>Süti-beállítások</a></li>
       <li><a href="#impresszum" data-legal="impresszum">Impresszum</a></li>
     </ul>
   </div>
 </footer>
+
+<!-- Süti-hozzájárulás. A Meta Pixel CSAK az "Elfogadom" után indul el. -->
+<div class="consent" id="consent" role="dialog" aria-modal="false"
+     aria-labelledby="consent-title" hidden>
+  <div class="consent__inner">
+    <div class="consent__text">
+      <h2 class="consent__title" id="consent-title">Sütik a marketinghez</h2>
+      <p>A weboldal működéséhez szükséges adatokon túl <strong>marketingsütiket</strong>
+        is használnánk (Meta Pixel), hogy mérni tudjuk a hirdetéseink eredményét.
+        Ezek csak a hozzájárulásoddal indulnak el. Részletek a
+        <a href="#suti-szabalyzat" data-legal="suti">süti szabályzatban</a>.</p>
+    </div>
+    <div class="consent__actions">
+      <button class="btn btn--ghost btn--sm" type="button" data-consent-reject>Elutasítom</button>
+      <button class="btn btn--primary btn--sm" type="button" data-consent-accept>Elfogadom</button>
+    </div>
+  </div>
+</div>
 
 <!-- Mobil ragadós CTA sáv -->
 <div class="mobile-cta" id="mobile-cta">
@@ -986,22 +1018,40 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
   <a class="btn btn--primary btn--sm" href="#ajanlatkeres">Árajánlatot kérek</a>
 </div>
 
+<noscript>
+  <!-- JS nélkül a jogi panel nem nyitható. Mivel a hozzájárulási
+       jelölőnégyzet az adatkezelési tájékoztató elfogadását kéri, a
+       dokumentumoknak JS nélkül is olvashatónak kell lenniük: a panel
+       ilyenkor statikus szekcióként jelenik meg, mindhárom irattal. -->
+  <style>
+    .legal-modal{position:static;display:block;padding:0;background:none}
+    .legal-modal[hidden]{display:block !important}
+    .legal-modal__backdrop,.legal-modal__close,.legal-modal__tabs{display:none}
+    .legal-modal__panel{width:100%;max-height:none;border:0;border-top:1px solid var(--border);
+      box-shadow:none;animation:none}
+    .legal-modal__head{display:none}
+    .legal-modal__body{overflow:visible;max-width:880px;margin-inline:auto}
+    .legal-doc[hidden]{display:block !important}
+    .legal-doc + .legal-doc{margin-top:48px;padding-top:40px;border-top:2px solid var(--accent)}
+    .consent{display:none}
+  </style>
+</noscript>
 <!-- Jogi dokumentumok — az oldalon belül nyíló panel -->
 <div class="legal-modal" id="legal-modal" role="dialog" aria-modal="true" aria-label="Jogi dokumentumok" hidden>
   <div class="legal-modal__backdrop" data-legal-close></div>
   <div class="legal-modal__panel">
     <header class="legal-modal__head">
       <div class="legal-modal__tabs" role="tablist" aria-label="Jogi dokumentumok">
-        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="impresszum" id="legal-tab-impresszum" aria-controls="legal-doc-impresszum" aria-selected="false" tabindex="-1">Impresszum</button>
-        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="adatkezeles" id="legal-tab-adatkezeles" aria-controls="legal-doc-adatkezeles" aria-selected="false" tabindex="-1">Adatkezelési tájékoztató</button>
-        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="suti" id="legal-tab-suti" aria-controls="legal-doc-suti" aria-selected="false" tabindex="-1">Süti szabályzat</button>
+        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="impresszum" id="legal-tab-impresszum" aria-controls="impresszum" aria-selected="false" tabindex="-1">Impresszum</button>
+        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="adatkezeles" id="legal-tab-adatkezeles" aria-controls="adatkezelesi-tajekoztato" aria-selected="false" tabindex="-1">Adatkezelési tájékoztató</button>
+        <button class="legal-modal__tab" type="button" role="tab" data-legal-tab="suti" id="legal-tab-suti" aria-controls="suti-szabalyzat" aria-selected="false" tabindex="-1">Süti szabályzat</button>
       </div>
       <button class="legal-modal__close" type="button" data-legal-close aria-label="Bezárás">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>
       </button>
     </header>
     <div class="legal-modal__body" data-legal-body>
-      <article class="legal-doc" id="legal-doc-impresszum" role="tabpanel" aria-labelledby="legal-tab-impresszum" data-legal-doc="impresszum" tabindex="-1" hidden>
+      <article class="legal-doc" id="impresszum" data-legal-id="legal-doc-impresszum" role="tabpanel" aria-labelledby="legal-tab-impresszum" data-legal-doc="impresszum" tabindex="-1" hidden>
           <p class="lead legal__lead">A weboldal üzemeltetőjének adatai és a szolgáltatásra vonatkozó legfontosabb tudnivalók.</p>
           <section class="legal__sec">
             <h2 class="legal__h2"><span class="legal__num">01</span>Szolgáltató adatai</h2>
@@ -1021,9 +1071,10 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
             <h2 class="legal__h2"><span class="legal__num">02</span>Tárhelyszolgáltató</h2>
             <p>A weboldal tárhelyét az alábbi szolgáltató biztosítja:</p>
             <dl class="legal__dl">
-              <div class="legal__row"><dt>Név</dt><dd>[TÁRHELYSZOLGÁLTATÓ NEVE]</dd></div>
-              <div class="legal__row"><dt>Székhely</dt><dd>[TÁRHELYSZOLGÁLTATÓ CÍME]</dd></div>
-              <div class="legal__row"><dt>E-mail</dt><dd>[TÁRHELYSZOLGÁLTATÓ E-MAIL-CÍME]</dd></div>
+              <div class="legal__row"><dt>Szolgáltatás</dt><dd>Vercel</dd></div>
+              <div class="legal__row"><dt>Hivatalos cégnév</dt><dd>[VERCEL HIVATALOS CÉGNEVE]</dd></div>
+              <div class="legal__row"><dt>Székhely</dt><dd>[VERCEL SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>Kapcsolat</dt><dd>[VERCEL KAPCSOLATI E-MAIL VAGY ŰRLAP CÍME]</dd></div>
             </dl>
           </section>
 
@@ -1040,7 +1091,7 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
 
           <p class="legal__updated">Hatályos: <strong>[HATÁLYBALÉPÉS DÁTUMA]</strong>-tól visszavonásig vagy módosításig.</p>
       </article>
-      <article class="legal-doc" id="legal-doc-adatkezeles" role="tabpanel" aria-labelledby="legal-tab-adatkezeles" data-legal-doc="adatkezeles" tabindex="-1" hidden>
+      <article class="legal-doc" id="adatkezelesi-tajekoztato" data-legal-id="legal-doc-adatkezeles" role="tabpanel" aria-labelledby="legal-tab-adatkezeles" data-legal-doc="adatkezeles" tabindex="-1" hidden>
           <p class="lead legal__lead">Ez a tájékoztató a Lupa Therm Kft. weboldalán folytatott adatkezelésre vonatkozik. Adatait a jogszabályok előírásainak megfelelően, a legnagyobb körültekintéssel kezeljük.</p>
           <section class="legal__sec">
             <h2 class="legal__h2"><span class="legal__num">01</span>Az adatkezelő adatai</h2>
@@ -1130,10 +1181,11 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
             <h2 class="legal__h2"><span class="legal__num">07</span>Adattovábbítás, adatfeldolgozók</h2>
             <p>Személyes adatait kizárólag az alábbi adatfeldolgozóinknak továbbítjuk, illetve hatósági megkeresés esetén a hatóságoknak. Minden adatfeldolgozóval írásbeli megállapodást kötünk.</p>
             <dl class="legal__dl">
-              <div class="legal__row"><dt>Tárhelyszolgáltató</dt><dd>[TÁRHELYSZOLGÁLTATÓ NEVE ÉS SZÉKHELYE]</dd></div>
-              <div class="legal__row"><dt>Az űrlapadatok fogadása és tárolása</dt><dd>[ŰRLAP- VAGY CRM-SZOLGÁLTATÓ NEVE ÉS SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>Tárhelyszolgáltatás és az űrlap futtatása</dt><dd><strong>Vercel</strong> — a weboldal kiszolgálása és az ajánlatkérő űrlapot feldolgozó szerveroldali végpont futtatása. Az adatok feldolgozás céljából áthaladnak a szolgáltató rendszerén; tartós tárolás itt nem történik. Cégnév és székhely: [VERCEL HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>E-mail-továbbítás</dt><dd><strong>Resend</strong> — az űrlapon megadott adatokat tartalmazó értesítő e-mail kézbesítése a szolgáltató e-mail-fiókjába. Cégnév és székhely: [RESEND HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>Automatizált visszaélés elleni védelem</dt><dd><strong>Cloudflare Turnstile</strong> — annak ellenőrzése, hogy a beküldést ember végezte. Ehhez technikai adatokat (például IP-cím, böngészőjellemzők) kezel. Cégnév és székhely: [CLOUDFLARE HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
             </dl>
-            <p><em>A fenti mezőket a weboldal éles indulása előtt, a tényleges szolgáltatók megnevezésével kell kitölteni.</em></p>
+            <p><em>A szolgáltatók hivatalos cégnevét és székhelyét a saját jogi oldalukról kell átvenni, és a weboldal éles indulása előtt beírni.</em></p>
           </section>
 
           <section class="legal__sec">
@@ -1178,7 +1230,7 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
 
           <p class="legal__updated">Hatályos: <strong>[HATÁLYBALÉPÉS DÁTUMA]</strong>-tól visszavonásig vagy módosításig.</p>
       </article>
-      <article class="legal-doc" id="legal-doc-suti" role="tabpanel" aria-labelledby="legal-tab-suti" data-legal-doc="suti" tabindex="-1" hidden>
+      <article class="legal-doc" id="suti-szabalyzat" data-legal-id="legal-doc-suti" role="tabpanel" aria-labelledby="legal-tab-suti" data-legal-doc="suti" tabindex="-1" hidden>
           <p class="lead legal__lead">Ez a szabályzat a Lupa Therm Kft. weboldalán alkalmazott sütikre vonatkozik. A weboldal használatával elfogadja a szabályzat rendelkezéseit.</p>
           <section class="legal__sec">
             <h2 class="legal__h2"><span class="legal__num">01</span>Mik azok a sütik?</h2>
@@ -1202,7 +1254,7 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
             <dl class="legal__dl">
               <div class="legal__row"><dt>Meta Pixel (Facebook / Instagram hirdetés)</dt><dd><strong>Hirdetési és mérési célú követőkód.</strong> A Meta Platforms Ireland Ltd. szolgáltatása, amely sütiket helyez el az Ön eszközén, és adatot továbbít a Meta felé az oldal látogatásáról. Ez teszi lehetővé a hirdetések eredményének mérését, valamint azt, hogy Ön később is találkozzon hirdetésünkkel. Azonosító: 962398476156311. Részletek: <a href="https://www.facebook.com/policies/cookies/" target="_blank" rel="noopener">Meta süti-tájékoztató</a>. A hirdetési beállításait a <a href="https://www.facebook.com/adpreferences" target="_blank" rel="noopener">Meta hirdetési beállítások</a> oldalon módosíthatja.</dd></div>
               <div class="legal__row"><dt>Betűtípusok (Google Fonts)</dt><dd>A weboldal betűtípusai a Google szervereiről töltődnek be. Ennek során a szolgáltató megismerheti az Ön IP-címét. Részletek: <a href="https://policies.google.com/privacy?hl=hu" target="_blank" rel="noopener">Google adatvédelmi irányelvek</a>.</dd></div>
-              <div class="legal__row"><dt>Űrlapbeküldés (EmailJS)</dt><dd>Az ajánlatkérő űrlap beküldését az EmailJS szolgáltatása továbbítja e-mailben a szolgáltatóhoz. Az űrlapba beírt adatok a szolgáltatáson keresztül haladnak át.</dd></div>
+              <div class="legal__row"><dt>Űrlapvédelem (Cloudflare Turnstile)</dt><dd>Az ajánlatkérő űrlapot a Cloudflare Turnstile védi az automatizált visszaélésektől. A szolgáltató ehhez technikai adatokat (például IP-cím, böngészőjellemzők) kezel. Ez a megoldás nem használ követő sütit hirdetési célra. Részletek: <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare adatvédelmi tájékoztató</a>.</dd></div>
             </dl>
             <p>A weboldal <strong>saját statisztikai sütit nem használ</strong> — statisztikai és hirdetési célra kizárólag a fenti Meta Pixel működik.</p>
             <p><em>[TEENDŐ: a Meta Pixel hirdetési célú követőkód, amelynek betöltéséhez az EU-ban a látogató előzetes hozzájárulása szükséges. Sütikezelő sáv beüzemeléséig a pixel hozzájárulás nélkül fut.]</em></p>
@@ -1286,8 +1338,9 @@ src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
   felvesszük veled a kapcsolatot, hogy pontosítsuk az igényeidet és az
   előzetes árajánlat elkészítéséhez szükséges adatokat.
 -->
-<!-- EmailJS SDK — az űrlapbeküldést szolgálja ki -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-<script src="assets/js/main.js?v=20260914b" defer></script>
+<!-- Turnstile betöltő. Csak akkor tesz bármit, ha a fenti widgetben
+     valódi sitekey van; a placeholderrel a widget üresen marad. -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<script src="assets/js/main.js?v=20260915a" defer></script>
 </body>
 </html>
