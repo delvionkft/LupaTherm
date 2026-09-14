@@ -13,6 +13,70 @@ pusholás felülírja az ottani munkát.
 
 Nincs build lépés, nincs függőség. Ami a repóban van, az megy ki 1:1.
 
+## Vercel-publikálás
+
+### Ez a projekt NEM buildel
+
+Tiszta HTML/CSS/JS. **Nincs `package.json`, nincs `node_modules`, nincs
+build lépés, nincs függőség.** A Vercel a fájlokat változatlanul szolgálja ki.
+
+Beállítások a Vercel felületén, a projekt importálásakor:
+
+| Mező | Érték |
+|---|---|
+| Framework Preset | **Other** |
+| Build Command | **üresen hagyni** (kapcsold ki az Override-ot) |
+| Output Directory | **üresen hagyni** (a repó gyökere) |
+| Install Command | **üresen hagyni** |
+| Root Directory | `./` |
+| Production Branch | `main` |
+
+Ha a Vercel build parancsot kér, ne adj meg semmit. Egy kitalált
+`npm run build` itt csak hibára futna, mert nincs mit buildelni.
+
+### Környezeti változó: EGY SINCS
+
+A Vercel „Environment Variables" szekciójában **nem kell semmit megadni**.
+
+Ennek oka nem feledékenység: build lépés nélküli statikus oldal
+**nem tud** környezeti változót olvasni — nincs szerveroldali kód és
+nincs build, ami behelyettesítené. Minden érték a forrásban van:
+
+| Érték | Hol van | Titkos? |
+|---|---|---|
+| EmailJS public key | `assets/js/main.js` (`EMAILJS.publicKey`) | Nem — szándékosan publikus |
+| EmailJS service / template ID | `assets/js/main.js` | Nem |
+| Meta Pixel azonosító | `index.html` fejléc | Nem — minden pixel látható a forrásban |
+
+**Az EmailJS public key védelme nem titkosítással történik, hanem
+domainkorlátozással.** EmailJS → Account → Security → engedélyezett
+domainek: vedd fel a Vercel-domaint (és később a saját domaint).
+Enélkül bárki küldhet a fiókod keretéből.
+
+Ha valaha **valódi titok** kerülne a projektbe (SMTP-jelszó, API secret),
+az nem mehet a forrásba — akkor Vercel Function kell hozzá, és csak ott
+van értelme környezeti változónak.
+
+### vercel.json
+
+A repóban lévő `vercel.json` állítja be:
+
+- `cleanUrls` — `/index.html` helyett `/`
+- HTML: nincs gyorsítótárazás (a módosítás azonnal látszik)
+- `assets/css`, `assets/js`: egy év, `immutable` — ezért fontos a
+  `?v=` verziószám emelése minden módosításnál (lásd lentebb)
+- `assets/img`: 1 nap + `stale-while-revalidate`
+- biztonsági fejlécek: `nosniff`, `Referrer-Policy`, `X-Frame-Options`,
+  `Permissions-Policy`
+
+CSP-t szándékosan nem állítottam be: rosszul megírva megbénítaná az
+EmailJS-t és a Meta Pixelt. Ha kell, külön kell összeállítani és tesztelni.
+
+### A 404-oldal
+
+A Vercel statikus projektnél automatikusan a gyökérben lévő `404.html`-t
+szolgálja ki ismeretlen útvonalon. Nincs vele teendő.
+
 ## Fájlszerkezet
 
 ```
