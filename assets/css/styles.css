@@ -2130,3 +2130,109 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
    (lásd a <noscript> blokkot az index.html-ben); a mély linkek ekkor
    a :target horgonnyal találnak célba. */
 .legal-doc:target{scroll-margin-top:24px}
+
+/* ==========================================================================
+   16 · KALKULÁTOR
+   ========================================================================== */
+
+.calc[hidden]{display:none}
+
+.calc__grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+  gap:clamp(18px,2.4vw,32px);
+  align-items:start;
+}
+
+.calc__panel{
+  display:flex;flex-direction:column;gap:2px;
+  background:var(--card);
+  border:1px solid var(--border);
+}
+.calc__group{
+  border:0;border-top:1px solid var(--border);
+  margin:0;padding:clamp(16px,2.2vw,24px);
+}
+.calc__group:first-of-type{border-top:0}
+.calc__group[hidden]{display:none}
+.calc__legend{
+  padding:0;margin-bottom:12px;
+  color:var(--ink);
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.calc__row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.calc__row .field{margin:0}
+.field__unit{color:var(--text-muted);font-weight:400;text-transform:none;letter-spacing:0}
+.chips--calc{gap:8px}
+
+/* Az eredménypanel követi a görgetést, hogy az összeg mindig látszódjon. */
+.calc__result{position:sticky;top:96px}
+.calc__result-inner{
+  background:var(--dark);
+  border:1px solid var(--dark-2);
+  border-top:2px solid var(--accent);
+  padding:clamp(20px,2.6vw,28px);
+  color:#fff;
+}
+.calc__result-label{
+  margin:0 0 6px;
+  color:var(--accent-on-dark);
+  font-size:11.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.calc__amount{
+  margin:0;
+  font-size:clamp(24px,2.9vw,34px);
+  font-weight:600;line-height:1.14;
+  letter-spacing:-.02em;
+  color:#fff;
+  text-wrap:balance;
+}
+.calc__vat{
+  margin:8px 0 0;
+  color:rgba(255,255,255,.72);
+  font-size:12.5px;line-height:1.5;
+}
+.calc__vat[hidden]{display:none}
+
+.calc__breakdown{
+  list-style:none;margin:20px 0 0;padding:18px 0 0;
+  border-top:1px solid rgba(255,255,255,.16);
+  display:flex;flex-direction:column;gap:9px;
+}
+.calc__breakdown[hidden]{display:none}
+.calc__breakdown li{
+  display:flex;justify-content:space-between;gap:16px;
+  font-size:13.5px;line-height:1.5;
+  color:rgba(255,255,255,.82);
+}
+.calc__breakdown li span:last-child{
+  color:#fff;font-weight:600;white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+
+.calc__empty{
+  margin:16px 0 0;
+  color:rgba(255,255,255,.7);
+  font-size:13.5px;line-height:1.6;
+}
+.calc__empty[hidden]{display:none}
+
+.calc__note{
+  margin:20px 0 18px;padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.16);
+  color:rgba(255,255,255,.72);
+  font-size:12.5px;line-height:1.65;
+}
+.calc__note strong{color:#fff;font-weight:600}
+
+.checkbox--calc{margin:0}
+
+@media (max-width:1000px){
+  .calc__grid{grid-template-columns:1fr}
+  .calc__result{position:static}
+}
+@media (max-width:560px){
+  .calc__row{grid-template-columns:1fr}
+}

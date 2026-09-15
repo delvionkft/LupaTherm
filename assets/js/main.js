@@ -13,6 +13,7 @@
    10. Űrlapok (beküldés a /api/lead végpontra)
    10/b. Süti-hozzájárulás és Meta Pixel
    11. Jogi dokumentumok panel (impresszum, adatkezelés, süti)
+   12. Kalkulátor (helyben számol, árlista: assets/js/arak.js)
    ============================================================ */
 (function () {
   'use strict';
@@ -638,6 +639,200 @@
       if (k) openLegal(k);
     });
   }
+
+  /* ---------- 12. KALKULÁTOR — helyben számol ---------- */
+  /* Nem küld adatot sehova, nincs hálózati kérés. Az árakat kizárólag
+     az assets/js/arak.js fájlból veszi. Ha az árlista nincs kitöltve
+     (aktiv !== true), a teljes szekció rejtve marad — így nem jelenhet
+     meg kitalált szám a látogatónak. */
+
+  var calcSection = $('#kalkulator');
+  var ARAK = window.LUPATHERM_ARAK;
+
+  function arlistaKesz(a) {
+    if (!a || a.aktiv !== true) return false;
+    /* Legalább egy valódi egységárnak lennie kell, különben a
+       kalkulátor nullát mutatna. */
+    var talalt = false;
+    ['nyilaszaro', 'ajto', 'arnyekolas', 'kiegeszito', 'beepites'].forEach(function (k) {
+      var cs = a[k];
+      if (!cs) return;
+      Object.keys(cs).forEach(function (m) {
+        if (typeof cs[m] === 'number' && cs[m] > 0) talalt = true;
+      });
+    });
+    return talalt;
+  }
+
+  if (calcSection && arlistaKesz(ARAK)) {
+    calcSection.hidden = false;
+    $$('[data-nav-calc]').forEach(function (el) { el.hidden = false; });
+
+    var calcForm = $('#calc-form');
+    var elTotal = $('[data-calc-total]');
+    var elVat = $('[data-calc-vat]');
+    var elList = $('[data-calc-breakdown]');
+    var elEmpty = $('[data-calc-empty]');
+    var elCta = $('[data-calc-cta]');
+
+    var szamFmt = new Intl.NumberFormat('hu-HU', { maximumFractionDigits: 0 });
+    var penz = function (n) { return szamFmt.format(Math.round(n)) + ' ' + ARAK.penznem; };
+
+    function ertek(selector, alap) {
+      var el = calcForm.querySelector('[data-calc="' + selector + '"]');
+      if (!el) return alap;
+      if (el.type === 'checkbox') return el.checked;
+      if (el.tagName === 'SELECT') return el.value;
+      var n = parseFloat(el.value);
+      if (!isFinite(n)) return alap;
+      /* A min/max attribútumot itt is betartatjuk: a number mező
+         értéke kézzel átírható a megadott korlátokon túlra. */
+      var min = parseFloat(el.min);
+      var max = parseFloat(el.max);
+      if (isFinite(min) && n < min) n = min;
+      if (isFinite(max) && n > max) n = max;
+      return n;
+    }
+
+    function aktivCsoportok() {
+      return $$('[data-calc-group]', calcForm)
+        .filter(function (el) { return el.checked; })
+        .map(function (el) { return el.value; });
+    }
+
+    function szamol() {
+      var csoportok = aktivCsoportok();
+      var tetelek = [];
+      var nyilasDb = 0;
+      var ajtoDb = 0;
+
+      if (csoportok.indexOf('nyilaszaro') > -1) {
+        var db = ertek('nyilaszaro.db', 0);
+        var sz = ertek('nyilaszaro.szelesseg', 0) / 100;
+        var ma = ertek('nyilaszaro.magassag', 0) / 100;
+        var anyag = ertek('nyilaszaro.anyag', 'muanyag');
+        var egysegAr = ARAK.nyilaszaro[anyag];
+        var m2 = sz * ma;
+        if (ARAK.nyilaszaro.minM2 && m2 < ARAK.nyilaszaro.minM2) m2 = ARAK.nyilaszaro.minM2;
+        if (db > 0 && egysegAr) {
+          nyilasDb += db;
+          tetelek.push({
+            nev: 'Nyílászáró (' + db + ' db, ' + m2.toFixed(2).replace('.', ',') + ' m²/db)',
+            osszeg: db * m2 * egysegAr
+          });
+        }
+      }
+
+      if (csoportok.indexOf('ajto') > -1) {
+        var adb = ertek('ajto.db', 0);
+        var kivitel = ertek('ajto.kivitel', 'alap');
+        var aAr = ARAK.ajto[kivitel];
+        if (adb > 0 && aAr) {
+          ajtoDb += adb;
+          tetelek.push({ nev: 'Bejárati ajtó (' + adb + ' db)', osszeg: adb * aAr });
+        }
+      }
+
+      if (csoportok.indexOf('arnyekolas') > -1) {
+        var rdb = ertek('arnyekolas.db', 0);
+        var tipus = ertek('arnyekolas.tipus', 'redony_kezi');
+        var rAr = ARAK.arnyekolas[tipus];
+        if (rdb > 0 && rAr) {
+          tetelek.push({ nev: 'Árnyékolás (' + rdb + ' nyílás)', osszeg: rdb * rAr });
+        }
+      }
+
+      if (csoportok.indexOf('kiegeszito') > -1) {
+        var sdb = ertek('kiegeszito.szunyoghalo', 0);
+        var pdb = ertek('kiegeszito.parkany', 0);
+        if (sdb > 0 && ARAK.kiegeszito.szunyoghalo) {
+          tetelek.push({ nev: 'Szúnyogháló (' + sdb + ' db)', osszeg: sdb * ARAK.kiegeszito.szunyoghalo });
+        }
+        if (pdb > 0 && ARAK.kiegeszito.parkany) {
+          tetelek.push({ nev: 'Belső párkány (' + pdb + ' db)', osszeg: pdb * ARAK.kiegeszito.parkany });
+        }
+      }
+
+      if (ertek('beepites.kell', false) && (nyilasDb > 0 || ajtoDb > 0)) {
+        var bOsszeg = 0;
+        if (ARAK.beepites.nyilaszaro) bOsszeg += nyilasDb * ARAK.beepites.nyilaszaro;
+        if (ARAK.beepites.ajto) bOsszeg += ajtoDb * ARAK.beepites.ajto;
+        if (bOsszeg > 0) tetelek.push({ nev: 'Bontás és beépítés', osszeg: bOsszeg });
+      }
+
+      var netto = tetelek.reduce(function (s, t) { return s + t.osszeg; }, 0);
+      return { tetelek: tetelek, netto: netto };
+    }
+
+    function megjelenit() {
+      var r = szamol();
+      var van = r.netto > 0;
+
+      elEmpty.hidden = van;
+      elList.hidden = !van;
+      elVat.hidden = !van;
+
+      if (!van) {
+        elTotal.textContent = '—';
+        elList.innerHTML = '';
+        return;
+      }
+
+      var sav = ARAK.savSzazalek || 0;
+      var brutto = r.netto * (1 + (ARAK.afaSzazalek || 0) / 100);
+      var also = brutto * (1 - sav);
+      var felso = brutto * (1 + sav);
+
+      elTotal.textContent = sav > 0
+        ? penz(also) + ' – ' + penz(felso)
+        : penz(brutto);
+      elVat.textContent = 'bruttó, ' + ARAK.afaSzazalek + '% áfával · nettó ' + penz(r.netto);
+
+      elList.innerHTML = '';
+      r.tetelek.forEach(function (t) {
+        var li = document.createElement('li');
+        var nev = document.createElement('span');
+        var ar = document.createElement('span');
+        nev.textContent = t.nev;
+        ar.textContent = penz(t.osszeg);
+        li.appendChild(nev);
+        li.appendChild(ar);
+        elList.appendChild(li);
+      });
+    }
+
+    /* A csoportválasztó jelölőnégyzetek nyitják a hozzájuk tartozó panelt. */
+    function panelokFrissit() {
+      var csoportok = aktivCsoportok();
+      $$('[data-calc-panel]', calcForm).forEach(function (panel) {
+        var kulcs = panel.getAttribute('data-calc-panel');
+        panel.hidden = kulcs === 'beepites'
+          ? (csoportok.indexOf('nyilaszaro') < 0 && csoportok.indexOf('ajto') < 0)
+          : csoportok.indexOf(kulcs) < 0;
+      });
+    }
+
+    calcForm.addEventListener('input', function () { panelokFrissit(); megjelenit(); });
+    calcForm.addEventListener('change', function () { panelokFrissit(); megjelenit(); });
+    calcForm.addEventListener('submit', function (e) { e.preventDefault(); });
+
+    /* Az ajánlatkérő gomb átviszi a becslés összefoglalóját az űrlapba,
+       hogy a látogatónak ne kelljen újra begépelnie. */
+    if (elCta) {
+      elCta.addEventListener('click', function () {
+        var r = szamol();
+        if (!r.netto) return;
+        var uzenet = $('#f1-uzenet') || $('[name="uzenet"]');
+        if (!uzenet || uzenet.value.trim()) return;
+        uzenet.value = 'Kalkulátor becslés:\n' +
+          r.tetelek.map(function (t) { return '- ' + t.nev; }).join('\n');
+      });
+    }
+
+    panelokFrissit();
+    megjelenit();
+  }
+
 
   /* Kezdeti állapotok beállítása */
   onScroll();

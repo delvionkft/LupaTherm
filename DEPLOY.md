@@ -154,6 +154,30 @@ beüzemelésekor a pixelt a hozzájárulás mögé kell tenni.
 Ha később további eszköz kerül az oldalra (Google Analytics, Google Ads),
 azt is **fel kell venni a 03. szakaszba**.
 
+## Kalkulátor
+
+Az oldalon van egy **helyben számoló** kalkulátor (SZ—05). Nem küld
+adatot sehova, nincs hálózati kérése, és nem kell hozzá ajánlatot kérni.
+
+Az árakat egyetlen fájlból veszi: **`assets/js/arak.js`**.
+
+**Jelenleg ez a fájl üres, és a kalkulátor emiatt REJTVE van** — a szekció
+és a hozzá tartozó menüpont sem jelenik meg. Ez szándékos védelem: így
+nem kerülhet ki kitalált vagy nullás ár a látogató elé.
+
+Bekapcsolás:
+
+1. Töltsd ki az értékeket az `arak.js`-ben (nettó forint).
+2. Állítsd az `aktiv` mezőt `true`-ra.
+3. Emeld a `?v=` verziószámot (lásd lentebb), és deployolj.
+
+A kalkulátor kétszeresen véd a hibás megjelenés ellen: ha az `aktiv`
+true, de egyetlen valódi egységár sincs kitöltve, akkor is rejtve marad.
+
+Az eredmény szándékosan **sáv**, nem egyetlen szám (alapból ±15%, a
+`savSzazalek` mezővel állítható) — egy pontos szám hamis pontosságot
+sugallna egy felmérés előtti becslésnél.
+
 ## Gyorsítótár — verziószám
 
 A `styles.css` és a `main.js` hivatkozása `?v=20260911a` végződést kap
