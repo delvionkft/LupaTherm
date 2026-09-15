@@ -26,62 +26,62 @@
 :root{
   color-scheme:light;
 
-  /* === A megadott akcentszín === */
-  --accent:#CA4E23;        /* MEGADOTT — gombok, vonalak, kiemelés, ikonok */
-  --accent-dark:#A33C17;   /* hoverállapot (6,5:1 fehéren) */
-  --accent-50:#FDF4F0;     /* leheletnyi akcenttel színezett felület */
-  --accent-100:#F7DFD4;    /* halvány akcentfelület, keret */
-  --accent-on-dark:#E8825A;/* akcentszöveg sötét sávon (6,4:1) */
+  /* === Márkaszín: olívás arany / bronz === */
+  --accent:#9B8245;        /* MEGADOTT — logó, ikonok, keretek, díszítés */
+  --accent-dark:#7C6837;
+  --accent-deep:#65552D;   /* gomb hover (7,3:1) */   /* szöveget hordozó felület: gomb, link, hover.
+                              A megadott szín fehéren csak 3,70:1, ami
+                              szöveghez kevés — ez 5,40:1. */
+  --accent-50:#F9F8F4;     /* leheletnyi aranyas felület */
+  --accent-100:#EBE6DA;    /* halvány aranyfelület, keret */
+  --accent-on-dark:#B9A87D;/* aranyszöveg antracit sávon (6,6:1) */
 
-  /* Semleges skála — egyszerű fehér alap */
-  --n-50:#FAFAF9;
-  --n-100:#F4F4F2;
-  --n-200:#E9E8E5;
-  --n-300:#DAD9D5;
-  --ink:#1C1B1A;           /* elsődleges szöveg */
-  --ink-muted:#6B6A66;     /* másodlagos szöveg */
+  /* Antracit / szénfekete — sötét blokkok, lábléc */
+  --dark:#242424;
+  --dark-2:#2E2E2E;
+
+  /* Semleges skála — világosszürke / törtfehér */
+  --n-50:#F7F7F7;
+  --n-100:#F3F3F1;
+  --n-200:#E6E6E3;
+  --n-300:#D6D6D2;
+  --ink:#303030;           /* elsődleges szöveg és cím (13,2:1) */
+  --ink-muted:#4F4F4F;     /* normál szöveg, másodlagos cím (8,2:1) */
 
   /* Alapfelületek */
-  --bg-1:#FFFFFF;          /* elsődleges háttér — tiszta fehér */
-  --bg-2:var(--n-50);      /* másodlagos sáv */
-  --card:#FFFFFF;          /* kártyák háttere */
-  --card-2:var(--n-50);    /* emelt kártyák háttere */
+  --bg-1:#FFFFFF;
+  --bg-2:var(--n-50);
+  --card:#FFFFFF;
+  --card-2:var(--n-50);
 
-  /* Barna skála */
   /* Aliasok — a meglévő szabályok az új rendszerre mutatnak */
   --brown-deep:var(--ink);
-  --brown:var(--accent);
+  --brown:var(--accent-dark);
   --brown-light:var(--accent);
   --brown-hover:var(--accent-dark);
-  --terra:var(--accent);
+  --terra:var(--accent-dark);
   --terra-mid:var(--accent);
   --terra-deep:var(--accent-dark);
   --peach:var(--accent-100);
   --tint:var(--accent-50);
   --tint-2:var(--accent-100);
 
-  /* Anyagcsalád — az építőipari felületek nyelve */
-  --graphite:var(--ink);   /* műszaki felirat, adatsáv */
-  --concrete:var(--n-100); /* sraffozott felület alapja */
+  /* Anyagcsalád */
+  --graphite:var(--dark);
+  --concrete:var(--n-100);
   --concrete-2:var(--n-200);
   --kraft:var(--n-100);
   --kraft-2:var(--n-300);
-  --hatch-ink:rgba(28,27,26,.14);    /* sraffozás — semleges, halk */
+  --hatch-ink:rgba(48,48,48,.13);
 
-  /* Szöveg */
-  --text:var(--ink);       /* elsődleges szövegszín */
+  --text:var(--ink);
   --text-muted:var(--ink-muted);
-  --on-brown:#FFFFFF;      /* szöveg akcentfelületen */
-
-  /* Keretek, rétegek */
+  --on-brown:#FFFFFF;
   --border:var(--n-200);
-  --border-soft:rgba(233,232,229,.9);
-  --hairline:rgba(28,27,26,.09);
+  --border-soft:rgba(230,230,227,.9);
+  --hairline:rgba(48,48,48,.09);
   --glass:rgba(255,255,255,.62);
   --glass-strong:rgba(255,255,255,.88);
-
-  /* Tipográfia */
-  /* Egyetlen betűcsalád az egész oldalon */
   --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --font-display:var(--font-body);
   --font-mono:var(--font-body);
@@ -94,10 +94,10 @@
   --section-y:clamp(72px,9vw,140px);
 
   /* Árnyékok — meleg barna tónusú, nem fekete */
-  --shadow-sm:0 1px 3px rgba(28,27,26,.06);
-  --shadow-md:0 16px 40px -24px rgba(28,27,26,.22);
-  --shadow-brown:0 10px 24px -14px rgba(202,78,35,.28);
-  --shadow-brown-lg:0 18px 40px -20px rgba(202,78,35,.34);
+  --shadow-sm:0 1px 3px rgba(48,48,48,.06);
+  --shadow-md:0 16px 40px -24px rgba(48,48,48,.22);
+  --shadow-brown:0 10px 24px -14px rgba(155,130,69,.28);
+  --shadow-brown-lg:0 18px 40px -20px rgba(155,130,69,.34);
 
   /* Mozgás */
   --ease:cubic-bezier(.22,.61,.36,1);
@@ -160,10 +160,10 @@ body::before{
   position:fixed;inset:0;
   pointer-events:none;z-index:0;
   background-image:
-    linear-gradient(rgba(28,27,26,.07) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(28,27,26,.07) 1px,transparent 1px),
-    linear-gradient(rgba(28,27,26,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(28,27,26,.04) 1px,transparent 1px);
+    linear-gradient(rgba(48,48,48,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,48,48,.07) 1px,transparent 1px),
+    linear-gradient(rgba(48,48,48,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,48,48,.04) 1px,transparent 1px);
   background-size:80px 80px,80px 80px,16px 16px,16px 16px;
   mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 0%,transparent 75%);
   -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 0%,#000 0%,transparent 75%);
@@ -212,8 +212,8 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 
 .hl{
-  color:var(--brown);
-  background:linear-gradient(180deg,var(--terra),var(--terra-deep));
+  color:var(--accent-dark);
+  background:linear-gradient(170deg,var(--accent),var(--accent-dark));
   -webkit-background-clip:text;
   background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -288,15 +288,15 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 .section__glow--left{
   top:6%;left:-14%;
-  background:radial-gradient(circle,rgba(202,78,35,.06),transparent 68%);
+  background:radial-gradient(circle,rgba(155,130,69,.06),transparent 68%);
 }
 .section__glow--right{
   bottom:4%;right:-16%;
-  background:radial-gradient(circle,rgba(202,78,35,.05),transparent 68%);
+  background:radial-gradient(circle,rgba(155,130,69,.05),transparent 68%);
 }
 .section__glow--center{
   top:12%;left:50%;transform:translateX(-50%);
-  background:radial-gradient(circle,rgba(202,78,35,.06),transparent 70%);
+  background:radial-gradient(circle,rgba(155,130,69,.06),transparent 70%);
 }
 
 .section__head{max-width:720px;margin-bottom:clamp(40px,5vw,68px)}
@@ -335,15 +335,17 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .btn:hover .btn__arrow{transform:translateX(4px)}
 .btn:active{transform:translateY(1px)}
 
+/* A gomb háttere a márkaszín SÖTÉTÍTETT változata: a megadott #9B8245
+   fehér felirattal csak 3,70:1 lenne, ami AA alatt van. Ez 5,40:1. */
 .btn--primary{
-  background:var(--accent);
+  background:var(--accent-dark);
   color:var(--on-brown);
-  border-color:var(--accent);
+  border-color:var(--accent-dark);
   box-shadow:var(--shadow-brown);
 }
 .btn--primary:hover{
-  background:var(--accent-dark);
-  border-color:var(--accent-dark);
+  background:var(--accent-deep);
+  border-color:var(--accent-deep);
   box-shadow:var(--shadow-brown-lg);
   transform:translateY(-2px);
 }
@@ -393,7 +395,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   position:absolute;z-index:-1;
   top:-90px;right:-70px;
   width:280px;height:280px;border-radius:50%;
-  background:radial-gradient(circle,rgba(202,78,35,.06),transparent 70%);
+  background:radial-gradient(circle,rgba(155,130,69,.06),transparent 70%);
   filter:blur(50px);
   pointer-events:none;
 }
@@ -437,7 +439,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   outline:none;
   border-color:var(--brown);
   background:#FFFFFF;
-  box-shadow:0 0 0 3px rgba(202,78,35,.16);
+  box-shadow:0 0 0 3px rgba(155,130,69,.16);
 }
 .field__textarea{min-height:120px;resize:vertical;line-height:1.6}
 
@@ -577,7 +579,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   backdrop-filter:blur(16px) saturate(120%);
   -webkit-backdrop-filter:blur(16px) saturate(120%);
   border-bottom-color:var(--tint-2);
-  box-shadow:0 10px 30px -22px rgba(28,27,26,.4);
+  box-shadow:0 10px 30px -22px rgba(48,48,48,.4);
 }
 .header__inner{
   display:flex;align-items:center;justify-content:space-between;
@@ -668,21 +670,21 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .orb--a{
   top:-12%;left:-8%;
   width:clamp(340px,46vw,720px);aspect-ratio:1;
-  background:radial-gradient(circle,rgba(202,78,35,.07),transparent 66%);
+  background:radial-gradient(circle,rgba(155,130,69,.07),transparent 66%);
   animation:float-a 22s var(--ease) infinite;
 }
 .orb--b{
   top:18%;right:-14%;
   width:clamp(300px,42vw,640px);aspect-ratio:1;
-  background:radial-gradient(circle,rgba(202,78,35,.06),transparent 68%);
+  background:radial-gradient(circle,rgba(155,130,69,.06),transparent 68%);
   animation:float-b 27s var(--ease) infinite;
 }
 
 .hero__grid{
   position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(28,27,26,.08) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(28,27,26,.08) 1px,transparent 1px);
+    linear-gradient(rgba(48,48,48,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,48,48,.08) 1px,transparent 1px);
   background-size:88px 88px;
   mask-image:radial-gradient(ellipse 60% 55% at 30% 40%,#000,transparent 78%);
   -webkit-mask-image:radial-gradient(ellipse 60% 55% at 30% 40%,#000,transparent 78%);
@@ -717,7 +719,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .visual{position:relative;will-change:transform}
 .visual__glow{
   position:absolute;inset:-14% -10%;
-  background:radial-gradient(ellipse at 60% 40%,rgba(202,78,35,.06),transparent 64%);
+  background:radial-gradient(ellipse at 60% 40%,rgba(155,130,69,.06),transparent 64%);
   filter:blur(60px);
 }
 .visual__shape{
@@ -758,7 +760,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   display:grid;place-content:center;justify-items:center;gap:10px;
   padding:24px;text-align:center;
   background:
-    radial-gradient(ellipse at 50% 120%,rgba(202,78,35,.05),transparent 64%),
+    radial-gradient(ellipse at 50% 120%,rgba(155,130,69,.05),transparent 64%),
     repeating-linear-gradient(135deg,var(--hairline) 0 1px,transparent 1px 13px),
     var(--bg-2);
 }
@@ -876,7 +878,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 .card::after{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(202,78,35,.05),transparent 72%);
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(155,130,69,.05),transparent 72%);
   opacity:0;transition:opacity var(--dur) var(--ease);
 }
 .card:hover{
@@ -943,7 +945,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 .service::after{
   content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 70% 55% at 20% 0%,rgba(202,78,35,.04),transparent 68%);
+  background:radial-gradient(ellipse 70% 55% at 20% 0%,rgba(155,130,69,.04),transparent 68%);
   opacity:0;transition:opacity var(--dur) var(--ease);
 }
 .service:hover{
@@ -966,7 +968,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   display:grid;place-content:center;
   border-bottom:1px solid var(--border);
   background:
-    radial-gradient(ellipse at 50% 110%,rgba(202,78,35,.05),transparent 62%),
+    radial-gradient(ellipse at 50% 110%,rgba(155,130,69,.05),transparent 62%),
     repeating-linear-gradient(45deg,var(--hairline) 0 1px,transparent 1px 12px),
     var(--bg-2);
 }
@@ -1019,7 +1021,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   border:1px solid var(--tint-2);
   border-radius:var(--radius);
   background:
-    radial-gradient(ellipse 60% 140% at 15% 50%,rgba(202,78,35,.06),transparent 66%),
+    radial-gradient(ellipse 60% 140% at 15% 50%,rgba(155,130,69,.06),transparent 66%),
     linear-gradient(160deg,var(--card-2),#FFFFFF);
   box-shadow:var(--shadow-sm);
   display:flex;align-items:center;justify-content:space-between;
@@ -1095,14 +1097,14 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   display:grid;place-content:center;
   border-bottom:1px solid var(--border);
   background:
-    radial-gradient(ellipse at 50% 115%,rgba(202,78,35,.06),transparent 62%),
+    radial-gradient(ellipse at 50% 115%,rgba(155,130,69,.06),transparent 62%),
     repeating-linear-gradient(135deg,var(--hairline) 0 1px,transparent 1px 14px),
     linear-gradient(160deg,var(--n-100),var(--n-200));
   overflow:hidden;
 }
 .ref__media::after{
   content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 45%,rgba(28,27,26,.07));
+  background:linear-gradient(180deg,transparent 45%,rgba(48,48,48,.07));
   opacity:0;transition:opacity var(--dur) var(--ease);
 }
 .ref:hover .ref__media::after{opacity:1}
@@ -1163,7 +1165,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .lightbox[hidden]{display:none}
 .lightbox__backdrop{
   position:absolute;inset:0;
-  background:rgba(28,27,26,.5);
+  background:rgba(48,48,48,.5);
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   animation:fade .25s var(--ease);
@@ -1177,7 +1179,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   border-top:2px solid var(--brown);
   border-radius:var(--radius);
   background:linear-gradient(170deg,#FFFFFF,#FFFFFF);
-  box-shadow:0 40px 100px -40px rgba(28,27,26,.5);
+  box-shadow:0 40px 100px -40px rgba(48,48,48,.5);
   animation:pop .3s var(--ease);
 }
 @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.985)}to{opacity:1;transform:none}}
@@ -1213,7 +1215,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   display:grid;place-content:center;
   border-bottom:1px solid var(--border);
   background:
-    radial-gradient(ellipse at 50% 110%,rgba(202,78,35,.06),transparent 64%),
+    radial-gradient(ellipse at 50% 110%,rgba(155,130,69,.06),transparent 64%),
     repeating-linear-gradient(135deg,var(--hairline) 0 1px,transparent 1px 16px),
     linear-gradient(160deg,var(--n-100),var(--n-200));
   color:var(--brown-deep);
@@ -1225,7 +1227,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 
 /* ---------- 14. FOLYAMAT IDŐVONAL ---------- */
 /* Sötét sáv az oldal közepén — ez töri meg a fehér monotóniát */
-.process{background:var(--ink);border-top-color:rgba(255,255,255,.14)}
+.process{background:var(--dark);border-top-color:rgba(255,255,255,.14)}
 .process::before{opacity:.22}
 .process .section__glow{display:none}
 .process .eyebrow{
@@ -1287,14 +1289,14 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .timeline__rail{
   position:absolute;left:50%;top:8px;bottom:8px;
   width:2px;transform:translateX(-50%);
-  background:linear-gradient(180deg,rgba(202,78,35,0),var(--tint-2) 12%,var(--tint-2) 88%,rgba(202,78,35,0));
+  background:linear-gradient(180deg,rgba(155,130,69,0),var(--tint-2) 12%,var(--tint-2) 88%,rgba(155,130,69,0));
   border-radius:2px;overflow:hidden;
 }
 .timeline__fill{
   position:absolute;top:0;left:0;right:0;
   height:0%;
   background:linear-gradient(180deg,var(--brown),var(--brown-light));
-  box-shadow:0 0 10px rgba(202,78,35,.35);
+  box-shadow:0 0 10px rgba(155,130,69,.35);
   transition:height .18s linear;
 }
 
@@ -1315,7 +1317,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 }
 .step.is-visible .step__dot{
   border-color:var(--brown);
-  box-shadow:0 0 0 5px rgba(255,255,255,.9),0 0 14px rgba(202,78,35,.35);
+  box-shadow:0 0 0 5px rgba(255,255,255,.9),0 0 14px rgba(155,130,69,.35);
 }
 
 .step__card{
@@ -1366,14 +1368,14 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .final__glow{
   position:absolute;left:50%;bottom:-32%;transform:translateX(-50%);
   width:min(1100px,130%);aspect-ratio:1.6;
-  background:radial-gradient(ellipse at center,rgba(202,78,35,.07),transparent 64%);
+  background:radial-gradient(ellipse at center,rgba(155,130,69,.07),transparent 64%);
   filter:blur(80px);
 }
 .final__grid{
   position:absolute;inset:0;
   background-image:
-    linear-gradient(rgba(28,27,26,.07) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(28,27,26,.07) 1px,transparent 1px);
+    linear-gradient(rgba(48,48,48,.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(48,48,48,.07) 1px,transparent 1px);
   background-size:72px 72px;
   mask-image:radial-gradient(ellipse 70% 60% at 50% 100%,#000,transparent 72%);
   -webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 100%,#000,transparent 72%);
@@ -1410,7 +1412,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   font-size:clamp(44px,9.5vw,168px);
   line-height:.85;letter-spacing:.02em;text-transform:uppercase;
   white-space:nowrap;
-  color:rgba(28,27,26,.04);
+  color:rgba(48,48,48,.04);
   pointer-events:none;user-select:none;
   z-index:0;
 }
@@ -1485,7 +1487,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   backdrop-filter:blur(14px);
   -webkit-backdrop-filter:blur(14px);
   border-top:1px solid var(--tint-2);
-  box-shadow:0 -8px 24px -18px rgba(28,27,26,.4);
+  box-shadow:0 -8px 24px -18px rgba(48,48,48,.4);
   transform:translateY(110%);
   transition:transform .35s var(--ease);
 }
@@ -1553,7 +1555,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   background-image:
     repeating-linear-gradient(1deg,
       transparent 0 7px,var(--hatch-ink) 7px 7.9px,
-      transparent 7.9px 17px,rgba(28,27,26,.08) 17px 17.7px,
+      transparent 7.9px 17px,rgba(48,48,48,.08) 17px 17.7px,
       transparent 17.7px 29px),
     linear-gradient(0deg,var(--kraft),var(--kraft));
 }
@@ -1705,7 +1707,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
     border-bottom:1px solid var(--tint-2);
-    box-shadow:0 24px 46px -30px rgba(28,27,26,.45);
+    box-shadow:0 24px 46px -30px rgba(48,48,48,.45);
     transform:translateY(-120%);
     opacity:0;visibility:hidden;
     transition:transform .35s var(--ease),opacity .25s var(--ease),visibility .35s;
@@ -1827,7 +1829,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .legal-modal[hidden]{display:none}
 .legal-modal__backdrop{
   position:absolute;inset:0;
-  background:rgba(28,27,26,.62);
+  background:rgba(48,48,48,.62);
   backdrop-filter:blur(3px);
   animation:legalFade var(--dur) var(--ease) both;
 }
@@ -1838,7 +1840,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   max-height:100%;
   background:var(--bg-1);
   border:1px solid var(--border);
-  box-shadow:0 24px 70px rgba(28,27,26,.28);
+  box-shadow:0 24px 70px rgba(48,48,48,.28);
   animation:legalRise var(--dur) var(--ease) both;
 }
 @keyframes legalFade{from{opacity:0}to{opacity:1}}
@@ -2099,7 +2101,7 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
   background:var(--bg-1);
   border:1px solid var(--border);
   border-top:2px solid var(--accent);
-  box-shadow:0 -8px 40px rgba(28,27,26,.16);
+  box-shadow:0 -8px 40px rgba(48,48,48,.16);
 }
 .consent__text{flex:1;min-width:0}
 .consent__title{

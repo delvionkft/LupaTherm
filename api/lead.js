@@ -180,16 +180,16 @@ async function readBody(req) {
 /* ------------------------------------------------------------------ */
 
 function htmlPage(title, message, ok) {
-  const accent = ok ? '#CA4E23' : '#1C1B1A';
+  const accent = ok ? '#9B8245' : '#303030';
   return '<!doctype html><html lang="hu"><head><meta charset="utf-8">' +
     '<meta name="viewport" content="width=device-width,initial-scale=1">' +
     '<meta name="robots" content="noindex"><title>' + escapeHtml(title) + ' | LupaTherm</title></head>' +
-    '<body style="margin:0;font:16px/1.6 system-ui,sans-serif;color:#1C1B1A;background:#fff">' +
+    '<body style="margin:0;font:16px/1.6 system-ui,sans-serif;color:#303030;background:#fff">' +
     '<main style="max-width:560px;margin:0 auto;padding:64px 20px">' +
     '<h1 style="font-size:26px;font-weight:600;margin:0 0 14px">' + escapeHtml(title) + '</h1>' +
-    '<p style="color:#6B6A66;margin:0 0 24px">' + escapeHtml(message) + '</p>' +
-    '<p style="margin:0 0 24px;color:#6B6A66">Telefon: ' +
-    '<a style="color:#A33C17" href="tel:+36301131261">+36 30 113 1261</a></p>' +
+    '<p style="color:#4F4F4F;margin:0 0 24px">' + escapeHtml(message) + '</p>' +
+    '<p style="margin:0 0 24px;color:#4F4F4F">Telefon: ' +
+    '<a style="color:#7C6837" href="tel:+36301131261">+36 30 113 1261</a></p>' +
     '<a href="/" style="display:inline-block;padding:12px 20px;background:' + accent +
     ';color:#fff;text-decoration:none">Vissza a főoldalra</a>' +
     '</main></body></html>';
@@ -316,10 +316,10 @@ export default async function handler(req, res) {
 
   const text = sorok.map(([k, v]) => k + ': ' + v).join('\n');
   const rows = sorok.map(([k, v]) =>
-    '<tr><td style="padding:6px 16px 6px 0;color:#6B6A66;vertical-align:top;white-space:nowrap">' +
+    '<tr><td style="padding:6px 16px 6px 0;color:#4F4F4F;vertical-align:top;white-space:nowrap">' +
     escapeHtml(k) + '</td><td style="padding:6px 0;white-space:pre-wrap">' +
     escapeHtml(v) + '</td></tr>').join('');
-  const html = '<div style="font:15px/1.6 system-ui,sans-serif;color:#1C1B1A">' +
+  const html = '<div style="font:15px/1.6 system-ui,sans-serif;color:#303030">' +
     '<h2 style="font-size:19px;margin:0 0 16px">Új ajánlatkérés — ' +
     escapeHtml(label('igeny', mezok.igeny)) + '</h2>' +
     '<table style="border-collapse:collapse">' + rows + '</table></div>';
