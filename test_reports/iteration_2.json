@@ -1,0 +1,36 @@
+{
+  "summary": "Verified footer logo overlap fix on LupaTherm static site at both desktop (1920x800) and mobile (390x844). Footer logo img.logo__img now has position:static and its bounding box sits above the .footer__desc paragraph with no overlap. Header logo also renders correctly at top-left (56x56, position:static), header nav links visible. Homepage returns HTTP 200 and hero h1 renders.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results": {
+    "desktop_1920x800": {
+      "http_status": 200,
+      "hero_h1_present": true,
+      "header_logo": {"top": 10, "left": 344, "width": 56, "height": 56, "position": "static"},
+      "footer_logo_rect": {"top": 910.78, "bottom": 994.78, "width": 84, "height": 84, "position": "static"},
+      "footer_desc_rect": {"top": 1010.78, "bottom": 1058.38},
+      "overlaps": false,
+      "logo_bottom_above_desc_top": true
+    },
+    "mobile_390x844": {
+      "header_logo": {"top": 5, "left": 18, "width": 56, "height": 56, "position": "static"},
+      "footer_logo_rect": {"top": 296.81, "bottom": 380.81, "width": 84, "height": 84, "position": "static"},
+      "footer_desc_rect": {"top": 396.81, "bottom": 468.20},
+      "overlaps": false,
+      "logo_bottom_above_desc_top": true
+    }
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Bug fix verified: footer logo (position:static inline) no longer overlaps footer description. Gap of ~16px on desktop, ~16px on mobile between logo bottom and desc top. Header logo also correct."
+}
