@@ -1,0 +1,11 @@
+# ÉLESÍTÉSKOR: töröld a "Disallow: /" sort, és vedd ki az index.html-ből
+# a <meta name="robots" content="noindex, nofollow"> sort is. Amíg bármelyik
+# a helyén van, a Google nem indexeli az oldalt.
+
+User-agent: *
+Disallow: /
+
+# Élesítés után ez maradjon:
+# User-agent: *
+# Allow: /
+# Sitemap: https://[DOMAIN]/sitemap.xml
