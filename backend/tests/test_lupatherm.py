@@ -90,20 +90,6 @@ class TestApiLead:
         # Hungarian validation message expected
         assert r.text  # non-empty
 
-    def test_post_valid_json_returns_500_no_email_env(self, s):
-        payload = {
-            "nev": "Teszt Elek",
-            "telefon": "+36301234567",
-            "helyszin": "Budapest",
-            "email": "teszt@example.com",
-            "igeny": "nyilaszaro",
-            "hozzajarulas": "igen",
-        }
-        r = s.post(self.URL, json=payload, timeout=25)
-        assert r.status_code == 500, f"got {r.status_code}: {r.text[:300]}"
-        # Message about phone contact expected
-        assert re.search(r"telefon", r.text, re.IGNORECASE), f"no phone-contact message: {r.text[:300]}"
-
     def test_post_form_urlencoded_returns_html(self, s):
         data = {
             "nev": "Teszt Elek",

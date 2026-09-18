@@ -3,47 +3,52 @@
 ## Problem statement
 Deploy the GitHub repo `delvionkft/LupaTherm` (branch `main`, commit `561ff75`) AS-IS:
 static HTML/CSS/vanilla-JS site + one server-side function `api/lead.js`.
-No build, no framework, zero npm deps. Do NOT rewrite/rename/move any repo file.
-Set security headers + per-path caching at the platform layer (vercel.json ignored).
-Env vars server-side only. `api/lead.js` must run as a real Node (>=20) function.
+No build, no framework, zero npm deps. Security headers + per-path caching at the
+platform layer (vercel.json ignored). Env vars server-side only. `api/lead.js`
+must run as a real Node (>=20) function.
 
 ## Architecture on this (non-Vercel) platform
-- Repo copied verbatim to `/app/site` (web root). No repo file modified.
+- Repo copied verbatim to `/app/site` (web root).
 - **Static server** `/app/frontend/server.mjs` (zero-dep Node) serves `/app/site`
-  on port 3000 (`yarn start` rewired to `node server.mjs`). Sets the 6 required
-  security headers on every route + per-path Cache-Control. Handles `/`,
-  `404.html`, cleanUrls, robots.txt/sitemap.xml, `assets/`.
-- **Lead function runtime** `/app/api-runtime/lead-server.mjs` imports the repo's
-  UNMODIFIED `api/lead.js` default handler and mounts it on 127.0.0.1:8002 (Node 20).
+  on port 3000 (`yarn start` -> `node server.mjs`). Sets the 6 security headers on
+  every route + per-path Cache-Control. Framing headers are relaxed ONLY on the
+  Emergent preview host (so the preview iframe works); strict `frame-ancestors 'none'`
+  + `X-Frame-Options: DENY` on the real deployment domain.
+- **Lead function runtime** `/app/api-runtime/lead-server.mjs` imports the UNMODIFIED
+  handler shape of `/app/site/api/lead.js` on 127.0.0.1:8002 (Node 20).
 - **Backend** `/app/backend/server.py` (FastAPI on 8001, ingress-facing for `/api/*`)
-  reverse-proxies `POST /api/lead` to the Node runtime, forwards client IP,
-  spawns/kills the Node runtime on startup/shutdown, and applies the 6 security
-  headers + `Cache-Control: no-store` to all `/api/*` responses.
+  reverse-proxies `POST /api/lead` to the Node runtime, spawns/kills it, and applies
+  the 6 security headers + `Cache-Control: no-store` on `/api/*`.
 
-## Env vars (server-side only, never in repo, never in browser)
-Placeholders (empty) live in `/app/backend/.env` and are inherited by the Node
-runtime via `process.env`: `RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`,
-`TURNSTILE_SECRET_KEY`. Fill real values in preview (edit `/app/backend/.env` +
-`sudo supervisorctl restart backend`); in the deployed env set them as backend
-environment variables. Until set: form runs but email is not sent (handler returns
-the "call us" message) and Turnstile check is skipped — by design.
+## Email sending — EmailJS (server-side)
+`api/lead.js` was switched from Resend to **EmailJS** REST API
+(`https://api.emailjs.com/api/v1.0/email/send`), called server-side only. All spam
+protection (honeypot, timing, IP rate-limit, Turnstile) and JS-less native POST are
+preserved. Credentials live only in `/app/backend/.env` (inherited by the Node
+runtime), never in the browser:
+`EMAILJS_SERVICE_ID`, `EMAILJS_TEMPLATE_ID`, `EMAILJS_PUBLIC_KEY`, `EMAILJS_PRIVATE_KEY`.
+Account is in strict mode -> private key (accessToken) required and configured.
+`template_params` sends many common variable names (name/email/phone/message +
+Hungarian nev/telefon/helyszin/uzenet/igeny/... ) so the "Kapcsolat" template matches.
 
 ## Verified (2026-06, preview URL)
 - Live preview URL: https://lupatherm-preview-1.preview.emergentagent.com
-- `POST /api/lead` runs server-side (Node): GET→405, invalid→422, valid→500
-  (reaches Resend env check = full handler executed), honeypot→fake 200,
-  JSON and x-www-form-urlencoded both handled (form path returns HTML).
-- Security headers present on every route (CSP without unsafe-inline/eval, HSTS,
-  X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy).
-- Origin caching exactly per spec (html max-age=0 must-revalidate; assets/css|js
-  immutable 1y; assets/img 86400; /api no-store). NOTE: preview EDGE rewrites
-  static Cache-Control to no-store (preview-only artifact); production may differ.
-- Homepage renders (fonts, hero, consent bar) under the strict CSP.
+- EmailJS send E2E: valid JSON -> 200 {ok:true} (real email sent); form-urlencoded ->
+  200 HTML "Köszönjük!"; GET -> 405; missing field -> 422; honeypot -> fake 200.
+  No secrets in browser HTML/JS. (testing_agent iteration_4: 9/9 pass.)
+- Security headers on every route; origin per-path caching per spec (preview edge
+  forces no-store on static — preview-only).
+- UI: logo (assets/img/logo.png) in header/footer + favicon from logo emblem; footer
+  top black utilbar removed; footer service-area line removed; services "Bejárati
+  ajtók" tall-card gap fixed (`.service--tall .service__body{flex:0 0 auto}`).
 
-## Not done on purpose (repo-level go-live edits, per DEPLOY.md — user's GitHub workflow)
-- `[DOMAIN]`, `[TURNSTILE_SITE_KEY]`, `noindex` meta, `robots.txt Disallow` — these
-  are repo edits the user makes in their source workflow; we must not modify repo files.
+## Repo edits made (per user requests, in /app/site)
+- Removed footer "Szolgáltatási terület" line; removed header utilbar (black strip).
+- Added real logo + favicon/apple-touch-icon (emblem crop); CSS ?v=20260918a.
+- Services tall-card body flex fix.
+- api/lead.js: Resend -> EmailJS server-side send.
 
 ## Backlog / next
-- User supplies the 4 env values to activate email + CAPTCHA.
-- Finalize deploy via Emergent "Deploy" and re-verify headers/caching at production edge.
+- Finalize deploy via Emergent "Deploy"; set EMAILJS_* as backend env vars there and
+  re-verify. Repo go-live edits (domain, noindex, robots Disallow, Turnstile site key)
+  remain the user's GitHub-workflow tasks.
