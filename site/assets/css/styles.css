@@ -979,6 +979,9 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 .service:not(.service--wide):not(.service--tall) .service__media{aspect-ratio:4/3}
 /* a magas kártyán a fotó nyúlik meg, nem a kártya alja marad üresen */
 .service--tall .service__media{aspect-ratio:auto;flex:1;min-height:300px}
+/* a magas kártyán a szövegdoboz a tartalom szerinti magasságú marad, így a
+   plusz függőleges helyet a fotó tölti ki, nem üres rés a szöveg és a gomb közt */
+.service--tall .service__body{flex:0 0 auto}
 
 /* Szolgáltatásfotó: a sraffozott panel fölé kerül; ha a fájl hiányzik,
    a JS elrejti és a helykitöltő marad. */
