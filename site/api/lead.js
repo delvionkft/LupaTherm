@@ -287,13 +287,13 @@ export default async function handler(req, res) {
     forras:    pickEnum('forras',    data.forras)
   };
 
-  /* 6. Levél összeállítása — kizárólag szerveroldalon */
-  const apiKey = process.env.RESEND_API_KEY;
-  const to     = process.env.LEAD_TO_EMAIL;
-  const from   = process.env.LEAD_FROM_EMAIL;
+  /* 6. Konfiguráció ellenőrzése — kizárólag szerveroldalon (EmailJS) */
+  const serviceId  = process.env.EMAILJS_SERVICE_ID;
+  const templateId = process.env.EMAILJS_TEMPLATE_ID;
+  const publicKey  = process.env.EMAILJS_PUBLIC_KEY;
 
-  if (!apiKey || !to || !from) {
-    const missing = [!apiKey && 'RESEND_API_KEY', !to && 'LEAD_TO_EMAIL', !from && 'LEAD_FROM_EMAIL']
+  if (!serviceId || !templateId || !publicKey) {
+    const missing = [!serviceId && 'EMAILJS_SERVICE_ID', !templateId && 'EMAILJS_TEMPLATE_ID', !publicKey && 'EMAILJS_PUBLIC_KEY']
       .filter(Boolean).join(', ');
     console.error('[lead] hianyzo kornyezeti valtozo:', missing);
     return respond(res, form, 500, false, 'A küldés átmenetileg nem érhető el',
@@ -324,35 +324,63 @@ export default async function handler(req, res) {
     escapeHtml(label('igeny', mezok.igeny)) + '</h2>' +
     '<table style="border-collapse:collapse">' + rows + '</table></div>';
 
-  /* A címzettet és a tárgyat a szerver adja — a kliens nem befolyásolhatja. */
-  const payload = {
-    from: from,
-    to: [to],
-    subject: 'Ajánlatkérés — ' + label('igeny', mezok.igeny) + ' — ' + nev,
-    text: text,
-    html: html
+  /* A címzettet és a tárgyat a szerver adja — a kliens nem befolyásolhatja.
+     A "Kapcsolat" sablon a {{...}} változókat a template_params kulcsaiból
+     tölti. Több szokásos elnevezést is átadunk, hogy a sablon bármelyiket
+     használhassa. */
+  const targy = 'Ajánlatkérés — ' + label('igeny', mezok.igeny) + ' — ' + nev;
+  const templateParams = {
+    subject: targy,
+    title: targy,
+    from_name: nev,
+    to_name: 'LupaTherm',
+    reply_to: (email && validEmail(email)) ? email : '',
+    name: nev,
+    email: email || NINCS,
+    phone: telefon,
+    message: text,
+    osszefoglalo: text,
+    message_html: html,
+    nev: nev,
+    telefon: telefon,
+    helyszin: helyszin,
+    uzenet: uzenet || NINCS,
+    ingatlan:  label('ingatlan', mezok.ingatlan),
+    darabszam: label('darabszam', mezok.darabszam),
+    igeny:     label('igeny', mezok.igeny),
+    idozites:  label('idozites', mezok.idozites),
+    forras:    label('forras', mezok.forras)
   };
-  if (email && validEmail(email)) payload.reply_to = [email];
 
-  /* 7. Küldés a Resend REST API-ján keresztül */
+  const payload = {
+    service_id: serviceId,
+    template_id: templateId,
+    user_id: publicKey,
+    template_params: templateParams
+  };
+  /* Opcionális EmailJS privát kulcs (accessToken) — csak ha be van állítva. */
+  if (process.env.EMAILJS_PRIVATE_KEY) payload.accessToken = process.env.EMAILJS_PRIVATE_KEY;
+
+  /* 7. Küldés az EmailJS REST API-ján keresztül */
   try {
-    const send = await fetch('https://api.resend.com/emails', {
+    const send = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
-        Authorization: 'Bearer ' + apiKey,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       },
       body: JSON.stringify(payload)
     });
 
     if (!send.ok) {
-      /* A hibaválasz tartalmazhat kulcsrészletet — csak a státuszt naplózzuk. */
-      console.error('[lead] Resend hibavalasz, statusz:', send.status);
+      /* Csak a státuszt és a rövid hibaszöveget naplózzuk (nem a kulcsokat). */
+      const detail = await send.text().catch(() => '');
+      console.error('[lead] EmailJS hibavalasz, statusz:', send.status, detail.slice(0, 200));
       return respond(res, form, 502, false, 'A küldés nem sikerült',
         'Kérlek próbáld újra, vagy hívj minket: +36 30 113 1261');
     }
   } catch (err) {
-    console.error('[lead] Resend hivas hiba:', err && err.message);
+    console.error('[lead] EmailJS hivas hiba:', err && err.message);
     return respond(res, form, 502, false, 'A küldés nem sikerült',
       'Kérlek próbáld újra, vagy hívj minket: +36 30 113 1261');
   }
