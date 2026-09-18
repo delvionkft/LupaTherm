@@ -1,0 +1,34 @@
+{
+  "summary": "Tested LupaTherm static site + /api/lead node function via preview URL. Primary bug (blank/connection-refused iframe due to frame-ancestors 'none' + X-Frame-Options: DENY) is FIXED: homepage returns 200 with full HTML, security headers include \"frame-ancestors 'self' https:\" and X-Frame-Options is absent on preview host. All 12 pytest cases pass (homepage render + headers, CSS, image, robots, sitemap, 404 page, /api/lead GET->405, invalid JSON->422 HU, valid JSON->500 with 'telefon' message, form-urlencoded->text/html, honeypot->{ok:true}). Playwright confirms hero heading 'Nyílászáró, bejárati ajtó vagy árnyékolás?', header nav (9 links), 3 forms rendered, and cookie banner visible.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "Turnstile widget on lead form", "issue": "Placeholder '[TURNSTILE_SITE_KEY]' is rendered verbatim in HTML because TURNSTILE_SITE_KEY is empty in preview -> Cloudflare Turnstile throws 'Invalid input for parameter sitekey'. Expected in preview (env intentionally empty) but the raw placeholder in HTML is user-visible / logs pageerror. For real deployment ensure the token is substituted.", "affected_selectors": ["[data-sitekey]"]}
+    ],
+    "design_issues": [
+      {"screen": "Homepage console", "issues": ["CSP blocks Cloudflare beacon.min.js (script-src) and an inline Cloudflare challenge script. Non-fatal (external CF-injected analytics) but if you want them to run, add hashes/nonces or allow static.cloudflareinsights.com in CSP script-src."]}
+    ]
+  },
+  "test_report_links": ["/app/backend/tests/test_lupatherm.py", "/app/test_reports/pytest/lupatherm.xml"],
+  "action_items": [
+    "For real deployment domain: verify strict CSP frame-ancestors 'none' + X-Frame-Options: DENY are still applied (preview relaxation logic in server.mjs isPreviewHost).",
+    "Consider substituting [TURNSTILE_SITE_KEY] placeholder in /app/site/index.html at build/deploy time (repo-level, not preview) to avoid the invalid-sitekey pageerror.",
+    "Optional: add https://static.cloudflareinsights.com to CSP script-src (or hashes for inline CF challenge) if CF analytics/challenge are desired; otherwise ignore (CF is injecting these at the edge)."
+  ],
+  "critical_code_review_comments": [
+    "server.mjs isPreviewHost logic correctly drops X-Frame-Options and relaxes frame-ancestors only on preview host — good.",
+    "/app/site/api/lead.js remains byte-identical (not touched) per requirement.",
+    "FastAPI /api/lead reverse proxy sets Cache-Control: no-store as required."
+  ],
+  "updated_files": ["/app/backend/tests/test_lupatherm.py"],
+  "success_rate": {"backend": "100% (12/12)", "frontend": "100% (homepage renders, no blocking UI issues)"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "pytest file at /app/backend/tests/test_lupatherm.py covers static site + /api/lead. Uses REACT_APP_BACKEND_URL. In preview, /api/lead POST with valid data intentionally returns 500 (empty RESEND_API_KEY etc). Turnstile placeholder in HTML is expected in preview.",
+  "rca of the issue": "Original bug: homepage was blank in Emergent preview iframe due to CSP 'frame-ancestors none' + 'X-Frame-Options: DENY' blocking embedding. Fix in /app/frontend/server.mjs conditionally relaxes headers when Host is *.preview.emergentagent.com. Verified: response no longer contains X-Frame-Options and CSP contains \"frame-ancestors 'self' https:\", homepage renders inside iframe/browser."
+}
