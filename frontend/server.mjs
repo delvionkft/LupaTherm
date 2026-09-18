@@ -19,19 +19,35 @@ const WEB_ROOT = '/app/site';
 const HOST = process.env.HOST || '0.0.0.0';
 const PORT = Number(process.env.PORT || 3000);
 
-const SECURITY_HEADERS = {
-  'Content-Security-Policy':
-    "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; " +
-    "form-action 'self'; script-src 'self' https://connect.facebook.net https://challenges.cloudflare.com; " +
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data: https://www.facebook.com; connect-src 'self' https://www.facebook.com https://connect.facebook.net; " +
-    "frame-src https://challenges.cloudflare.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests",
-  'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'DENY',
-  'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
-};
+const CSP_BASE =
+  "default-src 'self'; base-uri 'none'; object-src 'none'; FRAME_ANCESTORS; " +
+  "form-action 'self'; script-src 'self' https://connect.facebook.net https://challenges.cloudflare.com; " +
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; " +
+  "img-src 'self' data: https://www.facebook.com; connect-src 'self' https://www.facebook.com https://connect.facebook.net; " +
+  "frame-src https://challenges.cloudflare.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests";
+
+// The Emergent builder shows the site inside an iframe on its own origin, so on
+// the preview host we must allow framing; on the real deployment we keep the
+// strict production posture (frame-ancestors 'none' + X-Frame-Options: DENY).
+function isPreviewHost(req) {
+  const h = String(req.headers['x-forwarded-host'] || req.headers.host || '').toLowerCase();
+  return h.includes('preview.emergentagent.com') || h.includes('emergentcf.cloud');
+}
+
+function securityHeaders(preview) {
+  const headers = {
+    'Content-Security-Policy': CSP_BASE.replace(
+      'FRAME_ANCESTORS',
+      preview ? "frame-ancestors 'self' https:" : "frame-ancestors 'none'",
+    ),
+    'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+  };
+  if (!preview) headers['X-Frame-Options'] = 'DENY';
+  return headers;
+}
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -60,8 +76,8 @@ function cacheControlFor(pathname) {
   return 'no-cache';
 }
 
-function applyHeaders(res, pathname, contentType) {
-  for (const [k, v] of Object.entries(SECURITY_HEADERS)) res.setHeader(k, v);
+function applyHeaders(res, pathname, contentType, preview) {
+  for (const [k, v] of Object.entries(securityHeaders(preview))) res.setHeader(k, v);
   res.setHeader('Content-Type', contentType);
   res.setHeader('Cache-Control', cacheControlFor(pathname));
 }
@@ -111,19 +127,20 @@ async function resolveTarget(urlPath) {
   return null;
 }
 
-async function send404(res) {
+async function send404(res, preview) {
   const notFound = path.join(WEB_ROOT, '404.html');
   const body = await fs.readFile(notFound).catch(() => Buffer.from('404 - Nem található'));
-  applyHeaders(res, '/404.html', MIME['.html']);
+  applyHeaders(res, '/404.html', MIME['.html'], preview);
   res.statusCode = 404;
   res.end(body);
 }
 
 const server = http.createServer(async (req, res) => {
+  const preview = isPreviewHost(req);
   try {
     // /api/* is owned by the backend function; never served statically.
     if (req.url.split('?')[0].startsWith('/api/')) {
-      applyHeaders(res, '/api', MIME['.json']);
+      applyHeaders(res, '/api', MIME['.json'], preview);
       res.setHeader('Cache-Control', 'no-store');
       res.statusCode = 404;
       res.end(JSON.stringify({ ok: false, message: 'API a szerveroldali függvényen keresztül érhető el.' }));
@@ -131,14 +148,14 @@ const server = http.createServer(async (req, res) => {
     }
 
     const target = await resolveTarget(req.url.split('?')[0]);
-    if (!target) return send404(res);
+    if (!target) return send404(res, preview);
 
     const ext = path.extname(target).toLowerCase();
     const contentType = MIME[ext] || 'application/octet-stream';
     const pathname = '/' + path.relative(WEB_ROOT, target).split(path.sep).join('/');
 
     const body = await fs.readFile(target);
-    applyHeaders(res, pathname, contentType);
+    applyHeaders(res, pathname, contentType, preview);
     res.statusCode = 200;
     if (req.method === 'HEAD') return res.end();
     res.end(body);
