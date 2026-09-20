@@ -36,11 +36,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles.css?v=20260918a">
 
-<!-- A Meta Pixel NEM itt töltődik be. A hozzájárulás elfogadása után
-     az assets/js/main.js 10/b blokkja inicializálja. -->
+<!-- Meta Pixel — azonnali betöltés. A szigorú CSP miatt nem inline, hanem
+     azonos eredetű külső fájlból (assets/js/pixel.js), így a script-src 'self'
+     engedélyezi. -->
+<script src="assets/js/pixel.js?v=20260918a"></script>
 
 </head>
 <body>
+
+<!-- Meta Pixel (noscript fallback) -->
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=962398476156311&ev=PageView&noscript=1"
+alt="" /></noscript>
 
 <a class="skip-link" href="#fo-tartalom">Ugrás a tartalomhoz</a>
 
