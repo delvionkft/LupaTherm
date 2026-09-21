@@ -271,7 +271,12 @@ export default async function handler(req, res) {
   if (nev.length < 2) hibak.push('név');
   if (!validPhone(telefon)) hibak.push('telefonszám');
   if (helyszin.length < 2) hibak.push('helyszín');
-  if (email && !validEmail(email)) hibak.push('e-mail-cím');
+  if (!email || !validEmail(email)) hibak.push('e-mail-cím');
+  if (!uzenet) hibak.push('üzenet');
+  if (!pickEnum('ingatlan', data.ingatlan)) hibak.push('ingatlan típusa');
+  if (!pickEnum('darabszam', data.darabszam)) hibak.push('darabszám');
+  if (!pickEnum('igeny', data.igeny)) hibak.push('igény');
+  if (!pickEnum('idozites', data.idozites)) hibak.push('időzítés');
   if (!data.hozzajarulas) hibak.push('adatkezelési hozzájárulás');
 
   if (hibak.length) {
