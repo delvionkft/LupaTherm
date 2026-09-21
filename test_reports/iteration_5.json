@@ -1,0 +1,40 @@
+{
+  "summary": "Verified CSS bug fix for mobile references carousel horizontal overscroll. All 4 acceptance criteria pass at 390x844 and desktop 1440x800. overscroll-behavior-x is now 'contain' on .refs__track, page has no horizontal overflow, carousel still scrolls via prev/next buttons, images render.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_results": {
+    "mobile_390x844": {
+      "overscrollBehaviorX_contain": true,
+      "computed_overscroll_behavior": "contain auto",
+      "documentElement_scrollWidth": 390,
+      "documentElement_clientWidth": 390,
+      "body_scrollWidth": 390,
+      "window_scrollX_after_carousel_scroll": 0,
+      "carousel_scrollable_via_next_button": "0 -> 348 (works)",
+      "prev_next_buttons_present": true,
+      "card_count": 8,
+      "images_loaded": true
+    },
+    "desktop_1440x800": {
+      "documentElement_scrollWidth": 1440,
+      "documentElement_clientWidth": 1440,
+      "body_scrollWidth": 1440,
+      "refs_section_renders": true,
+      "card_count": 8
+    },
+    "note_on_direct_scrollLeft_test": "Setting .refs__track.scrollLeft=500 read back as 0 because scroll-snap-type:x mandatory snaps to nearest snap point. However clicking [data-carousel-next] moved scrollLeft from 0 to 348, confirming the carousel remains fully scrollable. Regression check for scrollability passes."
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "LupaTherm static site served from /app/site via /app/frontend/server.mjs. External URL https://lupatherm-preview-1.preview.emergentagent.com. Cookie banner uses button text 'Elfogadom'. Mobile carousel .refs__track uses scroll-snap-type: x mandatory so direct scrollLeft assignments snap back to 0 — use [data-carousel-next]/[data-carousel-prev] buttons or scroll by card width increments to verify scrollability."
+}
