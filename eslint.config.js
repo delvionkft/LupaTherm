@@ -1,27 +1,13 @@
 /**
  * ESLint konfiguráció.
  *
- * Két, eltérő futtatókörnyezet van a projektben:
- *   api/**           — Vercel serverless (Node), ESM
+ * A projektben csak böngészőoldali kód van:
  *   assets/js/**     — böngésző, ES5-kompatibilis IIFE
  *
- * Futtatás:  npx eslint api assets/js      (vagy: npm run lint)
+ * Futtatás:  npx eslint assets/js      (vagy: npm run lint)
  * A projekt szándékosan nem tartalmaz telepített függőséget, ezért az
  * eslint nincs a package.json-ben — ad hoc, npx-szel futtatjuk.
  */
-
-const nodeGlobals = {
-  process: 'readonly',
-  console: 'readonly',
-  Buffer: 'readonly',
-  URLSearchParams: 'readonly',
-  URL: 'readonly',
-  fetch: 'readonly',
-  TextEncoder: 'readonly',
-  TextDecoder: 'readonly',
-  setTimeout: 'readonly',
-  clearTimeout: 'readonly'
-};
 
 const browserGlobals = {
   window: 'readonly',
@@ -45,15 +31,13 @@ const browserGlobals = {
   innerHeight: 'readonly',
   scrollY: 'readonly',
   addEventListener: 'readonly',
-  FileReader: 'readonly',
-  Image: 'readonly',
   Promise: 'readonly'
 };
 
 const rules = {
   'no-undef': 'error',
   /* A catch-paraméter szándékosan kihasználatlan több helyen: a hibát
-     elnyeljük (localStorage tiltás, turnstile.reset). Az elhagyása
+     elnyeljük (localStorage tiltás). Az elhagyása
      ES2019 opcionális catch binding lenne, amit a böngészőoldali
      ES2018-as célszint miatt nem használunk. */
   'no-unused-vars': ['error', { args: 'none', caughtErrors: 'none' }],
@@ -76,15 +60,6 @@ const rules = {
 };
 
 export default [
-  {
-    files: ['api/**/*.js'],
-    languageOptions: {
-      ecmaVersion: 2023,
-      sourceType: 'module',
-      globals: nodeGlobals
-    },
-    rules
-  },
   {
     files: ['assets/js/**/*.js'],
     languageOptions: {
