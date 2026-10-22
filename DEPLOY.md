@@ -27,9 +27,7 @@ A kód forrása ez a GitHub-repó, a hosting a **Vercel**. Minden módosítás
 | Install Command | hagyd az alapértelmezettet (nincs függőség, pár másodperc) |
 | Node.js Version | 22.x (a `package.json` `engines` mezője rögzíti) |
 
-3. **Environment Variables** — még az első Deploy előtt add meg a négy
-   változót (lásd lentebb és az **`ENV.md`**-t). Ha kimarad, utólag
-   beállítod, majd **Redeploy**.
+3. **Environment Variables** — **nem kell semmit megadni** (lásd lentebb).
 4. **Deploy.**
 5. Settings → Git → **Production Branch**: a Vercel importáláskor a GitHub-repó
    alapértelmezett ágát állítja be (jelenleg
@@ -48,28 +46,45 @@ Error: [STATIC_BUILD_NO_OUT_DIR] No Output Directory named "public" found
 ```
 
 `build` script nélkül a Vercel a repó gyökerét szolgálja ki (a
-`.vercelignore` szűrésével), az `api/` mappából pedig függvényt készít.
-Ezt a valódi `vercel build` paranccsal ellenőriztük: a kimenetben csak az
-`index.html`, a `404.html`, az `assets/`, a `robots.txt` és a
-`sitemap.xml` szerepel, az `api/lead` függvény Node 22-n, ES-modulként fut.
+`.vercelignore` szűrésével). Ezt a valódi `vercel build` paranccsal
+ellenőriztük.
 
+Tiszta HTML/CSS/JS, szerveroldali kód nincs. A `package.json` csak a
+fejlesztői `lint` / `check` parancsokat tartalmazza.
 
-Tiszta HTML/CSS/JS, plusz egyetlen serverless függvény (`api/lead.js`).
-A `package.json` azért van a repóban, mert a `"type": "module"` beállítás
-nélkül az `api/lead.js` nem töltődne be. **Futásidejű függősége nincs**
-— a Resend és a Turnstile API-t közvetlen `fetch` hívja.
+## Űrlapküldés: EmailJS — környezeti változó NINCS
 
-## Környezeti változók: NÉGY DARAB
+Az űrlap a látogató böngészőjéből közvetlenül az EmailJS-nek küld
+(`assets/js/main.js`, 10. blokk). Az azonosítók a kódban vannak, és ez
+így helyes: az EmailJS publikus kulcsa **nem titok**, a böngészőnek
+látnia kell.
 
-`RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`, `TURNSTILE_SECRET_KEY`
+| Érték | Hol |
+|---|---|
+| Public Key | `main.js` → `EMAILJS.publicKey` |
+| Service ID | `main.js` → `EMAILJS.serviceId` (`service_dfac7xn`) |
+| Template ID | `main.js` → `EMAILJS.templateId` (`template_giasuc4`) |
 
-Részletek — honnan szerezhető, melyik környezetben kell, mi nem működik
-nélküle: **`ENV.md`**.
+A sablonváltozók listája: **`URLAP.md`**.
 
-> **Csapda:** ha a `TURNSTILE_SECRET_KEY` be van állítva, de az
-> `index.html`-ben még a `[TURNSTILE_SITE_KEY]` helykitöltő áll, **minden
-> beküldés elbukik** (403). A kettőt mindig együtt állítsd be: előbb a
-> Site Key az `index.html`-be, push, utána a Secret Key a Vercelbe, redeploy.
+**A Private Key soha ne kerüljön a repóba** — ahhoz itt nincs szükség.
+
+### Kötelező védelem az EmailJS felületén
+
+Szerver nélkül a visszaélés ellen az EmailJS-ben kell védekezni:
+
+1. **Account → Security → engedélyezett domainek**: csak a saját
+   Vercel-domain (és később a saját domain). Enélkül bárki küldhet a
+   fiókod keretéből, a kódban látható kulccsal.
+2. **A sablon „To Email" mezőjébe fix cím kerüljön** (pl.
+   `polanyiablak@gmail.com`), **ne változó** (pl. `{{to_email}}`).
+   Különben bárki tetszőleges címre küldethetne leveleket a nevedben.
+3. Opcionális: EmailJS → a sablon / szolgáltatás beállításaiban
+   CAPTCHA vagy küldési korlát, ha spam érkezik.
+
+Kliensoldali védelem a kódban: kötelező mezők ellenőrzése, méhkas-mezők,
+3 másodperces minimális kitöltési idő, 30 másodperces várakozás két
+beküldés között. Ez a naiv botokat szűri — egy célzott támadást nem.
 
 ## Mi kerül ki, mi nem — `.vercelignore`
 
@@ -90,13 +105,12 @@ kerül, az publikus lehet. Az `assets/img/` publikus képmappa.
 - `assets/css`, `assets/js`: egy év, `immutable` — ezért kötelező a
   `?v=` verziószám emelése minden CSS/JS módosításnál (lásd lentebb)
 - `assets/img`: 1 nap + `stale-while-revalidate`
-- `/api/*`: `no-store`
 - biztonsági fejlécek: **CSP**, HSTS, `nosniff`, `X-Frame-Options: DENY`,
   `Referrer-Policy`, `Permissions-Policy`, `COOP`
 
 A CSP csak a ténylegesen használt külső forrásokat engedi: Google Fonts,
-Meta Pixel (`connect.facebook.net`, `www.facebook.com`), Cloudflare
-Turnstile. **Ha új külső szolgáltatás kerül az oldalra** (Google Analytics,
+Meta Pixel (`connect.facebook.net`, `www.facebook.com`) és az EmailJS API
+(`api.emailjs.com`, csak `connect-src`). **Ha új külső szolgáltatás kerül az oldalra** (Google Analytics,
 chat-widget, beágyazott videó), a CSP-t bővíteni kell, különben a böngésző
 csendben blokkolja.
 
@@ -122,9 +136,8 @@ működik — különben lesz egy időszak, amikor az oldal nem érhető el.
    által kiírt értéket** állítsd be a domainszolgáltatónál.
 3. Várd meg, amíg a Vercel a domaint „Valid Configuration"-nek jelzi és a
    HTTPS-tanúsítvány elkészül.
-4. A domaint vedd fel ide is:
-   - Cloudflare Turnstile → a site hostnevei közé
-   - Resend → Domains (a feladócímhez, ha még nincs igazolva)
+4. A domaint vedd fel az EmailJS engedélyezett domainjei közé is
+   (Account → Security). Ha elmarad, a saját domainről az űrlap nem küld.
 5. Csak ezután: Emergent-deploy leállítása.
 
 ## Ellenőrzőlista minden éles deploy után
@@ -134,8 +147,8 @@ működik — különben lesz egy időszak, amikor az oldal nem érhető el.
 - [ ] `https://<domain>/DEPLOY.md` és `https://<domain>/docs/README.md` → **404**.
       Ha 200, a `.vercelignore` nem érvényesült — azonnal szólj.
 - [ ] Próbaajánlatkérés **mindkét űrlapról**, a levél megérkezik.
-- [ ] Legalább egy próbánál csatolj egy telefonfotót és egy kis PDF-et — a levélben mellékletként ott vannak.
-- [ ] Vercel → **Logs**: nincs `[lead] hianyzo kornyezeti valtozo` sor.
+- [ ] Ha nem érkezik: F12 → Console, a `[urlap] EmailJS hiba …` sor
+      megmondja az okot (rossz kulcs, nem engedélyezett domain, rossz sablon).
 - [ ] Böngésző konzol (F12): nincs piros `Content-Security-Policy` hiba.
 
 ## ÉLESÍTÉSI TEENDŐK
@@ -156,12 +169,10 @@ Cseréld a `https://[DOMAIN]` szövegrészt a valódi címre:
 - `robots.txt`: töröld a `Disallow: /` sort, és vedd ki a kommentből az alsó blokkot
 - A `404.html` `noindex` sora **maradjon**
 
-### 3. Turnstile és éles teszt
+### 3. EmailJS védelem
 
-- Írd be a Turnstile **Site Key**-t az `index.html`-be a
-  `[TURNSTILE_SITE_KEY]` helyére (két helyen, mindkét űrlapban).
-  Amíg a helykitöltő áll, a `main.js` be sem tölti a Cloudflare szkriptet.
-- Utána állítsd be a `TURNSTILE_SECRET_KEY`-t, és redeploy (lásd a fenti csapdát).
+- Az „Űrlapküldés: EmailJS" fejezet két kötelező beállítása
+  (engedélyezett domainek, fix címzett a sablonban).
 
 ### 4. Hiányzó tartalom
 
@@ -170,7 +181,7 @@ Cseréld a `https://[DOMAIN]` szövegrészt a valódi címre:
 - `[TELEPÜLÉS]` — a 8 referenciakártyán, `index.html` `#referenciak`
 - `[SZOLGÁLTATÁSI TERÜLET]` — felső sáv és lábléc
 - `[HATÁLYBALÉPÉS DÁTUMA]` — mindhárom jogi dokumentumban
-- `[RESEND …]`, `[CLOUDFLARE …]` — adatkezelési tájékoztató, 07. szakasz
+- `[EMAILJS …]` — adatkezelési tájékoztató, 07. szakasz
 - A Vercel Inc. adatai (impresszum 02. és tájékoztató 07.) ki vannak töltve
   — élesítés előtt egyszer vesd össze a vercel.com/legal oldallal.
 
@@ -208,7 +219,7 @@ rejtve marad. Az eredmény szándékosan **sáv** (alapból ±15%, a
 
 ## Gyorsítótár — verziószám
 
-A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022b`
+A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022c`
 végződést kap az `index.html`-ben (a CSS a `404.html`-ben is).
 **Minden CSS/JS módosítás után ezt a számot emelni kell** — a
 `vercel.json` egy évre, `immutable`-ként gyorsítótárazza ezeket a
@@ -221,7 +232,6 @@ index.html          a teljes főoldal (a jogi dokumentumok is ebben vannak,
                     panelként: #impresszum, #adatkezelesi-tajekoztato,
                     #suti-szabalyzat)
 404.html            hibaoldal
-api/lead.js         Vercel serverless függvény — űrlapfeldolgozás, levélküldés
 assets/css/         styles.css — minden stílus, egy fájlban
 assets/js/          main.js — minden interakció; arak.js — kalkulátor-árlista
 assets/img/         fotók, ikonok, megosztási kép (README.md írja le, mi micsoda)
@@ -230,13 +240,11 @@ sitemap.xml         oldaltérkép
 vercel.json         fejlécek, gyorsítótár, cleanUrls
 .vercelignore       ami NEM kerül ki a Vercelre
 docs/               belső munkaanyagok (nem publikus)
-ENV.md              a négy környezeti változó
-URLAP.md            az űrlap mezőnevei
+URLAP.md            az űrlap mezői és az EmailJS-sablon változói
 ```
 
 ## Amit ne csinálj
 
 - Ne szerkessz fájlt a Vercel felületén vagy más hostingon — a forrás a repó.
 - Ne nevezd át a fájlokat/mappákat — a főoldal hivatkozásai relatív útvonalak.
-- Ne tedd a `package.json`-t a `.vercelignore`-ba — az API leállna.
 - Ne töröld az `assets/img/README.md`-t, az írja le, melyik fotó hova tartozik.
