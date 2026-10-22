@@ -11,21 +11,22 @@ ugyanazokat a változókat küldi ugyanabba a sablonba:
 
 ## Sablonváltozók
 
-A sablonban `{{valtozo}}` formában használhatók. **Mind a 13 változó
-mindig kap értéket** — ami nincs kitöltve, az `nincs megadva` lesz,
-így a sablonban nem marad üres hely.
+A sablonban `{{valtozo}}` formában használhatók. **Az űrlapon minden
+mező kötelező**, így mind a 13 változó mindig valódi értéket kap.
+(A kódban maradt `nincs megadva` tartalékérték csak akkor jelenne meg,
+ha egy régi böngésző megkerülné az ellenőrzést.)
 
 | Változó | Mi ez | Példa |
 |---|---|---|
-| `{{nev}}` | Név (kötelező) | Kovács Anna |
-| `{{telefon}}` | Telefonszám (kötelező) | +36 30 123 4567 |
-| `{{email}}` | E-mail-cím | anna@example.com / nincs megadva |
-| `{{helyszin}}` | Hol van az ingatlan (kötelező) | Sárosd |
+| `{{nev}}` | Név | Kovács Anna |
+| `{{telefon}}` | Telefonszám | +36 30 123 4567 |
+| `{{email}}` | E-mail-cím | anna@example.com |
+| `{{helyszin}}` | Hol van az ingatlan | Sárosd |
 | `{{ingatlan}}` | Milyen ingatlan | Családi ház / Társasházi lakás / Egyéb (iroda, üzlet) |
 | `{{darabszam}}` | Hány nyílászáró | 1–3 db / 4–8 db / 8 db felett |
 | `{{igeny}}` | Mire van szüksége | Nyílászáró / Bejárati ajtó / Árnyékolás (redőny, zsalúzia) / Komplett megoldás |
 | `{{idozites}}` | Mikor tervezi | Most azonnal / 1–3 hónapon belül / Még csak tájékozódom |
-| `{{uzenet}}` | Megjegyzés | szabad szöveg / nincs megadva |
+| `{{uzenet}}` | Megjegyzés | szabad szöveg |
 | `{{forras}}` | Melyik űrlapról jött | Hero szekció űrlapja / Záró szekció űrlapja |
 | `{{hozzajarulas}}` | Adatkezelési hozzájárulás | Elfogadva (enélkül nem küldhető) |
 | `{{idopont}}` | Beküldés ideje (budapesti idő) | 2026. 10. 22. 10:03:09 |
@@ -45,8 +46,7 @@ Ajánlatkérés — {{igeny}} — {{nev}}
 ```
 
 Javasolt „Reply To": `{{email}}` — így a Válasz gomb a látogatónak
-válaszol. (Ha nem adott meg címet, a mező `nincs megadva` lesz; ilyenkor
-telefonon kell keresni.)
+válaszol.
 
 **A „To Email" mező fix cím legyen, ne változó** — lásd `DEPLOY.md`,
 „Kötelező védelem az EmailJS felületén".
@@ -55,15 +55,15 @@ telefonon kell keresni.)
 
 | Mező (`name`) | Kérdés | Kötelező | Típus |
 |---|---|:--:|---|
-| `ingatlan` | Milyen ingatlanról van szó? | nem | rádió |
-| `darabszam` | Hány nyílászárót érint a csere? | nem | rádió |
-| `igeny` | Mire van szükséged? | nem | rádió |
-| `idozites` | Mikor tervezed a cserét? | nem | rádió |
+| `ingatlan` | Milyen ingatlanról van szó? | **igen** | rádió |
+| `darabszam` | Hány nyílászárót érint a csere? | **igen** | rádió |
+| `igeny` | Mire van szükséged? | **igen** | rádió |
+| `idozites` | Mikor tervezed a cserét? | **igen** | rádió |
 | `nev` | Név | **igen** | szöveg |
 | `telefon` | Telefonszám | **igen** | tel |
-| `email` | E-mail-cím | nem | email |
+| `email` | E-mail-cím | **igen** | email |
 | `helyszin` | Hol van az ingatlan? | **igen** | szöveg |
-| `uzenet` | Megjegyzés | nem | többsoros |
+| `uzenet` | Megjegyzés | **igen** | többsoros (min. 2 karakter) |
 | `hozzajarulas` | Adatkezelési tájékoztató elfogadása | **igen** | jelölőnégyzet |
 
 Rejtett mezők (nem mennek a sablonba):

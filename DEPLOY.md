@@ -218,7 +218,7 @@ rejtve marad. Az eredmény szándékosan **sáv** (alapból ±15%, a
 
 ## Gyorsítótár — verziószám
 
-A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022c`
+A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022d`
 végződést kap az `index.html`-ben (a CSS a `404.html`-ben is).
 **Minden CSS/JS módosítás után ezt a számot emelni kell** — a
 `vercel.json` egy évre, `immutable`-ként gyorsítótárazza ezeket a
