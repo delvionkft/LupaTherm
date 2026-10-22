@@ -391,19 +391,27 @@
     };
   }
 
-  /* Kliensoldali ellenőrzés — szerver nincs, tehát ez az egyetlen szűrő. */
+  /* Kliensoldali ellenőrzés — szerver nincs, tehát ez az egyetlen szűrő.
+     Minden mező kötelező. A böngésző a required attribútum miatt már
+     beküldés előtt jelez; ez a második védvonal (pl. régi böngészőben),
+     és ez adja a magyar nyelvű összesítést. Sorrend = az űrlap sorrendje. */
   function clientErrors(form) {
     var out = [];
-    if (field(form, 'nev').length < 2) out.push('név');
+    var add = function (name, label) { out.push({ name: name, label: label }); };
+    if (!field(form, 'ingatlan'))  add('ingatlan', 'ingatlan típusa');
+    if (!field(form, 'darabszam')) add('darabszam', 'darabszám');
+    if (!field(form, 'igeny'))     add('igeny', 'mire van szükséged');
+    if (!field(form, 'idozites'))  add('idozites', 'időzítés');
+    if (field(form, 'nev').length < 2) add('nev', 'név');
     var tel = field(form, 'telefon');
     if (!/^[+0-9][0-9 ()./-]{5,}$/.test(tel) || (tel.match(/[0-9]/g) || []).length < 7) {
-      out.push('telefonszám');
+      add('telefon', 'telefonszám');
     }
-    if (field(form, 'helyszin').length < 2) out.push('helyszín');
-    var mail = field(form, 'email');
-    if (mail && !/^[^\s@,;:<>"']+@[^\s@,;:<>"']+\.[A-Za-z]{2,}$/.test(mail)) out.push('e-mail-cím');
+    if (!/^[^\s@,;:<>"']+@[^\s@,;:<>"']+\.[A-Za-z]{2,}$/.test(field(form, 'email'))) add('email', 'e-mail-cím');
+    if (field(form, 'helyszin').length < 2) add('helyszin', 'helyszín');
+    if (field(form, 'uzenet').length < 2) add('uzenet', 'megjegyzés');
     var consent = form.querySelector('[name="hozzajarulas"]');
-    if (!consent || !consent.checked) out.push('adatkezelési hozzájárulás');
+    if (!consent || !consent.checked) add('hozzajarulas', 'adatkezelési hozzájárulás');
     return out;
   }
 
@@ -424,12 +432,9 @@
 
       var hibak = clientErrors(form);
       if (hibak.length) {
-        setStatus(status, 'Ellenőrizd a következőt: ' + hibak.join(', ') + '.', 'error');
-        var first = form.querySelector('[name="' + (
-          hibak[0] === 'név' ? 'nev' :
-          hibak[0] === 'telefonszám' ? 'telefon' :
-          hibak[0] === 'helyszín' ? 'helyszin' :
-          hibak[0] === 'e-mail-cím' ? 'email' : 'hozzajarulas') + '"]');
+        setStatus(status, 'Töltsd ki a következőt: ' +
+          hibak.map(function (h) { return h.label; }).join(', ') + '.', 'error');
+        var first = form.querySelector('[name="' + hibak[0].name + '"]');
         if (first && first.focus) first.focus();
         return;
       }

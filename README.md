@@ -142,14 +142,19 @@ Mindkét űrlap ugyanazt a hat lépést kérdezi, ebben a sorrendben:
 
 | # | Kérdés | Forma | Kötelező |
 |---|---|---|---|
-| 1 | Milyen ingatlanról van szó? | 3 választható csempe | nem |
-| 2 | Hány nyílászárót érint a csere? | 3 csempe | nem |
-| 3 | Mire van szükséged? | 3 csempe | nem |
-| 4 | Mikor tervezed a cserét? | 3 csempe | nem |
+| 1 | Milyen ingatlanról van szó? | 3 választható csempe | **igen** |
+| 2 | Hány nyílászárót érint a csere? | 3 csempe | **igen** |
+| 3 | Mire van szükséged? | 4 csempe | **igen** |
+| 4 | Mikor tervezed a cserét? | 3 csempe | **igen** |
 | 5 | Név, telefonszám | szövegmező | **igen** |
-| – | E-mail-cím | szövegmező | nem |
+| – | E-mail-cím | szövegmező | **igen** |
 | 6 | Hol van az ingatlan? | szövegmező | **igen** |
-| – | Megjegyzés | szövegmező | nem |
+| – | Megjegyzés | szövegmező | **igen** |
+
+**Minden mező kötelező.** A csempék rejtett rádiógombjai is teljes
+méretűek (átlátszóan a csempe fölött), ezért a böngésző a hiányzó
+választásnál is tudja mutatni a hibát — nulla méretű inputnál a Chrome
+némán blokkolná a beküldést.
 
 A csempék `input[type=radio]` elemek, `.chip` stílussal — kiválasztva
 akcentkeretet és akcenthátteret kapnak. A `novalidate` lekerült az
