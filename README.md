@@ -22,7 +22,7 @@ npx http-server . -p 8080
 index.html            – teljes oldalszerkezet (fejléc → 7 szekció → footer)
 assets/css/styles.css – design tokenek, komponensek, szekciók, reszponzív szabályok
 assets/js/main.js     – fejléc állapot, mobil menü, reveal, parallax,
-                        carousel, lightbox, idővonal-töltés, űrlap demó
+                        carousel, lightbox, idővonal-töltés, űrlapküldés (EmailJS)
 assets/img/           – referenciafotók helye (ref-01.jpg … ref-05.jpg);
                         a mappa README-je leírja, melyik fájl hova kerül
 ```
@@ -101,18 +101,10 @@ tónusában (`#EDC0A0`, `#CA4E23`, `#6E3222`). A fájl bemásolása automatikusa
 A technikai jelleget nem külön betűtípus adja, hanem a szedés — ezért maradt
 egyszerű az oldal.
 
-## Hero videó
+## Hero kép
 
-A hero rajzlapján a beágyazott Facebook Reel fut, a hivatalos
-`facebook.com/plugins/video.php` beágyazón keresztül, 9:16 arányú keretben.
-
-- A lejátszó mögött **tartalék réteg** ül (`.fbvideo__fallback`): ha a
-  beágyazás nem tölthető be — nem nyilvános videó, tartalomvédelmi szabály
-  vagy a beágyazást tiltó CSP —, üres keret helyett ez marad látható.
-- A keret alatt mindig kattintható marad a **„Megnyitás a Facebookon"** link.
-- A beágyazás harmadik féltől (Facebook) tölt be tartalmat és sütiket
-  helyezhet el — ezt érdemes átvezetni az adatkezelési tájékoztatón, illetve
-  sütikezelő mögé tenni, ha az oldalon lesz ilyen.
+A hero rajzlapján egy fotó áll (`assets/img/hero.jpg`). A korábbi
+beágyazott Facebook-videó kikerült.
 
 ## Referenciafotók
 
@@ -203,9 +195,8 @@ Ezekhez új szekció vagy új űrlapmező kellene:
 3. **Fotófeltöltés** — ez az egyetlen javasolt mező, ami nincs az űrlapon.
    A minősítő kérdések (ingatlan típusa, darabszám, igény, időzítés,
    helyszín) bekerültek.
-4. **Sikeres beküldés üzenete** — az `index.html` végén HTML-kommentben vár a
-   bekötésre. Amíg az űrlap nincs bekötve, a JS szándékosan azt írja ki, hogy a
-   beküldés még nem működik — nem jelenítünk meg valótlan visszaigazolást.
+4. **Sikeres beküldés üzenete** — az űrlap EmailJS-en keresztül küld, a
+   visszaigazolást a `main.js` 10. blokkja jeleníti meg.
 
 ### Ami helykitöltő maradt
 
@@ -223,10 +214,9 @@ amíg a cégadatok nincsenek kitöltve.
 2. A kiemelést a `<span class="hl">` osztály adja (terrakotta gradiens).
 3. A kép-helykitöltők (`.visual__stage`, `.service__media`, `.ref__media`,
    `.lightbox__media`) sraffozott blokkok — cserélhetők valódi `<img>` vagy `<video>` elemre.
-4. Az űrlapok jelenleg **nem küldenek adatot**: a `main.js` `10.` blokkja csak
-   egy visszajelzést jelenít meg. Valós bekötéskor ezt kell cserélni
-   (`form action` vagy `fetch`), és ott használandó a fájl végén kommentben
-   elhelyezett sikerüzenet.
+4. Az űrlapok az **EmailJS**-en keresztül küldenek (`main.js`, 10. blokk).
+   A sablonváltozók listája az `URLAP.md`-ben, a kötelező EmailJS-beállítások
+   a `DEPLOY.md`-ben vannak.
 
 ## Reszponzív viselkedés
 
