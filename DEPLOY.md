@@ -7,7 +7,8 @@ A kód forrása ez a GitHub-repó, a hosting a **Vercel**. Minden módosítás
 
 1. Megírod, mit szeretnél változtatni (itt, a chatben).
 2. A módosítás GitHubra kerül.
-   - **`main` ág** → a Vercel automatikusan **éles** deployt készít.
+   - **a repó alapértelmezett ága** (jelenleg `claude/premium-landing-page-design-pmmxmu`)
+     → a Vercel automatikusan **éles** deployt készít.
    - **bármely más ág** → a Vercel **preview** deployt készít saját URL-lel
      (élesítés előtti ellenőrzésre).
 3. Nincs kézi feltöltés, nincs „frissítés a repóból" gomb — a push maga a deploy.
@@ -30,7 +31,11 @@ A kód forrása ez a GitHub-repó, a hosting a **Vercel**. Minden módosítás
    változót (lásd lentebb és az **`ENV.md`**-t). Ha kimarad, utólag
    beállítod, majd **Redeploy**.
 4. **Deploy.**
-5. Settings → Git → **Production Branch: `main`**.
+5. Settings → Git → **Production Branch**: a Vercel importáláskor a GitHub-repó
+   alapértelmezett ágát állítja be (jelenleg
+   `claude/premium-landing-page-design-pmmxmu`). Ha az élesítést másik ágra
+   teszed át (pl. `main`), **mindkét helyen** állítsd át: GitHub → Settings →
+   Default branch, és Vercel → Settings → Git → Production Branch.
 
 ### Miért nincs build lépés — és miért NEM szabad `build` scriptet tenni a `package.json`-ba
 
