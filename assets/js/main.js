@@ -361,7 +361,245 @@
     return out;
   }
 
+  /* ---------- 10/c. FÁJLCSATOLÁS ---------- */
+  /* A Vercel-függvény legfeljebb 4,5 MB-os kérést fogad, egy mai
+     telefonfotó viszont 3–8 MB. Ezért a képeket itt, a böngészőben
+     kicsinyítjük JPEG-re (ez a metaadatokat — köztük a GPS-helyet — is
+     eltávolítja), a PDF-et változatlanul küldjük. A teljes keret
+     base64-kódolás után is bőven a határ alatt marad.
+     Ugyanezeket a korlátokat a szerver (api/lead.js) újra ellenőrzi. */
+  var UPLOAD = {
+    maxFiles: 6,
+    totalBytes: 3000000,             /* a feldolgozott fájlok összesen */
+    sourceMaxBytes: 40000000,        /* ennél nagyobb képet meg sem nyitunk */
+    imageMaxSide: 2000,
+    imageQuality: 0.82
+  };
+
+  function formatSize(bytes) {
+    return bytes < 1000000
+      ? Math.max(1, Math.round(bytes / 1000)) + ' kB'
+      : (bytes / 1000000).toFixed(1).replace('.', ',') + ' MB';
+  }
+
+  function base64Bytes(b64) {
+    var pad = b64.slice(-2) === '==' ? 2 : b64.slice(-1) === '=' ? 1 : 0;
+    return Math.floor(b64.length * 3 / 4) - pad;
+  }
+
+  function readDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(String(reader.result)); };
+      reader.onerror = function () { reject(new Error('olvasas')); };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  /* data: URL-en át töltjük be — a CSP img-src ezt engedi, a blob:-ot nem. */
+  function decodeViaImg(file) {
+    return readDataUrl(file).then(function (url) {
+      return new Promise(function (resolve, reject) {
+        var img = new Image();
+        img.onload = function () { resolve(img); };
+        img.onerror = function () { reject(new Error('dekodolas')); };
+        img.src = url;
+      });
+    });
+  }
+
+  function decodeImage(file) {
+    if (typeof window.createImageBitmap !== 'function') return decodeViaImg(file);
+    return window.createImageBitmap(file, { imageOrientation: 'from-image' })
+      .catch(function () { return decodeViaImg(file); });
+  }
+
+  /* Kép → legfeljebb 2000 px-es JPEG, base64-ben. */
+  function compressImage(file) {
+    return decodeImage(file).then(function (src) {
+      var w = src.naturalWidth || src.width;
+      var h = src.naturalHeight || src.height;
+      if (!w || !h) throw new Error('dekodolas');
+      var scale = Math.min(1, UPLOAD.imageMaxSide / Math.max(w, h));
+      var canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(w * scale));
+      canvas.height = Math.max(1, Math.round(h * scale));
+      var ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#FFFFFF';           /* átlátszó PNG ne legyen fekete */
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(src, 0, 0, canvas.width, canvas.height);
+      if (src.close) src.close();
+      return canvas.toDataURL('image/jpeg', UPLOAD.imageQuality).split(',')[1];
+    });
+  }
+
+  function isPdf(file) {
+    return file.type === 'application/pdf' || /\.pdf$/i.test(file.name);
+  }
+
+  function isImage(file) {
+    return /^image\//.test(file.type) || /\.(jpe?g|png|webp|heic|heif|gif|bmp)$/i.test(file.name);
+  }
+
+  function baseName(name) {
+    return String(name || '').replace(/\.[^.]*$/, '') || 'fajl';
+  }
+
+  /* Egy űrlap csatolórésze. Visszaad: get() — a küldendő lista,
+     busy() — fut-e még feldolgozás, clear() — ürítés sikeres küldés után. */
+  function setupUpload(form) {
+    var box = $('[data-upload]', form);
+    var api = {
+      get: function () { return []; },
+      busy: function () { return false; },
+      clear: function () {}
+    };
+    if (!box || typeof FileReader !== 'function' || typeof Promise !== 'function') return api;
+
+    var input = $('input[type="file"]', box);
+    var drop = $('[data-upload-drop]', box);
+    var list = $('[data-upload-list]', box);
+    var msg = $('[data-upload-msg]', box);
+    var files = [];
+    var pending = 0;
+    var queue = Promise.resolve();
+
+    box.hidden = false;
+
+    function used() {
+      return files.reduce(function (sum, f) { return sum + f.size; }, 0);
+    }
+
+    function say(lines) {
+      msg.hidden = !lines.length;
+      msg.textContent = lines.join('\n');
+    }
+
+    function render() {
+      list.innerHTML = '';
+      files.forEach(function (f, i) {
+        var li = document.createElement('li');
+        li.className = 'upload__item';
+        var name = document.createElement('span');
+        name.className = 'upload__name';
+        name.textContent = f.nev;
+        var size = document.createElement('span');
+        size.className = 'upload__size';
+        size.textContent = formatSize(f.size);
+        var remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'upload__remove';
+        remove.textContent = 'Törlés';
+        remove.setAttribute('aria-label', f.nev + ' eltávolítása');
+        remove.addEventListener('click', function () {
+          files.splice(i, 1);
+          render();
+          say([]);
+          input.focus();
+        });
+        li.appendChild(name);
+        li.appendChild(size);
+        li.appendChild(remove);
+        list.appendChild(li);
+      });
+      if (files.length) {
+        var total = document.createElement('li');
+        total.className = 'upload__total';
+        total.textContent = files.length + ' fájl · ' + formatSize(used()) + ' / ' +
+          formatSize(UPLOAD.totalBytes);
+        list.appendChild(total);
+      }
+    }
+
+    function addOne(file, errors) {
+      var label = '„' + file.name + '”';
+      if (files.length >= UPLOAD.maxFiles) {
+        errors.push(label + ': legfeljebb ' + UPLOAD.maxFiles + ' fájlt csatolhatsz.');
+        return Promise.resolve();
+      }
+      var work;
+      if (isPdf(file)) {
+        if (file.size > UPLOAD.totalBytes - used()) {
+          errors.push(label + ' túl nagy (' + formatSize(file.size) + '). Fotózd le a tervrajzot, ' +
+            'vagy küldd e-mailben: polanyiablak@gmail.com');
+          return Promise.resolve();
+        }
+        work = readDataUrl(file).then(function (url) {
+          return { nev: baseName(file.name) + '.pdf', tipus: 'application/pdf', tartalom: url.split(',')[1] || '' };
+        });
+      } else if (isImage(file)) {
+        if (file.size > UPLOAD.sourceMaxBytes) {
+          errors.push(label + ' túl nagy (' + formatSize(file.size) + ').');
+          return Promise.resolve();
+        }
+        work = compressImage(file).then(function (b64) {
+          return { nev: baseName(file.name) + '.jpg', tipus: 'image/jpeg', tartalom: b64 };
+        });
+      } else {
+        errors.push(label + ': csak képet vagy PDF-et tudunk fogadni.');
+        return Promise.resolve();
+      }
+      return work.then(function (f) {
+        f.size = base64Bytes(f.tartalom);
+        if (!f.size) throw new Error('ures');
+        if (f.size > UPLOAD.totalBytes - used()) {
+          errors.push(label + ' már nem fér bele a ' + formatSize(UPLOAD.totalBytes) + '-os keretbe.');
+          return;
+        }
+        files.push(f);
+      }, function () {
+        errors.push(label + ' nem nyitható meg. Próbáld JPG formátumban, vagy küldd e-mailben.');
+      });
+    }
+
+    function addFiles(fileList) {
+      var picked = Array.prototype.slice.call(fileList || []);
+      if (!picked.length) return;
+      pending++;
+      say(['Fájlok feldolgozása…']);
+      var errors = [];
+      /* Egyenként, sorban: így a keret számítása pontos, és egyszerre
+         csak egy nagy kép van a memóriában (mobilon ez számít). */
+      queue = queue.then(function () {
+        return picked.reduce(function (p, file) {
+          return p.then(function () { return addOne(file, errors); });
+        }, Promise.resolve());
+      }).then(function () {
+        pending--;
+        render();
+        say(errors);
+      });
+    }
+
+    input.addEventListener('change', function () {
+      addFiles(input.files);
+      input.value = '';                    /* ugyanaz a fájl újra kiválasztható */
+    });
+
+    if (drop) {
+      drop.addEventListener('dragover', function (e) {
+        e.preventDefault();
+        drop.classList.add('is-over');
+      });
+      drop.addEventListener('dragleave', function () { drop.classList.remove('is-over'); });
+      drop.addEventListener('drop', function (e) {
+        e.preventDefault();
+        drop.classList.remove('is-over');
+        if (e.dataTransfer) addFiles(e.dataTransfer.files);
+      });
+    }
+
+    api.get = function () {
+      return files.map(function (f) { return { nev: f.nev, tipus: f.tipus, tartalom: f.tartalom }; });
+    };
+    api.busy = function () { return pending > 0; };
+    api.clear = function () { files = []; render(); say([]); };
+    return api;
+  }
+
   $$('[data-form]').forEach(function (form) {
+    var upload = setupUpload(form);
+
     /* Kitöltés kezdetének időbélyege — a szerver ebből látja, ha egy
        automata emberi sebességnél gyorsabban küldött be. */
     var ts = form.querySelector('[name="ts"]');
@@ -381,6 +619,13 @@
           hibak[0] === 'helyszín' ? 'helyszin' :
           hibak[0] === 'e-mail-cím' ? 'email' : 'hozzajarulas') + '"]');
         if (first && first.focus) first.focus();
+        return;
+      }
+
+      /* A képek kicsinyítése még fut — a fájlok nélkül nem küldünk. */
+      if (upload.busy()) {
+        e.preventDefault();
+        setStatus(status, 'Várj pár másodpercet, amíg a fájlok feldolgozása befejeződik.', 'error');
         return;
       }
 
@@ -407,6 +652,8 @@
       new FormData(form).forEach(function (value, key) {
         payload[key] = typeof value === 'string' ? value : '';
       });
+      var fajlok = upload.get();
+      if (fajlok.length) payload.fajlok = fajlok;
 
       window.fetch(form.getAttribute('action'), {
         method: 'POST',
@@ -421,6 +668,7 @@
           if (r.status >= 200 && r.status < 300 && r.body && r.body.ok) {
             lastSent = Date.now();
             form.reset();
+            upload.clear();
             if (ts) ts.value = String(Date.now());
             if (window.turnstile && form.querySelector('.cf-turnstile')) {
               try { window.turnstile.reset(); } catch (err) { /* nincs teendő */ }
@@ -429,6 +677,10 @@
               'Köszönjük! Megkaptuk az ajánlatkérésed, hamarosan keresünk telefonon.', 'success');
             /* Konverziós esemény — csak ha van marketing-hozzájárulás. */
             if (window.fbq && consentState() === 'accepted') window.fbq('track', 'Lead');
+          } else if (r.status === 413) {
+            /* A Vercel még a függvény előtt elutasítja a túl nagy kérést. */
+            setStatus(status, 'A csatolt fájlok együtt túl nagyok. Törölj közülük, vagy küldd ' +
+              'őket e-mailben: polanyiablak@gmail.com', 'error');
           } else {
             setStatus(status, (r.body && r.body.message) ||
               'A küldés nem sikerült. Kérlek hívj minket: +36 30 113 1261', 'error');

@@ -19,6 +19,7 @@ a `forras` mezőből derül ki, melyikről érkezett a lead.
 | `helyszin` | Hol van az ingatlan? | **igen** | szöveg | település vagy megye |
 | `uzenet` | Megjegyzés | nem | többsoros | hozzávetőleges méretek, egyéb tudnivaló |
 | `hozzajarulas` | Adatkezelési tájékoztató elfogadása | **igen** | jelölőnégyzet | `igen` |
+| `fajlok` | Fotók, tervrajz | nem | fájllista (csak JSON-os úton) | lásd lent: *Csatolt fájlok* |
 
 ## Fontos a sablonhoz
 
@@ -84,3 +85,46 @@ A titkos kulcsok az `ENV.md`-ben vannak dokumentálva.
 
 Élesítés előtt még: az `index.html` fejlécéből törlendő a
 `<meta name="robots" content="noindex, nofollow">` sor.
+
+## Csatolt fájlok
+
+A „Fotók, tervrajz" mező **csak futó JS mellett** jelenik meg, mert a
+fájlokat a böngésző dolgozza fel. Az inputnak nincs `name` attribútuma,
+így natív beküldésnél nem kerül bele semmi.
+
+| | Böngésző (`main.js`, 10/c.) | Szerver (`api/lead.js`) |
+|---|---|---|
+| Darabszám | legfeljebb 6 | legfeljebb 6 |
+| Keret | összesen 3 MB (feldolgozás után) | összesen 3,2 MB (ráhagyás) |
+| Kép | bármilyen, amit a böngésző meg tud nyitni → **JPEG, max. 2000 px**, 0,82 minőség | csak JPEG, a fájl első bájtjai alapján |
+| PDF | változatlanul, ha belefér a keretbe | csak PDF, a `%PDF-` fejléc alapján |
+| Egyéb (docx, zip…) | elutasítva, üzenettel | elutasítva |
+
+Miért ilyen szűk: a Vercel-függvény legfeljebb **4,5 MB**-os kérést fogad,
+a base64-kódolás pedig +33%. Egy mai telefonfotó nyersen 3–8 MB lenne,
+kicsinyítve jellemzően 300–800 kB, így 3 MB-ba 4–6 fotó fér.
+
+A kicsinyítés a képek **metaadatait is eltávolítja** (GPS-hely, készülék).
+PDF-nél ez nem történik meg.
+
+Formátum a JSON-ban:
+
+```json
+"fajlok": [
+  { "nev": "nappali.jpg", "tipus": "image/jpeg", "tartalom": "<base64>" },
+  { "nev": "alaprajz.pdf", "tipus": "application/pdf", "tartalom": "<base64>" }
+]
+```
+
+A szerver a fájlnevet megtisztítja, a kiterjesztést a tényleges tartalom
+alapján adja, és a fájlokat **e-mail-mellékletként** küldi tovább
+(Resend `attachments`). A weboldal sehol nem tárol fájlt. Ha bármelyik
+fájl hibás, a teljes beküldés 422-vel visszautasul, és a látogató
+üzenetet kap — levél ilyenkor nem megy ki.
+
+**Nagyobb tervrajz** (több MB-os PDF) ezen az úton nem fér be. A
+látogató ilyenkor azt az üzenetet kapja, hogy fotózza le, vagy küldje
+e-mailben. Ha ez a gyakorlatban sok leadnél gond, a következő lépés a
+közvetlen tárhelyre töltés (pl. Vercel Blob) — az viszont új
+adatfeldolgozót, tárolást és törlési rendet jelent.
+

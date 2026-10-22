@@ -114,6 +114,7 @@ működik — különben lesz egy időszak, amikor az oldal nem érhető el.
 - [ ] `https://<domain>/DEPLOY.md` és `https://<domain>/docs/README.md` → **404**.
       Ha 200, a `.vercelignore` nem érvényesült — azonnal szólj.
 - [ ] Próbaajánlatkérés **mindkét űrlapról**, a levél megérkezik.
+- [ ] Legalább egy próbánál csatolj egy telefonfotót és egy kis PDF-et — a levélben mellékletként ott vannak.
 - [ ] Vercel → **Logs**: nincs `[lead] hianyzo kornyezeti valtozo` sor.
 - [ ] Böngésző konzol (F12): nincs piros `Content-Security-Policy` hiba.
 
@@ -187,7 +188,7 @@ rejtve marad. Az eredmény szándékosan **sáv** (alapból ±15%, a
 
 ## Gyorsítótár — verziószám
 
-A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022a`
+A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022b`
 végződést kap az `index.html`-ben (a CSS a `404.html`-ben is).
 **Minden CSS/JS módosítás után ezt a számot emelni kell** — a
 `vercel.json` egy évre, `immutable`-ként gyorsítótárazza ezeket a

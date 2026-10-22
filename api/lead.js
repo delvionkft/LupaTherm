@@ -40,6 +40,19 @@ const LABELS = {
 
 const NINCS = 'nincs megadva';
 
+/* Csatolt fájlok. A kliens a képeket JPEG-re kicsinyíti, a PDF-et
+   változatlanul küldi. A Vercel 4,5 MB-nál nagyobb kérést el sem juttat
+   ide, ezért a keret base64-kódolás (+33%) után is alatta marad.
+   A típust a fájl első bájtjai döntik el, nem a kliens állítása. */
+const FILES = {
+  maxCount: 6,
+  maxTotalBytes: 3200000,
+  types: {
+    'image/jpeg':      { ext: 'jpg', magic: [0xFF, 0xD8, 0xFF] },
+    'application/pdf': { ext: 'pdf' }      /* a %PDF- fejlécet külön keressük */
+  }
+};
+
 /* Kérésszámlálás. FIGYELEM: a futtatókörnyezet példányonként külön
    memóriát használ, és hidegindításkor ürül — ez tehát torlaszolja a
    naiv ismétlést, de nem elosztott rate limit. Tartós korlátozáshoz
@@ -115,6 +128,54 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (c) => map[c]);
 }
 
+/** Fájlnév: csak betű, szám, szóköz, pont, kötőjel, aláhúzás; a
+    kiterjesztést a tényleges tartalom típusa adja. */
+function safeFileName(value, ext, index) {
+  const base = clean(typeof value === 'string' ? value : '', 120)
+    .replace(/\.[^.]*$/, '')
+    .replace(/[^\p{L}\p{N} ._-]/gu, '_')
+    .replace(/^[.\s_-]+/, '')
+    .slice(0, 60)
+    .trim();
+  return (base || 'csatolmany-' + (index + 1)) + '.' + ext;
+}
+
+/** A kliens fájllistájának ellenőrzése. Hibánál { error } jön vissza. */
+function parseFiles(list) {
+  if (list === undefined || list === null || list === '') return { files: [] };
+  if (!Array.isArray(list)) return { error: true };
+  if (list.length > FILES.maxCount) return { error: true };
+
+  const files = [];
+  let total = 0;
+  for (let i = 0; i < list.length; i++) {
+    const item = list[i];
+    if (!item || typeof item !== 'object') return { error: true };
+    const type = FILES.types[item.tipus];
+    const b64 = item.tartalom;
+    if (!type || typeof b64 !== 'string') return { error: true };
+    if (b64.length > Math.ceil(FILES.maxTotalBytes / 3) * 4 + 4) return { error: true };
+    if (!/^[A-Za-z0-9+/]+={0,2}$/.test(b64)) return { error: true };
+
+    const buf = Buffer.from(b64, 'base64');
+    total += buf.length;
+    if (!buf.length || total > FILES.maxTotalBytes) return { error: true };
+    /* A PDF-szabvány engedi, hogy a %PDF- fejléc előtt legfeljebb 1024 bájt álljon. */
+    const typeOk = item.tipus === 'application/pdf'
+      ? buf.subarray(0, 1024).indexOf('%PDF-') !== -1
+      : type.magic.every((byte, j) => buf[j] === byte);
+    if (!typeOk) return { error: true };
+
+    files.push({ filename: safeFileName(item.nev, type.ext, i), content: buf.toString('base64'), size: buf.length });
+  }
+  return { files };
+}
+
+function sizeLabel(bytes) {
+  return bytes < 1000000 ? Math.max(1, Math.round(bytes / 1000)) + ' kB'
+    : (bytes / 1000000).toFixed(1).replace('.', ',') + ' MB';
+}
+
 function clientIp(req) {
   const fwd = req.headers['x-forwarded-for'];
   if (typeof fwd === 'string' && fwd.length) return fwd.split(',')[0].trim();
@@ -166,7 +227,7 @@ async function readBody(req) {
   let raw = '';
   for await (const chunk of req) {
     raw += chunk;
-    if (raw.length > 20000) throw new Error('tul nagy kerestorzs');
+    if (raw.length > 5000000) throw new Error('tul nagy kerestorzs');   /* a Vercel 4,5 MB-nál amúgy is megállítja */
   }
   const type = String(req.headers['content-type'] || '');
   if (type.includes('application/json')) {
@@ -274,6 +335,11 @@ export default async function handler(req, res) {
   if (email && !validEmail(email)) hibak.push('e-mail-cím');
   if (!data.hozzajarulas) hibak.push('adatkezelési hozzájárulás');
 
+  const csatolt = parseFiles(data.fajlok);
+  /* A felületen 3 MB a keret; a szerver kis ráhagyással fogad. */
+  if (csatolt.error) hibak.push('csatolt fájlok (csak kép vagy PDF, legfeljebb ' +
+    FILES.maxCount + ' db, összesen 3 MB)');
+
   if (hibak.length) {
     return respond(res, form, 422, false, 'Hiányzó vagy hibás adat',
       'Ellenőrizd a következőt: ' + hibak.join(', ') + '.');
@@ -310,6 +376,9 @@ export default async function handler(req, res) {
     ['Igény', label('igeny', mezok.igeny)],
     ['Időzítés', label('idozites', mezok.idozites)],
     ['Megjegyzés', uzenet || NINCS],
+    ['Csatolmány', csatolt.files.length
+      ? csatolt.files.length + ' db: ' + csatolt.files.map((f) => f.filename + ' (' + sizeLabel(f.size) + ')').join(', ')
+      : NINCS],
     ['Forrás', label('forras', mezok.forras)],
     ['Beküldve', new Date().toLocaleString('hu-HU', { timeZone: 'Europe/Budapest' })]
   ];
@@ -328,11 +397,15 @@ export default async function handler(req, res) {
   const payload = {
     from: from,
     to: [to],
-    subject: 'Ajánlatkérés — ' + label('igeny', mezok.igeny) + ' — ' + nev,
+    subject: 'Ajánlatkérés — ' + label('igeny', mezok.igeny) + ' — ' + nev +
+      (csatolt.files.length ? ' — ' + csatolt.files.length + ' csatolmány' : ''),
     text: text,
     html: html
   };
   if (email && validEmail(email)) payload.reply_to = [email];
+  if (csatolt.files.length) {
+    payload.attachments = csatolt.files.map((f) => ({ filename: f.filename, content: f.content }));
+  }
 
   /* 7. Küldés a Resend REST API-ján keresztül */
   try {
