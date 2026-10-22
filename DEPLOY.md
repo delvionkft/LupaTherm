@@ -178,7 +178,6 @@ Cseréld a `https://[DOMAIN]` szövegrészt a valódi címre:
 
 - `assets/img/logo.svg` — a valódi logó helye. Amíg nincs ott, tartalék jel
   látszik. A fájl bemásolása elég, kódmódosítás nem kell.
-- `[TELEPÜLÉS]` — a 8 referenciakártyán, `index.html` `#referenciak`
 - `[SZOLGÁLTATÁSI TERÜLET]` — felső sáv és lábléc
 - `[HATÁLYBALÉPÉS DÁTUMA]` — mindhárom jogi dokumentumban
 - `[EMAILJS …]` — adatkezelési tájékoztató, 07. szakasz
