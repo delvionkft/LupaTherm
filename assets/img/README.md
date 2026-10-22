@@ -61,6 +61,6 @@ A kártyán `object-fit: cover` vág **4:5** arányban — ez a leggyakoribb ál
 tájolású fotókból vág a legkevesebbet. A lightboxban `object-fit: contain`,
 tehát ott a teljes kép látszik.
 
-**A települések `[TELEPÜLÉS]` helykitöltők**, és a leírásokat abból írtam,
+**A kártyák címe csak a munkát nevezi meg, települést nem.** A leírásokat abból írtam,
 ami a fotókon látszik. Érdemes átnézni és pontosítani őket az `index.html`
 `#referenciak` szekciójában.

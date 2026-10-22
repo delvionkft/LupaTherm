@@ -118,7 +118,7 @@ A hozzárendelést és a leírásokat az `assets/img/README.md` tartalmazza.
 - Hiányzó vagy hibás fájl esetén a `main.js` elrejti a képet, és a
   sraffozott panel marad a helyén
 
-A települések `[TELEPÜLÉS]` helykitöltők maradtak.
+A referenciakártyák címe csak a munkát nevezi meg, települést nem.
 
 ## Vizuális nyelv
 
@@ -201,7 +201,7 @@ Ezekhez új szekció vagy új űrlapmező kellene:
 ### Ami helykitöltő maradt
 
 `[SZOLGÁLTATÁSI TERÜLET]`,
-`[RÖVID CÉGBEMUTATÓ]`, a referenciák adatai (`[TELEPÜLÉS]`, `[AZ ELVÉGZETT MUNKA]`,
+`[RÖVID CÉGBEMUTATÓ]`, a referenciák adatai (`[AZ ELVÉGZETT MUNKA]`,
 `[RÖVID LEÍRÁS A MUNKÁRÓL]`, `[BEÉPÍTETT MEGOLDÁS]`) és a képhelyek
 (`[REFERENCIAFOTÓ 01–04]`, `[KIEMELT KÉP VAGY VIDEÓ HELYE]`, `[IKON VAGY KÉP HELYE]`).
 
