@@ -5,12 +5,11 @@
   "description": "LupaTherm landing oldal — statikus HTML/CSS/JS + egy Vercel serverless végpont",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0"
+    "node": "22.x"
   },
   "scripts": {
     "lint": "eslint api assets/js",
-    "check": "node --check assets/js/main.js && node -e \"import('./api/lead.js').then(()=>console.log('api/lead.js betolthето'))\"",
-    "build": "echo \"Nincs build lepes - statikus fajlok.\""
+    "check": "node --check assets/js/main.js && node -e \"import('./api/lead.js').then(()=>console.log('api/lead.js betolthето'))\""
   },
   "dependencies": {},
   "devDependencies": {}

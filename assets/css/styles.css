@@ -2238,3 +2238,95 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 @media (max-width:560px){
   .calc__row{grid-template-columns:1fr}
 }
+
+/* ==========================================================================
+   17 · 404-OLDAL (404.html)
+   A korábbi önálló jogi oldalak keretét örökölte; azok megszűntek,
+   ezért a fejléc, a tartalom és a lábléc stílusa itt él tovább.
+   ========================================================================== */
+.legal-page{background:var(--bg-1)}
+.legal-head{
+  position:sticky;top:0;z-index:80;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--border);
+}
+.legal-head__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:68px;
+}
+.legal{padding-block:clamp(38px,6vw,72px) clamp(48px,7vw,96px)}
+.legal__inner{max-width:840px}
+.legal .eyebrow{margin-bottom:18px}
+.legal .h2{margin-bottom:22px}
+/* A .legal-doc a szabály aláhúzott akcentszínt ad — a gombon ez
+   narancs szöveg narancs alapon lenne. */
+.legal-doc a.btn{color:#fff;text-decoration:none}
+.legal-doc a.btn:hover{color:#fff}
+.legal-foot{
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+  padding-block:26px;
+}
+.legal-foot p{
+  margin:0;color:var(--text-muted);
+  font-size:12.5px;line-height:1.6;
+}
+@media (max-width:640px){
+  .legal-head__inner{min-height:60px}
+}
+
+/* ==========================================================================
+   18 · FÁJLCSATOLÁS (űrlap)
+   ========================================================================== */
+.field.upload[hidden]{display:none}
+.upload__drop{
+  position:relative;
+  display:grid;gap:6px;justify-items:start;
+  padding:16px;
+  border:1px dashed var(--n-300);
+  border-radius:var(--radius-sm);
+  background:var(--n-50);
+  cursor:pointer;
+  transition:border-color var(--dur) var(--ease),background var(--dur) var(--ease);
+}
+.upload__drop:hover,
+.upload__drop.is-over{border-color:var(--accent);background:var(--accent-50)}
+.upload__drop:focus-within{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(202,78,35,.16);
+}
+/* A natív input láthatatlan, de fókuszálható és kattintható marad. */
+.upload__input{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  opacity:0;cursor:pointer;
+}
+.upload__cta{
+  color:var(--accent-dark);
+  font-size:12px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.upload__hint{color:var(--text-muted);font-size:12.5px;line-height:1.55}
+.upload__list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.upload__list:empty{display:none}
+.upload__item{
+  display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:center;gap:12px;
+  padding:8px 10px 8px 12px;
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  background:#FFFFFF;
+  font-size:13.5px;
+}
+.upload__name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.upload__size{color:var(--text-muted);font-size:12.5px;font-variant-numeric:tabular-nums}
+.upload__remove{
+  padding:6px 10px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:transparent;color:var(--text);
+  font:inherit;font-size:12px;font-weight:600;cursor:pointer;
+}
+.upload__remove:hover{border-color:var(--accent);color:var(--accent-dark)}
+.upload__remove:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.upload__total{color:var(--text-muted);font-size:12px;font-variant-numeric:tabular-nums}
+.upload__msg{margin:0;color:var(--accent-dark);font-size:12.5px;line-height:1.55;white-space:pre-line}

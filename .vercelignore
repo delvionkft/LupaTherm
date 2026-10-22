@@ -1,0 +1,12 @@
+# Ami itt szerepel, az NEM kerül fel a Vercelre, tehát nem érhető el
+# a domainről. A Vercel a teljes repógyökeret statikusan kiszolgálja —
+# e fájl nélkül a belső dokumentáció és a docs/ mappa (árlista,
+# képernyőképek) bárki számára letölthető lenne.
+#
+# A package.json SZÁNDÉKOSAN nincs itt: a "type": "module" beállítás
+# nélkül az api/lead.js nem töltődne be.
+
+docs/
+*.md
+eslint.config.js
+.env.example

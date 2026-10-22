@@ -1,109 +1,146 @@
-# Üzemeltetés — LupaTherm
+# Üzemeltetés — LupaTherm (Vercel)
 
-Az **Emergent csak hosting**. A kód forrása ez a GitHub-repó, és minden
-módosítás **itt, Claude Code-ban** történik. Emergentben soha ne szerkeszd
-a fájlokat — ha ott is módosítasz, a két változat szétválik, és a következő
-pusholás felülírja az ottani munkát.
+A kód forrása ez a GitHub-repó, a hosting a **Vercel**. Minden módosítás
+**itt, Claude Code-ban** történik, a Vercel a repóból deployol.
 
 ## A munkamenet
 
 1. Megírod, mit szeretnél változtatni (itt, a chatben).
-2. A módosítás a `main` ágra kerül, feltolva GitHubra.
-3. Emergentben frissítesz a repóból (pull / re-deploy).
+2. A módosítás GitHubra kerül.
+   - **a repó alapértelmezett ága** (jelenleg `claude/premium-landing-page-design-pmmxmu`)
+     → a Vercel automatikusan **éles** deployt készít.
+   - **bármely más ág** → a Vercel **preview** deployt készít saját URL-lel
+     (élesítés előtti ellenőrzésre).
+3. Nincs kézi feltöltés, nincs „frissítés a repóból" gomb — a push maga a deploy.
 
-Nincs build lépés, nincs függőség. Ami a repóban van, az megy ki 1:1.
+## Első beállítás — projekt importálása
 
-## Vercel-publikálás
-
-### Ez a projekt NEM buildel
-
-Tiszta HTML/CSS/JS. **Nincs `package.json`, nincs `node_modules`, nincs
-build lépés, nincs függőség.** A Vercel a fájlokat változatlanul szolgálja ki.
-
-Beállítások a Vercel felületén, a projekt importálásakor:
+1. vercel.com → **Add New… → Project** → GitHub → `delvionkft/LupaTherm` → **Import**
+2. A beállítások:
 
 | Mező | Érték |
 |---|---|
 | Framework Preset | **Other** |
-| Build Command | **üresen hagyni** (kapcsold ki az Override-ot) |
-| Output Directory | **üresen hagyni** (a repó gyökere) |
-| Install Command | **üresen hagyni** |
 | Root Directory | `./` |
-| Production Branch | `main` |
+| Build Command | **ne kapcsold be az Override-ot** (üres) |
+| Output Directory | **ne kapcsold be az Override-ot** (üres) |
+| Install Command | hagyd az alapértelmezettet (nincs függőség, pár másodperc) |
+| Node.js Version | 22.x (a `package.json` `engines` mezője rögzíti) |
 
-Ha a Vercel build parancsot kér, ne adj meg semmit. Egy kitalált
-`npm run build` itt csak hibára futna, mert nincs mit buildelni.
+3. **Environment Variables** — még az első Deploy előtt add meg a négy
+   változót (lásd lentebb és az **`ENV.md`**-t). Ha kimarad, utólag
+   beállítod, majd **Redeploy**.
+4. **Deploy.**
+5. Settings → Git → **Production Branch**: a Vercel importáláskor a GitHub-repó
+   alapértelmezett ágát állítja be (jelenleg
+   `claude/premium-landing-page-design-pmmxmu`). Ha az élesítést másik ágra
+   teszed át (pl. `main`), **mindkét helyen** állítsd át: GitHub → Settings →
+   Default branch, és Vercel → Settings → Git → Production Branch.
 
-### Környezeti változók: NÉGY DARAB
+### Miért nincs build lépés — és miért NEM szabad `build` scriptet tenni a `package.json`-ba
 
-Az űrlapbeküldés szerveroldali végpontra költözött (`api/lead.js`), ezért
-mostantól **négy környezeti változót kell beállítani** a Vercelben:
-`RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`, `TURNSTILE_SECRET_KEY`.
+Ha a `package.json`-ban van `"build"` script, a Vercel (Other preset)
+lefuttatja, és utána egy **`public` nevű mappát keres** a kész fájlokkal.
+Ilyen nincs, ezért a deploy ezzel a hibával áll le:
 
-Részletes leírás — honnan szerezhető, melyik környezetben kell, mi nem
-működik nélküle: **`ENV.md`**.
+```
+Error: [STATIC_BUILD_NO_OUT_DIR] No Output Directory named "public" found
+```
 
-### Korábbi állapot (már nem érvényes)
+`build` script nélkül a Vercel a repó gyökerét szolgálja ki (a
+`.vercelignore` szűrésével), az `api/` mappából pedig függvényt készít.
+Ezt a valódi `vercel build` paranccsal ellenőriztük: a kimenetben csak az
+`index.html`, a `404.html`, az `assets/`, a `robots.txt` és a
+`sitemap.xml` szerepel, az `api/lead` függvény Node 22-n, ES-modulként fut.
 
-A Vercel „Environment Variables" szekciójában **nem kell semmit megadni**.
 
-Ennek oka nem feledékenység: build lépés nélküli statikus oldal
-**nem tud** környezeti változót olvasni — nincs szerveroldali kód és
-nincs build, ami behelyettesítené. Minden érték a forrásban van:
+Tiszta HTML/CSS/JS, plusz egyetlen serverless függvény (`api/lead.js`).
+A `package.json` azért van a repóban, mert a `"type": "module"` beállítás
+nélkül az `api/lead.js` nem töltődne be. **Futásidejű függősége nincs**
+— a Resend és a Turnstile API-t közvetlen `fetch` hívja.
 
-| Érték | Hol van | Titkos? |
-|---|---|---|
-| EmailJS public key | `assets/js/main.js` (`EMAILJS.publicKey`) | Nem — szándékosan publikus |
-| EmailJS service / template ID | `assets/js/main.js` | Nem |
-| Meta Pixel azonosító | `index.html` fejléc | Nem — minden pixel látható a forrásban |
+## Környezeti változók: NÉGY DARAB
 
-**Az EmailJS public key védelme nem titkosítással történik, hanem
-domainkorlátozással.** EmailJS → Account → Security → engedélyezett
-domainek: vedd fel a Vercel-domaint (és később a saját domaint).
-Enélkül bárki küldhet a fiókod keretéből.
+`RESEND_API_KEY`, `LEAD_TO_EMAIL`, `LEAD_FROM_EMAIL`, `TURNSTILE_SECRET_KEY`
 
-Ha valaha **valódi titok** kerülne a projektbe (SMTP-jelszó, API secret),
-az nem mehet a forrásba — akkor Vercel Function kell hozzá, és csak ott
-van értelme környezeti változónak.
+Részletek — honnan szerezhető, melyik környezetben kell, mi nem működik
+nélküle: **`ENV.md`**.
 
-### vercel.json
+> **Csapda:** ha a `TURNSTILE_SECRET_KEY` be van állítva, de az
+> `index.html`-ben még a `[TURNSTILE_SITE_KEY]` helykitöltő áll, **minden
+> beküldés elbukik** (403). A kettőt mindig együtt állítsd be: előbb a
+> Site Key az `index.html`-be, push, utána a Secret Key a Vercelbe, redeploy.
 
-A repóban lévő `vercel.json` állítja be:
+## Mi kerül ki, mi nem — `.vercelignore`
+
+A Vercel a repó gyökerét statikusan kiszolgálja. A `.vercelignore`
+kizárja a nem publikus fájlokat:
+
+- `docs/` — munkaanyagok (árlista, képernyőképek)
+- minden `*.md` — belső dokumentáció (ez a fájl is)
+- `eslint.config.js`, `.env.example`
+
+**Ha új belső anyag kerül a repóba, a `docs/` mappába tedd** — ami máshova
+kerül, az publikus lehet. Az `assets/img/` publikus képmappa.
+
+## vercel.json
 
 - `cleanUrls` — `/index.html` helyett `/`
 - HTML: nincs gyorsítótárazás (a módosítás azonnal látszik)
-- `assets/css`, `assets/js`: egy év, `immutable` — ezért fontos a
-  `?v=` verziószám emelése minden módosításnál (lásd lentebb)
+- `assets/css`, `assets/js`: egy év, `immutable` — ezért kötelező a
+  `?v=` verziószám emelése minden CSS/JS módosításnál (lásd lentebb)
 - `assets/img`: 1 nap + `stale-while-revalidate`
-- biztonsági fejlécek: `nosniff`, `Referrer-Policy`, `X-Frame-Options`,
-  `Permissions-Policy`
+- `/api/*`: `no-store`
+- biztonsági fejlécek: **CSP**, HSTS, `nosniff`, `X-Frame-Options: DENY`,
+  `Referrer-Policy`, `Permissions-Policy`, `COOP`
 
-CSP-t szándékosan nem állítottam be: rosszul megírva megbénítaná az
-EmailJS-t és a Meta Pixelt. Ha kell, külön kell összeállítani és tesztelni.
+A CSP csak a ténylegesen használt külső forrásokat engedi: Google Fonts,
+Meta Pixel (`connect.facebook.net`, `www.facebook.com`), Cloudflare
+Turnstile. **Ha új külső szolgáltatás kerül az oldalra** (Google Analytics,
+chat-widget, beágyazott videó), a CSP-t bővíteni kell, különben a böngésző
+csendben blokkolja.
 
-### A 404-oldal
+A Vercel preview-deployokon a Vercel Toolbar (`vercel.live`) a CSP miatt
+nem töltődik be — ez szándékos, az oldal működését nem érinti.
 
-A Vercel statikus projektnél automatikusan a gyökérben lévő `404.html`-t
-szolgálja ki ismeretlen útvonalon. Nincs vele teendő.
+## A 404-oldal
 
-## Fájlszerkezet
+A Vercel ismeretlen útvonalon a gyökérben lévő `404.html`-t adja vissza,
+404-es státusszal. Az oldal **abszolút** (`/assets/…`) hivatkozásokat
+használ, mert bármilyen mély útvonalon megjelenhet — relatív úttal a
+`/valami/mely/utvonal` címen stílus nélkül jelenne meg.
 
-```
-index.html          a teljes főoldal (a jogi dokumentumok is ebben vannak,
-                    panelként: #impresszum, #adatkezelesi-tajekoztato,
-                    #suti-szabalyzat)
-404.html            hibaoldal
-robots.txt          keresőrobot-szabályok
-sitemap.xml         oldaltérkép
-assets/css/         styles.css — minden stílus, egy fájlban
-assets/js/          main.js — minden interakció, egy fájlban
-assets/img/         fotók, ikonok, megosztási kép (README.md írja le, mi micsoda)
-URLAP.md            az űrlap mezőnevei a CRM-/e-mail-sablonhoz
-```
+## Átköltözés Emergentről
+
+Az Emergentet **csak akkor** kapcsold le, ha a Vercel-oldal már bizonyítottan
+működik — különben lesz egy időszak, amikor az oldal nem érhető el.
+
+1. Vercel-deploy kész, a `*.vercel.app` címen az ellenőrzőlista (lentebb) zöld.
+2. Ha van saját domain: Vercel → projekt → **Settings → Domains → Add**.
+   A Vercel kiírja a szükséges DNS-rekordokat (jellemzően apex domainre
+   `A 76.76.21.21`, `www`-re `CNAME cname.vercel-dns.com`) — **a Vercel
+   által kiírt értéket** állítsd be a domainszolgáltatónál.
+3. Várd meg, amíg a Vercel a domaint „Valid Configuration"-nek jelzi és a
+   HTTPS-tanúsítvány elkészül.
+4. A domaint vedd fel ide is:
+   - Cloudflare Turnstile → a site hostnevei közé
+   - Resend → Domains (a feladócímhez, ha még nincs igazolva)
+5. Csak ezután: Emergent-deploy leállítása.
+
+## Ellenőrzőlista minden éles deploy után
+
+- [ ] A főoldal betölt, a képek látszanak, a sütisáv megjelenik.
+- [ ] `https://<domain>/valami-nem-letezo` → formázott 404-oldal.
+- [ ] `https://<domain>/DEPLOY.md` és `https://<domain>/docs/README.md` → **404**.
+      Ha 200, a `.vercelignore` nem érvényesült — azonnal szólj.
+- [ ] Próbaajánlatkérés **mindkét űrlapról**, a levél megérkezik.
+- [ ] Legalább egy próbánál csatolj egy telefonfotót és egy kis PDF-et — a levélben mellékletként ott vannak.
+- [ ] Vercel → **Logs**: nincs `[lead] hianyzo kornyezeti valtozo` sor.
+- [ ] Böngésző konzol (F12): nincs piros `Content-Security-Policy` hiba.
 
 ## ÉLESÍTÉSI TEENDŐK
 
-Ezek nélkül az oldal működik, de nem található meg és nem gyűjt leadet.
+Ezek nélkül az oldal működik, de nem található meg keresőben.
 
 ### 1. Domain beírása — 4 hely, egy find-replace
 
@@ -113,83 +150,93 @@ Cseréld a `https://[DOMAIN]` szövegrészt a valódi címre:
 - `sitemap.xml` — `<loc>`
 - `robots.txt` — `Sitemap:` sor (a kikommentelt blokkban)
 
-### 2. Indexelés engedélyezése
+### 2. Indexelés engedélyezése — csak a végleges domainen
 
 - `index.html`: töröld a `<meta name="robots" content="noindex, nofollow">` sort
 - `robots.txt`: töröld a `Disallow: /` sort, és vedd ki a kommentből az alsó blokkot
-- A `404.html` `noindex` sora **maradjon** — hibaoldal ne kerüljön keresőbe
+- A `404.html` `noindex` sora **maradjon**
 
-### 3. Környezeti változók és éles teszt
+### 3. Turnstile és éles teszt
 
-- Állítsd be a négy változót a Vercelben — lásd **`ENV.md`**, majd **redeploy**.
 - Írd be a Turnstile **Site Key**-t az `index.html`-be a
   `[TURNSTILE_SITE_KEY]` helyére (két helyen, mindkét űrlapban).
-- Küldj be egy próbaajánlatkérést **mindkét űrlapról** (hero alatti és
-  záró szekció), és nézd meg, megérkezik-e a levél.
+  Amíg a helykitöltő áll, a `main.js` be sem tölti a Cloudflare szkriptet.
+- Utána állítsd be a `TURNSTILE_SECRET_KEY`-t, és redeploy (lásd a fenti csapdát).
 
 ### 4. Hiányzó tartalom
 
-- `assets/img/hero.jpg` — a hero szekció képe. Amíg nincs ott, helykitöltő
-  panel látszik. Álló tájolás, kb. 3:4.
-- `assets/img/logo.svg` — a valódi logó helye. Amíg nincs ott, a fejlécben
-  és a láblécben egy tartalék jel látszik. A fájl bemásolása elég,
-  kódmódosítás nem kell.
+- `assets/img/logo.svg` — a valódi logó helye. Amíg nincs ott, tartalék jel
+  látszik. A fájl bemásolása elég, kódmódosítás nem kell.
 - `[TELEPÜLÉS]` — a 8 referenciakártyán, `index.html` `#referenciak`
 - `[SZOLGÁLTATÁSI TERÜLET]` — felső sáv és lábléc
 - `[HATÁLYBALÉPÉS DÁTUMA]` — mindhárom jogi dokumentumban
-- `[TÁRHELYSZOLGÁLTATÓ ...]` — impresszum, 02. szakasz (Emergent adatai)
-- `[ŰRLAP- VAGY CRM-SZOLGÁLTATÓ ...]` — adatkezelési tájékoztató, 07. szakasz
+- `[RESEND …]`, `[CLOUDFLARE …]` — adatkezelési tájékoztató, 07. szakasz
+- A Vercel Inc. adatai (impresszum 02. és tájékoztató 07.) ki vannak töltve
+  — élesítés előtt egyszer vesd össze a vercel.com/legal oldallal.
 
-### 5. Sütikezelő sáv — NYITOTT KÉRDÉS
+## Süti-hozzájárulás és Meta Pixel
 
-Az oldalon **fut a Meta Pixel** (azonosító: 962398476156311). Ez hirdetési
-célú követőkód, amelynek betöltéséhez az EU-ban a látogató **előzetes
-hozzájárulása** kellene. Jelenleg a pixel **hozzájárulás nélkül, azonnal
-betölt**.
-
-A süti szabályzat 03. szakasza már helyesen felsorolja a pixelt, tehát a
-tájékoztatás megvan — a **hozzájárulás bekérése hiányzik**. Sütikezelő sáv
-beüzemelésekor a pixelt a hozzájárulás mögé kell tenni.
+A Meta Pixel (azonosító: 962398476156311) **csak a sütisávon adott
+kifejezett elfogadás után** töltődik be. Elutasításnál semmilyen kérés nem
+indul a Meta felé. A döntés a lábléc „Süti-beállítások" linkjével
+visszavonható.
 
 Ha később további eszköz kerül az oldalra (Google Analytics, Google Ads),
-azt is **fel kell venni a 03. szakaszba**.
+azt **fel kell venni a süti szabályzat 03. szakaszába**, a hozzájárulás
+mögé kell tenni, és a CSP-t bővíteni kell.
 
 ## Kalkulátor
 
 Az oldalon van egy **helyben számoló** kalkulátor (SZ—05). Nem küld
-adatot sehova, nincs hálózati kérése, és nem kell hozzá ajánlatot kérni.
+adatot sehova, nincs hálózati kérése.
 
 Az árakat egyetlen fájlból veszi: **`assets/js/arak.js`**.
 
 **Jelenleg ez a fájl üres, és a kalkulátor emiatt REJTVE van** — a szekció
-és a hozzá tartozó menüpont sem jelenik meg. Ez szándékos védelem: így
-nem kerülhet ki kitalált vagy nullás ár a látogató elé.
+és a menüpontja sem jelenik meg. Szándékos: így nem kerülhet ki kitalált
+vagy nullás ár.
 
 Bekapcsolás:
 
 1. Töltsd ki az értékeket az `arak.js`-ben (nettó forint).
 2. Állítsd az `aktiv` mezőt `true`-ra.
-3. Emeld a `?v=` verziószámot (lásd lentebb), és deployolj.
+3. Emeld a `?v=` verziószámot (lásd lentebb), és pusholj.
 
-A kalkulátor kétszeresen véd a hibás megjelenés ellen: ha az `aktiv`
-true, de egyetlen valódi egységár sincs kitöltve, akkor is rejtve marad.
-
-Az eredmény szándékosan **sáv**, nem egyetlen szám (alapból ±15%, a
-`savSzazalek` mezővel állítható) — egy pontos szám hamis pontosságot
-sugallna egy felmérés előtti becslésnél.
+Ha az `aktiv` true, de egyetlen valódi egységár sincs kitöltve, akkor is
+rejtve marad. Az eredmény szándékosan **sáv** (alapból ±15%, a
+`savSzazalek` mezővel állítható), nem egyetlen szám.
 
 ## Gyorsítótár — verziószám
 
-A `styles.css` és a `main.js` hivatkozása `?v=20260911a` végződést kap
-az `index.html`-ben és a `404.html`-ben. **Minden CSS/JS módosítás után
-ezt a számot emelni kell**, különben a látogatók böngészője és a hosting
-CDN-je a régi fájlt szolgálja ki, és a változás nem látszik.
+A `styles.css`, az `arak.js` és a `main.js` hivatkozása `?v=20261022b`
+végződést kap az `index.html`-ben (a CSS a `404.html`-ben is).
+**Minden CSS/JS módosítás után ezt a számot emelni kell** — a
+`vercel.json` egy évre, `immutable`-ként gyorsítótárazza ezeket a
+fájlokat, így verzióemelés nélkül a látogatók a régit kapják.
 
-Emergentben deploy után érdemes egy erős frissítéssel (Ctrl+F5 / Cmd+Shift+R)
-ellenőrizni.
+## Fájlszerkezet
+
+```
+index.html          a teljes főoldal (a jogi dokumentumok is ebben vannak,
+                    panelként: #impresszum, #adatkezelesi-tajekoztato,
+                    #suti-szabalyzat)
+404.html            hibaoldal
+api/lead.js         Vercel serverless függvény — űrlapfeldolgozás, levélküldés
+assets/css/         styles.css — minden stílus, egy fájlban
+assets/js/          main.js — minden interakció; arak.js — kalkulátor-árlista
+assets/img/         fotók, ikonok, megosztási kép (README.md írja le, mi micsoda)
+robots.txt          keresőrobot-szabályok
+sitemap.xml         oldaltérkép
+vercel.json         fejlécek, gyorsítótár, cleanUrls
+.vercelignore       ami NEM kerül ki a Vercelre
+docs/               belső munkaanyagok (nem publikus)
+ENV.md              a négy környezeti változó
+URLAP.md            az űrlap mezőnevei
+```
 
 ## Amit ne csinálj
 
-- Ne szerkeszd a fájlokat Emergentben.
-- Ne nevezd át a fájlokat/mappákat — a hivatkozások relatív útvonalak.
+- Ne szerkessz fájlt a Vercel felületén vagy más hostingon — a forrás a repó.
+- Ne nevezd át a fájlokat/mappákat — a főoldal hivatkozásai relatív útvonalak.
+- Ne tedd a `package.json`-t a `.vercelignore`-ba — az API leállna.
 - Ne töröld az `assets/img/README.md`-t, az írja le, melyik fotó hova tartozik.

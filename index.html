@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260915b">
+<link rel="stylesheet" href="assets/css/styles.css?v=20261022b">
 
 <!-- A Meta Pixel NEM itt töltődik be. A hozzájárulás elfogadása után
      az assets/js/main.js 10/b blokkja inicializálja. -->
@@ -351,6 +351,21 @@
           <textarea class="field__input field__textarea" id="f1-uzenet" name="uzenet" rows="3" placeholder="Hozzávetőleges méretek, egyéb tudnivaló"></textarea>
         </div>
 
+        <!-- Fájlcsatolás. Csak futó JS mellett jelenik meg: a fájlokat a
+             main.js dolgozza fel (a fotókat kicsinyíti), és JSON-ban küldi.
+             Az inputnak szándékosan nincs name attribútuma, így natív
+             beküldésnél sem kerül bele az űrlapadatba. -->
+        <div class="field upload" data-upload hidden>
+          <span class="field__label">Fotók, tervrajz <span class="field__opt">nem kötelező</span></span>
+          <label class="upload__drop" for="f1-fajl" data-upload-drop>
+            <input class="upload__input" id="f1-fajl" type="file" accept="image/*,application/pdf" multiple aria-describedby="f1-fajl-sugo">
+            <span class="upload__cta">Fájlok kiválasztása</span>
+            <span class="upload__hint" id="f1-fajl-sugo">Fotók a cserélendő ablakokról, ajtókról, vagy tervrajz. Kép vagy PDF, legfeljebb 6 fájl, összesen 3&nbsp;MB — a fotókat küldés előtt automatikusan kicsinyítjük.</span>
+          </label>
+          <ul class="upload__list" data-upload-list></ul>
+          <p class="upload__msg" data-upload-msg role="status" hidden></p>
+        </div>
+
         <label class="checkbox">
           <input type="checkbox" name="hozzajarulas" value="igen" required>
           <span class="checkbox__box" aria-hidden="true"></span>
@@ -358,7 +373,8 @@
         </label>
 
         <!-- Cloudflare Turnstile. A data-sitekey publikus érték.
-             Amíg [TURNSTILE_SITE_KEY] a helyén van, a widget nem jelenik meg,
+             Amíg [TURNSTILE_SITE_KEY] a helyén van, a main.js be sem tölti a
+             Cloudflare szkriptet,
              és a szerver a méhkasra + kérésszámlálásra támaszkodik. -->
         <div class="cf-turnstile" data-sitekey="[TURNSTILE_SITE_KEY]" data-language="hu" data-theme="light"></div>
 
@@ -1062,6 +1078,21 @@
           <textarea class="field__input field__textarea" id="f2-uzenet" name="uzenet" rows="3" placeholder="Hozzávetőleges méretek, egyéb tudnivaló"></textarea>
         </div>
 
+        <!-- Fájlcsatolás. Csak futó JS mellett jelenik meg: a fájlokat a
+             main.js dolgozza fel (a fotókat kicsinyíti), és JSON-ban küldi.
+             Az inputnak szándékosan nincs name attribútuma, így natív
+             beküldésnél sem kerül bele az űrlapadatba. -->
+        <div class="field upload" data-upload hidden>
+          <span class="field__label">Fotók, tervrajz <span class="field__opt">nem kötelező</span></span>
+          <label class="upload__drop" for="f2-fajl" data-upload-drop>
+            <input class="upload__input" id="f2-fajl" type="file" accept="image/*,application/pdf" multiple aria-describedby="f2-fajl-sugo">
+            <span class="upload__cta">Fájlok kiválasztása</span>
+            <span class="upload__hint" id="f2-fajl-sugo">Fotók a cserélendő ablakokról, ajtókról, vagy tervrajz. Kép vagy PDF, legfeljebb 6 fájl, összesen 3&nbsp;MB — a fotókat küldés előtt automatikusan kicsinyítjük.</span>
+          </label>
+          <ul class="upload__list" data-upload-list></ul>
+          <p class="upload__msg" data-upload-msg role="status" hidden></p>
+        </div>
+
         <label class="checkbox">
           <input type="checkbox" name="hozzajarulas" value="igen" required>
           <span class="checkbox__box" aria-hidden="true"></span>
@@ -1069,7 +1100,8 @@
         </label>
 
         <!-- Cloudflare Turnstile. A data-sitekey publikus érték.
-             Amíg [TURNSTILE_SITE_KEY] a helyén van, a widget nem jelenik meg,
+             Amíg [TURNSTILE_SITE_KEY] a helyén van, a main.js be sem tölti a
+             Cloudflare szkriptet,
              és a szerver a méhkasra + kérésszámlálásra támaszkodik. -->
         <div class="cf-turnstile" data-sitekey="[TURNSTILE_SITE_KEY]" data-language="hu" data-theme="light"></div>
 
@@ -1236,9 +1268,9 @@
             <p>A weboldal tárhelyét az alábbi szolgáltató biztosítja:</p>
             <dl class="legal__dl">
               <div class="legal__row"><dt>Szolgáltatás</dt><dd>Vercel</dd></div>
-              <div class="legal__row"><dt>Hivatalos cégnév</dt><dd>[VERCEL HIVATALOS CÉGNEVE]</dd></div>
-              <div class="legal__row"><dt>Székhely</dt><dd>[VERCEL SZÉKHELYE]</dd></div>
-              <div class="legal__row"><dt>Kapcsolat</dt><dd>[VERCEL KAPCSOLATI E-MAIL VAGY ŰRLAP CÍME]</dd></div>
+              <div class="legal__row"><dt>Hivatalos cégnév</dt><dd>Vercel Inc.</dd></div>
+              <div class="legal__row"><dt>Székhely</dt><dd>440 N Barranca Ave #4133, Covina, CA 91723, Amerikai Egyesült Államok</dd></div>
+              <div class="legal__row"><dt>Kapcsolat</dt><dd><a href="mailto:privacy@vercel.com">privacy@vercel.com</a></dd></div>
             </dl>
           </section>
 
@@ -1324,9 +1356,11 @@
                   <tr><td>Ingatlan helyszíne (település, megye)</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
                   <tr><td>Az igényre vonatkozó válaszok (ingatlan típusa, darabszám, igényelt megoldás, tervezett időpont)</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
                   <tr><td>Megjegyzés mezőben megadott adatok</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
+                  <tr><td>Csatolt fényképek és dokumentumok (opcionális; például a nyílászárókról készült fotók, tervrajz)</td><td>GDPR 6. cikk (1) a) — hozzájárulás</td><td>a hozzájárulás visszavonásáig</td></tr>
                 </tbody>
               </table>
             </div>
+            <p><strong>Csatolt fájlok.</strong> A feltöltött képeket az Ön böngészője a küldés előtt átméretezi, és ezzel eltávolítja belőlük a beágyazott metaadatokat (például a fotó készítésének helyét). A fájlokat a weboldal nem tárolja: kizárólag az értesítő e-mail mellékleteként jutnak el hozzánk. Kérjük, ne csatoljon olyan dokumentumot, amely az ajánlathoz nem szükséges személyes adatot tartalmaz.</p>
             <p>Szerződéskötés és számlázás esetén a számviteli bizonylatokat a Sztv. 169. § alapján <strong>8 évig</strong> őrizzük meg; ennek jogalapja a GDPR 6. cikk (1) c) pontja (jogi kötelezettség teljesítése).</p>
           </section>
 
@@ -1345,8 +1379,8 @@
             <h2 class="legal__h2"><span class="legal__num">07</span>Adattovábbítás, adatfeldolgozók</h2>
             <p>Személyes adatait kizárólag az alábbi adatfeldolgozóinknak továbbítjuk, illetve hatósági megkeresés esetén a hatóságoknak. Minden adatfeldolgozóval írásbeli megállapodást kötünk.</p>
             <dl class="legal__dl">
-              <div class="legal__row"><dt>Tárhelyszolgáltatás és az űrlap futtatása</dt><dd><strong>Vercel</strong> — a weboldal kiszolgálása és az ajánlatkérő űrlapot feldolgozó szerveroldali végpont futtatása. Az adatok feldolgozás céljából áthaladnak a szolgáltató rendszerén; tartós tárolás itt nem történik. Cégnév és székhely: [VERCEL HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
-              <div class="legal__row"><dt>E-mail-továbbítás</dt><dd><strong>Resend</strong> — az űrlapon megadott adatokat tartalmazó értesítő e-mail kézbesítése a szolgáltató e-mail-fiókjába. Cégnév és székhely: [RESEND HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>Tárhelyszolgáltatás és az űrlap futtatása</dt><dd><strong>Vercel</strong> — a weboldal kiszolgálása és az ajánlatkérő űrlapot feldolgozó szerveroldali végpont futtatása. Az adatok feldolgozás céljából áthaladnak a szolgáltató rendszerén; tartós tárolás itt nem történik. Cégnév és székhely: Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, Amerikai Egyesült Államok</dd></div>
+              <div class="legal__row"><dt>E-mail-továbbítás</dt><dd><strong>Resend</strong> — az űrlapon megadott adatokat és csatolt fájlokat tartalmazó értesítő e-mail kézbesítése a szolgáltató e-mail-fiókjába. Cégnév és székhely: [RESEND HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
               <div class="legal__row"><dt>Automatizált visszaélés elleni védelem</dt><dd><strong>Cloudflare Turnstile</strong> — annak ellenőrzése, hogy a beküldést ember végezte. Ehhez technikai adatokat (például IP-cím, böngészőjellemzők) kezel. Cégnév és székhely: [CLOUDFLARE HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
             </dl>
             <p><em>A szolgáltatók hivatalos cégnevét és székhelyét a saját jogi oldalukról kell átvenni, és a weboldal éles indulása előtt beírni.</em></p>
@@ -1502,11 +1536,10 @@
   felvesszük veled a kapcsolatot, hogy pontosítsuk az igényeidet és az
   előzetes árajánlat elkészítéséhez szükséges adatokat.
 -->
-<!-- Turnstile betöltő. Csak akkor tesz bármit, ha a fenti widgetben
-     valódi sitekey van; a placeholderrel a widget üresen marad. -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- A Turnstile betöltőjét a main.js szúrja be — de csak akkor, ha a
+     .cf-turnstile widgetekben valódi sitekey van (10/a. blokk). -->
 <!-- Árlista a kalkulátorhoz. A main.js előtt kell betöltődnie. -->
-<script src="assets/js/arak.js?v=20260915b" defer></script>
-<script src="assets/js/main.js?v=20260915b" defer></script>
+<script src="assets/js/arak.js?v=20261022b" defer></script>
+<script src="assets/js/main.js?v=20261022b" defer></script>
 </body>
 </html>

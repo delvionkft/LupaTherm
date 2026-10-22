@@ -44,7 +44,10 @@ const browserGlobals = {
   innerWidth: 'readonly',
   innerHeight: 'readonly',
   scrollY: 'readonly',
-  addEventListener: 'readonly'
+  addEventListener: 'readonly',
+  FileReader: 'readonly',
+  Image: 'readonly',
+  Promise: 'readonly'
 };
 
 const rules = {
