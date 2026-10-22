@@ -9,8 +9,7 @@
   },
   "scripts": {
     "lint": "eslint api assets/js",
-    "check": "node --check assets/js/main.js && node -e \"import('./api/lead.js').then(()=>console.log('api/lead.js betolthето'))\"",
-    "build": "echo \"Nincs build lepes - statikus fajlok.\""
+    "check": "node --check assets/js/main.js && node -e \"import('./api/lead.js').then(()=>console.log('api/lead.js betolthето'))\""
   },
   "dependencies": {},
   "devDependencies": {}

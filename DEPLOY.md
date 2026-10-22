@@ -21,8 +21,8 @@ A kód forrása ez a GitHub-repó, a hosting a **Vercel**. Minden módosítás
 |---|---|
 | Framework Preset | **Other** |
 | Root Directory | `./` |
-| Build Command | hagyd az alapértelmezettet (`npm run build` — csak kiír egy sort) |
-| Output Directory | **üresen hagyni** (a repó gyökere) |
+| Build Command | **ne kapcsold be az Override-ot** (üres) |
+| Output Directory | **ne kapcsold be az Override-ot** (üres) |
 | Install Command | hagyd az alapértelmezettet (nincs függőség, pár másodperc) |
 | Node.js Version | 22.x (a `package.json` `engines` mezője rögzíti) |
 
@@ -32,7 +32,22 @@ A kód forrása ez a GitHub-repó, a hosting a **Vercel**. Minden módosítás
 4. **Deploy.**
 5. Settings → Git → **Production Branch: `main`**.
 
-### Miért nincs build lépés
+### Miért nincs build lépés — és miért NEM szabad `build` scriptet tenni a `package.json`-ba
+
+Ha a `package.json`-ban van `"build"` script, a Vercel (Other preset)
+lefuttatja, és utána egy **`public` nevű mappát keres** a kész fájlokkal.
+Ilyen nincs, ezért a deploy ezzel a hibával áll le:
+
+```
+Error: [STATIC_BUILD_NO_OUT_DIR] No Output Directory named "public" found
+```
+
+`build` script nélkül a Vercel a repó gyökerét szolgálja ki (a
+`.vercelignore` szűrésével), az `api/` mappából pedig függvényt készít.
+Ezt a valódi `vercel build` paranccsal ellenőriztük: a kimenetben csak az
+`index.html`, a `404.html`, az `assets/`, a `robots.txt` és a
+`sitemap.xml` szerepel, az `api/lead` függvény Node 22-n, ES-modulként fut.
+
 
 Tiszta HTML/CSS/JS, plusz egyetlen serverless függvény (`api/lead.js`).
 A `package.json` azért van a repóban, mert a `"type": "module"` beállítás
