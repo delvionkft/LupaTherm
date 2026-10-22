@@ -34,7 +34,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css?v=20260915b">
+<link rel="stylesheet" href="assets/css/styles.css?v=20261022a">
 
 <!-- A Meta Pixel NEM itt töltődik be. A hozzájárulás elfogadása után
      az assets/js/main.js 10/b blokkja inicializálja. -->
@@ -358,7 +358,8 @@
         </label>
 
         <!-- Cloudflare Turnstile. A data-sitekey publikus érték.
-             Amíg [TURNSTILE_SITE_KEY] a helyén van, a widget nem jelenik meg,
+             Amíg [TURNSTILE_SITE_KEY] a helyén van, a main.js be sem tölti a
+             Cloudflare szkriptet,
              és a szerver a méhkasra + kérésszámlálásra támaszkodik. -->
         <div class="cf-turnstile" data-sitekey="[TURNSTILE_SITE_KEY]" data-language="hu" data-theme="light"></div>
 
@@ -1069,7 +1070,8 @@
         </label>
 
         <!-- Cloudflare Turnstile. A data-sitekey publikus érték.
-             Amíg [TURNSTILE_SITE_KEY] a helyén van, a widget nem jelenik meg,
+             Amíg [TURNSTILE_SITE_KEY] a helyén van, a main.js be sem tölti a
+             Cloudflare szkriptet,
              és a szerver a méhkasra + kérésszámlálásra támaszkodik. -->
         <div class="cf-turnstile" data-sitekey="[TURNSTILE_SITE_KEY]" data-language="hu" data-theme="light"></div>
 
@@ -1236,9 +1238,9 @@
             <p>A weboldal tárhelyét az alábbi szolgáltató biztosítja:</p>
             <dl class="legal__dl">
               <div class="legal__row"><dt>Szolgáltatás</dt><dd>Vercel</dd></div>
-              <div class="legal__row"><dt>Hivatalos cégnév</dt><dd>[VERCEL HIVATALOS CÉGNEVE]</dd></div>
-              <div class="legal__row"><dt>Székhely</dt><dd>[VERCEL SZÉKHELYE]</dd></div>
-              <div class="legal__row"><dt>Kapcsolat</dt><dd>[VERCEL KAPCSOLATI E-MAIL VAGY ŰRLAP CÍME]</dd></div>
+              <div class="legal__row"><dt>Hivatalos cégnév</dt><dd>Vercel Inc.</dd></div>
+              <div class="legal__row"><dt>Székhely</dt><dd>440 N Barranca Ave #4133, Covina, CA 91723, Amerikai Egyesült Államok</dd></div>
+              <div class="legal__row"><dt>Kapcsolat</dt><dd><a href="mailto:privacy@vercel.com">privacy@vercel.com</a></dd></div>
             </dl>
           </section>
 
@@ -1345,7 +1347,7 @@
             <h2 class="legal__h2"><span class="legal__num">07</span>Adattovábbítás, adatfeldolgozók</h2>
             <p>Személyes adatait kizárólag az alábbi adatfeldolgozóinknak továbbítjuk, illetve hatósági megkeresés esetén a hatóságoknak. Minden adatfeldolgozóval írásbeli megállapodást kötünk.</p>
             <dl class="legal__dl">
-              <div class="legal__row"><dt>Tárhelyszolgáltatás és az űrlap futtatása</dt><dd><strong>Vercel</strong> — a weboldal kiszolgálása és az ajánlatkérő űrlapot feldolgozó szerveroldali végpont futtatása. Az adatok feldolgozás céljából áthaladnak a szolgáltató rendszerén; tartós tárolás itt nem történik. Cégnév és székhely: [VERCEL HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
+              <div class="legal__row"><dt>Tárhelyszolgáltatás és az űrlap futtatása</dt><dd><strong>Vercel</strong> — a weboldal kiszolgálása és az ajánlatkérő űrlapot feldolgozó szerveroldali végpont futtatása. Az adatok feldolgozás céljából áthaladnak a szolgáltató rendszerén; tartós tárolás itt nem történik. Cégnév és székhely: Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, Amerikai Egyesült Államok</dd></div>
               <div class="legal__row"><dt>E-mail-továbbítás</dt><dd><strong>Resend</strong> — az űrlapon megadott adatokat tartalmazó értesítő e-mail kézbesítése a szolgáltató e-mail-fiókjába. Cégnév és székhely: [RESEND HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
               <div class="legal__row"><dt>Automatizált visszaélés elleni védelem</dt><dd><strong>Cloudflare Turnstile</strong> — annak ellenőrzése, hogy a beküldést ember végezte. Ehhez technikai adatokat (például IP-cím, böngészőjellemzők) kezel. Cégnév és székhely: [CLOUDFLARE HIVATALOS CÉGNEVE ÉS SZÉKHELYE]</dd></div>
             </dl>
@@ -1502,11 +1504,10 @@
   felvesszük veled a kapcsolatot, hogy pontosítsuk az igényeidet és az
   előzetes árajánlat elkészítéséhez szükséges adatokat.
 -->
-<!-- Turnstile betöltő. Csak akkor tesz bármit, ha a fenti widgetben
-     valódi sitekey van; a placeholderrel a widget üresen marad. -->
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- A Turnstile betöltőjét a main.js szúrja be — de csak akkor, ha a
+     .cf-turnstile widgetekben valódi sitekey van (10/a. blokk). -->
 <!-- Árlista a kalkulátorhoz. A main.js előtt kell betöltődnie. -->
-<script src="assets/js/arak.js?v=20260915b" defer></script>
-<script src="assets/js/main.js?v=20260915b" defer></script>
+<script src="assets/js/arak.js?v=20261022a" defer></script>
+<script src="assets/js/main.js?v=20261022a" defer></script>
 </body>
 </html>

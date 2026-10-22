@@ -5,7 +5,7 @@
   "description": "LupaTherm landing oldal — statikus HTML/CSS/JS + egy Vercel serverless végpont",
   "type": "module",
   "engines": {
-    "node": ">=20.0.0"
+    "node": "22.x"
   },
   "scripts": {
     "lint": "eslint api assets/js",

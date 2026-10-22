@@ -444,6 +444,22 @@
     });
   });
 
+  /* ---------- 10/a. TURNSTILE BETÖLTÉSE — csak valódi sitekey mellett ---------- */
+  /* A Cloudflare betöltője minden .cf-turnstile elemet magától kirajzol.
+     A [TURNSTILE_SITE_KEY] helykitöltővel ez egy hibás, piros widget
+     lenne az űrlapon, ezért a szkriptet csak akkor töltjük be, ha a
+     sitekey valódinak látszik (0x…, illetve a teszt-kulcsok: 1x…, 2x…, 3x…).
+     Kulcs nélkül így a Cloudflare felé sem indul kérés. */
+  var hasSiteKey = $$('.cf-turnstile').some(function (el) {
+    return /^[0-9]x[A-Za-z0-9_-]{10,}$/.test(el.getAttribute('data-sitekey') || '');
+  });
+  if (hasSiteKey) {
+    var turnstileScript = document.createElement('script');
+    turnstileScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    turnstileScript.async = true;
+    document.head.appendChild(turnstileScript);
+  }
+
   /* ---------- 10/b. SÜTI-HOZZÁJÁRULÁS ÉS META PIXEL ---------- */
   /* A Meta Pixel NEM töltődik be az oldal megnyitásakor. Csak akkor
      inicializálódik, ha a látogató kifejezetten elfogadta a marketing-

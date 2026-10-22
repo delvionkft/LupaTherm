@@ -2238,3 +2238,39 @@ h1,h2,h3,h4{margin:0;font-weight:600;font-family:var(--font-display);letter-spac
 @media (max-width:560px){
   .calc__row{grid-template-columns:1fr}
 }
+
+/* ==========================================================================
+   17 · 404-OLDAL (404.html)
+   A korábbi önálló jogi oldalak keretét örökölte; azok megszűntek,
+   ezért a fejléc, a tartalom és a lábléc stílusa itt él tovább.
+   ========================================================================== */
+.legal-page{background:var(--bg-1)}
+.legal-head{
+  position:sticky;top:0;z-index:80;
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--border);
+}
+.legal-head__inner{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:68px;
+}
+.legal{padding-block:clamp(38px,6vw,72px) clamp(48px,7vw,96px)}
+.legal__inner{max-width:840px}
+.legal .eyebrow{margin-bottom:18px}
+.legal .h2{margin-bottom:22px}
+/* A .legal-doc a szabály aláhúzott akcentszínt ad — a gombon ez
+   narancs szöveg narancs alapon lenne. */
+.legal-doc a.btn{color:#fff;text-decoration:none}
+.legal-doc a.btn:hover{color:#fff}
+.legal-foot{
+  border-top:1px solid var(--border);
+  background:var(--bg-2);
+  padding-block:26px;
+}
+.legal-foot p{
+  margin:0;color:var(--text-muted);
+  font-size:12.5px;line-height:1.6;
+}
+@media (max-width:640px){
+  .legal-head__inner{min-height:60px}
+}
